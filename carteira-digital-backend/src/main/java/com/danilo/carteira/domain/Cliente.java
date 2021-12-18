@@ -37,7 +37,6 @@ public class Cliente {
 	private String email;
 
 	@Column(nullable = false)
-	@JsonIgnore
 	private String senha;
 	
 	@ElementCollection(fetch=FetchType.EAGER)
