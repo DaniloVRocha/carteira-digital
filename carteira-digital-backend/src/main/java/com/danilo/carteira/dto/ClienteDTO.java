@@ -1,18 +1,21 @@
 package com.danilo.carteira.dto;
 
+import java.io.Serializable;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.danilo.carteira.domain.Cliente;
 
+public class ClienteDTO implements Serializable {
 
-public class ClienteDTO {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String nome;
 
 	private String cpf;
@@ -21,7 +24,6 @@ public class ClienteDTO {
 
 	private Boolean ativo;
 
-	
 	public ClienteDTO(Cliente cli) {
 		super();
 		this.id = cli.getId();
@@ -70,5 +72,5 @@ public class ClienteDTO {
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
-	
+
 }

@@ -1,5 +1,6 @@
 package com.danilo.carteira.domain;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -14,35 +15,44 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 
 import com.danilo.carteira.domain.enums.Perfil;
 import com.danilo.carteira.domain.enums.TipoCliente;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "clientes")
-public class Cliente {
+public class Cliente implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotEmpty(message = "O Campo Nome é Obrigatório")
+	@Length(min = 5, max = 80, message = "O tamanho do nome deve ser entre 5 e 80 caracteres")
 	@Column(length = 50)
 	private String nome;
 
+	@NotEmpty(message = "O Campo CPF é Obrigatório")
 	@Column(name = "cpf", length = 50)
 	private String cpf;
 
+	@NotEmpty(message = "O Campo Email é Obrigatório")
 	@Column(nullable = false)
 	private String email;
 
+	@NotEmpty(message = "O Campo Senha é Obrigatório")
 	@Column(nullable = false)
 	private String senha;
-	
-	@ElementCollection(fetch=FetchType.EAGER)
-	@CollectionTable(name= "PERFIS")
+
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "PERFIS")
 	private Set<Integer> perfis = new HashSet<>();
-	
+
 	private TipoCliente tipoCliente;
 
 	private Boolean ativo;
@@ -106,11 +116,11 @@ public class Cliente {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
-	public Set<Perfil> getPerfis(){
+
+	public Set<Perfil> getPerfis() {
 		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
 	}
-	
+
 	public void addPerfil(Perfil perfil) {
 		perfis.add(perfil.getCod());
 	}
