@@ -5,17 +5,25 @@ import java.util.Optional;
 
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.danilo.carteira.config.security.UserSS;
+import com.danilo.carteira.domain.Cliente;
 import com.danilo.carteira.domain.Conta;
 import com.danilo.carteira.domain.OperacaoConta;
 import com.danilo.carteira.repository.ContaRepository;
+import com.danilo.carteira.service.exceptions.AuthorizationException;
 
 @Service
 public class ContaService {
 	
 	@Autowired
 	private ContaRepository repository;
+	@Autowired
+	private ClienteService clienteService;
 	
 	public List<Conta> listarTodos(){
 		List<Conta> obj = repository.findAll();
@@ -52,5 +60,15 @@ public class ContaService {
 	
 	public Conta inserirConta(Conta conta) {
 		return repository.save(conta);
+	}
+	
+	public Page<Conta> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		UserSS user = UserService.authenticated();
+		if(user == null) {
+			throw new AuthorizationException("Acesso Negado");
+		}
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Cliente cliente = clienteService.buscarId(user.getId());
+		return repository.findByCliente(cliente	, pageRequest);
 	}
 }
