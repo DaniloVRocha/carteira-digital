@@ -30,7 +30,7 @@ public class OperacaoConta implements Serializable {
 	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private LocalDateTime dataHora;
 
-	// 'C' para receita e 'D' para despesa
+	// 'R' para receita e 'D' para despesa
 	@Column(length = 1, nullable = false)
 	private char tpOperacao;
 
