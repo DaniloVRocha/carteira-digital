@@ -32,10 +32,8 @@ public class Conta implements Serializable {
 	@Column(nullable = false)
 	private double saldo;
 
-	@Column(nullable = false)
 	private double despesas;
 
-	@Column(nullable = false)
 	private double receitas;
 
 	@ManyToOne
@@ -44,22 +42,18 @@ public class Conta implements Serializable {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnore
-	private List<OperacaoConta> extrato;
+	private List<OperacaoConta> operacao;
 
 	public Conta() {
 		super();
 	}
 
-	public Conta(Long id, String instituicão, double saldo, double despesas, double receitas, Cliente cliente,
-			List<OperacaoConta> extrato) {
+	public Conta(Long id, String instituicão, double saldo, Cliente cliente) {
 		super();
 		this.id = id;
 		this.instituicão = instituicão;
 		this.saldo = saldo;
-		this.despesas = despesas;
-		this.receitas = receitas;
 		this.cliente = cliente;
-		this.extrato = extrato;
 	}
 
 	public Long getId() {
@@ -110,12 +104,12 @@ public class Conta implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public List<OperacaoConta> getExtrato() {
-		return extrato;
+	public List<OperacaoConta> getOperacao() {
+		return operacao;
 	}
 
-	public void setExtrato(List<OperacaoConta> extrato) {
-		this.extrato = extrato;
+	public void setOperacao(List<OperacaoConta> operacao) {
+		this.operacao = operacao;
 	}
 
 	@Override

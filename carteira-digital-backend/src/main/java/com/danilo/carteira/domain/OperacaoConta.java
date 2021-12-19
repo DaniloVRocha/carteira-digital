@@ -42,7 +42,6 @@ public class OperacaoConta implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "fk_conta_id")
-	@JsonIgnore
 	private Conta conta;
 
 	@Column(length = 100)
