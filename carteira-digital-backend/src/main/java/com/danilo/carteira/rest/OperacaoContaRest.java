@@ -31,6 +31,7 @@ public class OperacaoContaRest {
 	@Autowired
 	private ContaService contaService;
 	
+	
 	@GetMapping
 	public ResponseEntity<List<OperacaoContaDTO>> listarTodos(){
 		List<OperacaoConta> list = service.listarTodos();
