@@ -12,4 +12,5 @@ public interface OperacaoContaRepository extends JpaRepository<OperacaoConta, Lo
 
 	@Transactional(readOnly=true)
 	Page<OperacaoConta> findByConta(Conta conta, Pageable pageRequest);
+	
 }

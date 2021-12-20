@@ -9,12 +9,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.danilo.carteira.config.security.UserSS;
 import com.danilo.carteira.domain.Cliente;
 import com.danilo.carteira.domain.Conta;
 import com.danilo.carteira.domain.OperacaoConta;
 import com.danilo.carteira.repository.ContaRepository;
+import com.danilo.carteira.service.exceptions.AuthorizationException;
 
 @Service
 public class ContaService {
@@ -35,6 +37,19 @@ public class ContaService {
 				"A busca da Conta Id: " + id + " não retornou resultados, Tipo : " + OperacaoConta.class.getName(), null));
 	}
 	
+	public Conta alterarConta(Conta obj) {
+		UserSS user = UserService.authenticated();
+		if(obj.getCliente().getId() != user.getId()) {
+			throw new AuthorizationException("Acesso Negado");
+		}
+		Conta newObj = buscarId(user.getId());
+		updateData(newObj, obj);
+		return repository.save(newObj);
+	}
+	
+	public Conta inserirConta(Conta conta) {
+		return repository.save(conta);
+	}
 
 	public void updateValor(Long id, OperacaoConta op) {
 		Conta conta = buscarId(id);
@@ -73,9 +88,6 @@ public class ContaService {
 		}
 	}
 	
-	public Conta inserirConta(Conta conta) {
-		return repository.save(conta);
-	}
 	
 	public Page<Conta> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		UserSS user = UserService.authenticated();
@@ -84,5 +96,10 @@ public class ContaService {
 		Cliente cliente = clienteService.buscarId(user.getId());
 		
 		return repository.findByCliente(cliente, pageRequest);
+	}
+	
+	@Transactional
+	private void updateData(Conta newObj, Conta obj) {
+		newObj.setInstituicão(obj.getInstituicão());
 	}
 }

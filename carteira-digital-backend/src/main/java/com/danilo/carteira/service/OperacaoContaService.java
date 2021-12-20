@@ -14,6 +14,7 @@ import com.danilo.carteira.config.security.UserSS;
 import com.danilo.carteira.domain.Conta;
 import com.danilo.carteira.domain.OperacaoConta;
 import com.danilo.carteira.repository.OperacaoContaRepository;
+import com.danilo.carteira.service.exceptions.AuthorizationException;
 
 @Service
 public class OperacaoContaService {
@@ -29,12 +30,22 @@ public class OperacaoContaService {
 	}
 	
 	public OperacaoConta buscarId(Long id) {
+		UserSS user = UserService.authenticated();
 		Optional<OperacaoConta> op = repository.findById(id);
-		return op.orElseThrow(() -> new ObjectNotFoundException(
-				"A busca do Id: " + id + " não retornou resultados, Tipo : " + OperacaoConta.class.getName(), null));
+		
+		if(user.getId() == op.get().getConta().getCliente().getId()) {
+			return op.orElseThrow(() -> new ObjectNotFoundException(
+					"A busca do Id: " + id + " não retornou resultados, Tipo : " + OperacaoConta.class.getName(), null));
+		}else {
+			throw new AuthorizationException("Acesso Negado");
+		}
 	}
 	
 	public OperacaoConta inserirOperacao(OperacaoConta oc) {
+		UserSS user = UserService.authenticated();
+		if(oc.getConta().getCliente().getId() != user.getId()) {
+			throw new AuthorizationException("Acesso Negado");
+		}
 		repository.save(oc);
 		return oc;
 	}

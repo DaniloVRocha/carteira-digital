@@ -60,9 +60,9 @@ public class ClienteRest {
 		return ResponseEntity.ok().body("Cliente Id: " + id + " Deletado com sucesso." );
 	}
 	
-	@PutMapping("/{id}")
-	public Cliente updatePessoa(@PathVariable Long id, @RequestBody @Valid Cliente cliente){
-		return service.alterarCliente(cliente, id);	
+	@PutMapping("/alterar")
+	public Cliente updateCliente(@RequestBody @Valid Cliente cliente){
+		return service.alterarCliente(cliente);
 	}
 	
 }

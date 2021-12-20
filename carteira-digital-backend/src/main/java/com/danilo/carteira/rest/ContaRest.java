@@ -30,6 +30,7 @@ public class ContaRest {
 	@Autowired
 	private ContaService service;
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping
 	public ResponseEntity<List<ContaDTO>> listarTodos(){
 		List<Conta> list = service.listarTodos();
@@ -37,7 +38,6 @@ public class ContaRest {
 		return ResponseEntity.ok().body(objDTO);
 	}
 	
-	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping(value="/{id}")
 	public ResponseEntity<ContaDTO> buscarId(@Valid @PathVariable Long id){
 		Conta conta = service.buscarId(id);
@@ -53,7 +53,7 @@ public class ContaRest {
 				return ResponseEntity.created(uri).build();
 	}	
 	
-	@GetMapping(value="/conta")
+	@GetMapping(value="/page")
 	public ResponseEntity<Page<Conta>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page,
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
@@ -64,4 +64,5 @@ public class ContaRest {
 		return ResponseEntity.ok().body(list);
 
 	}
+	
 }

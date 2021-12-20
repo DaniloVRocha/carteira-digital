@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.danilo.carteira.config.security.UserSS;
 import com.danilo.carteira.domain.Cliente;
@@ -50,10 +51,14 @@ public class ClienteService {
 		return repository.save(cli);
 	}
 	
-	public Cliente alterarCliente(Cliente obj, Long id){
-		buscarId(id);
-		Cliente pessoaEditada = repository.save(obj);
-		return pessoaEditada;
+	public Cliente alterarCliente(Cliente obj) {
+		UserSS user = UserService.authenticated();
+		if(obj.getId() != user.getId()) {
+			throw new AuthorizationException("Acesso Negado");
+		}
+		Cliente newObj = buscarId(user.getId());
+		updateData(newObj, obj);
+		return repository.save(newObj);
 	}
 
 	public void delete(Long id) {
@@ -63,5 +68,15 @@ public class ClienteService {
 		} catch (DataIntegrityViolationException ex) {
 			throw new DataIntegrityException("Não é possivel excluir uma cliente que tenha contas cadastradas");
 		}
+	}
+	
+	@Transactional
+	private void updateData(Cliente newObj, Cliente obj) {
+		newObj.setNome(obj.getNome());
+		newObj.setEmail(obj.getEmail());
+		newObj.setCpf(obj.getCpf());
+		newObj.setTipoCliente(obj.getTipoCliente());
+		newObj.setAtivo(obj.getAtivo());
+		newObj.setObservacoes(obj.getObservacoes());
 	}
 }
