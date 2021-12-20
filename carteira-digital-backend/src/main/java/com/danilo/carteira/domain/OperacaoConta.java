@@ -15,7 +15,6 @@ import javax.persistence.Table;
 
 import com.danilo.carteira.domain.enums.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "operacoes")

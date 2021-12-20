@@ -25,8 +25,8 @@ public class ContaDTO implements Serializable{
 		this.id = conta.getId();
 		this.instituicão = conta.getInstituicão();
 		this.saldo = conta.getSaldo();
-		this.despesas = 0;
-		this.receitas = 0;
+		this.despesas = conta.getDespesas();
+		this.receitas = conta.getReceitas();
 	}
 
 	public Long getId() {

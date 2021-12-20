@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import com.danilo.carteira.domain.Cliente;
 import com.danilo.carteira.domain.enums.Perfil;
 import com.danilo.carteira.repository.ClienteRepository;
 import com.danilo.carteira.service.exceptions.AuthorizationException;
+import com.danilo.carteira.service.exceptions.DataIntegrityException;
 
 @Service
 public class ClienteService {
@@ -46,5 +48,20 @@ public class ClienteService {
 		cli.setId(null);
 		cli.setSenha(pe.encode(cli.getSenha()));
 		return repository.save(cli);
+	}
+	
+	public Cliente alterarCliente(Cliente obj, Long id){
+		buscarId(id);
+		Cliente pessoaEditada = repository.save(obj);
+		return pessoaEditada;
+	}
+
+	public void delete(Long id) {
+		buscarId(id);
+		try {
+			repository.deleteById(id);
+		} catch (DataIntegrityViolationException ex) {
+			throw new DataIntegrityException("Não é possivel excluir uma cliente que tenha contas cadastradas");
+		}
 	}
 }

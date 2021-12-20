@@ -15,7 +15,6 @@ import com.danilo.carteira.domain.Cliente;
 import com.danilo.carteira.domain.Conta;
 import com.danilo.carteira.domain.OperacaoConta;
 import com.danilo.carteira.repository.ContaRepository;
-import com.danilo.carteira.service.exceptions.AuthorizationException;
 
 @Service
 public class ContaService {
@@ -53,7 +52,23 @@ public class ContaService {
 					 saldo -= op.getValor();
 					 conta.setDespesas(despesa);
 				 }
-			}
+			}else if(op.getEstadoPagamento().getDescricao().equals("Pendente")) {
+				if( Character.toLowerCase(op.getTpOperacao()) == 'r') {
+					 receita += op.getValor();
+					 conta.setReceitas(receita);
+				 }else if( Character.toLowerCase(op.getTpOperacao()) == 'd') {
+					 despesa -= op.getValor();
+					 conta.setDespesas(despesa);
+				 }
+			}else if(op.getEstadoPagamento().getDescricao().equals("Cancelado") && op.getConta().getId() == conta.getId()) {
+				if( Character.toLowerCase(op.getTpOperacao()) == 'r' ) {
+					 receita -= op.getValor();
+					 conta.setReceitas(receita);
+				 }else if( Character.toLowerCase(op.getTpOperacao()) == 'd') {
+					 despesa += op.getValor();
+					 conta.setDespesas(despesa);
+				 }
+			}	
 			 conta.setSaldo(saldo);	 
 		}
 	}
@@ -64,11 +79,10 @@ public class ContaService {
 	
 	public Page<Conta> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		UserSS user = UserService.authenticated();
-		if(user == null) {
-			throw new AuthorizationException("Acesso Negado");
-		}
+				
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		Cliente cliente = clienteService.buscarId(user.getId());
-		return repository.findByCliente(cliente	, pageRequest);
+		
+		return repository.findByCliente(cliente, pageRequest);
 	}
 }
