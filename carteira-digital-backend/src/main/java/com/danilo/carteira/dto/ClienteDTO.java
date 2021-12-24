@@ -23,7 +23,9 @@ public class ClienteDTO implements Serializable {
 	private String email;
 
 	private Boolean ativo;
-
+	
+	private String observacoes;
+	
 	public ClienteDTO(Cliente cli) {
 		super();
 		this.id = cli.getId();
@@ -31,6 +33,7 @@ public class ClienteDTO implements Serializable {
 		this.cpf = cli.getCpf();
 		this.email = cli.getEmail();
 		this.ativo = cli.getAtivo();
+		this.observacoes = cli.getObservacoes();
 	}
 
 	public Long getId() {
@@ -71,6 +74,14 @@ public class ClienteDTO implements Serializable {
 
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
+	}
+
+	public String getObservacoes() {
+		return observacoes;
+	}
+
+	public void setObservacoes(String observacoes) {
+		this.observacoes = observacoes;
 	}
 
 }

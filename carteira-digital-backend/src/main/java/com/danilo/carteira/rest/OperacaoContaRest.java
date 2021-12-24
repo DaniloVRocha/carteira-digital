@@ -21,7 +21,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.danilo.carteira.domain.OperacaoConta;
 import com.danilo.carteira.dto.OperacaoContaDTO;
-import com.danilo.carteira.service.ContaService;
 import com.danilo.carteira.service.OperacaoContaService;
 
 @RestController
@@ -29,9 +28,6 @@ import com.danilo.carteira.service.OperacaoContaService;
 public class OperacaoContaRest {
 	@Autowired
 	private OperacaoContaService service;
-	
-	@Autowired
-	private ContaService contaService;
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method = RequestMethod.GET)
@@ -52,16 +48,28 @@ public class OperacaoContaRest {
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> inserirOperacao(@Valid @RequestBody OperacaoConta op){
 		service.inserirOperacao(op);
-		contaService.updateValor(op.getConta().getId(), op);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(op.getId()).toUri();
 				return ResponseEntity.created(uri).build();
 	}
 	
+	@RequestMapping(value = "/{id}/{novoSaldo}", method=RequestMethod.POST)
+	public ResponseEntity<String> ajustarSaldo(@Valid @PathVariable Long id,  @PathVariable Double novoSaldo ){
+		service.ajustarSaldo(novoSaldo, id);
+		return ResponseEntity.ok().body("Saldo da conta ID: "+ id + " Alterado para: R$"
+		+ novoSaldo);
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<String> deletarOperacao(@Valid @PathVariable Long id){
+		service.deletarOperacao(id);
+		return ResponseEntity.ok().body("Operação ID: "+ id + " Deletada com sucesso.");
+	}
+	
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<OperacaoContaDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page,
-			@RequestParam(value="linesPerPage", defaultValue="2") Integer linesPerPage,
+			@RequestParam(value="linesPerPage", defaultValue="5") Integer linesPerPage,
 			@RequestParam(value="orderBy", defaultValue="id") String orderBy,
 			@RequestParam(value="direction", defaultValue="ASC") String direction){
 

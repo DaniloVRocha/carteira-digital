@@ -27,6 +27,8 @@ public class OperacaoContaDTO {
 
 	private String observacao;
 
+	private NewContaDTO conta;
+
 	public OperacaoContaDTO() {
 		super();
 	}
@@ -39,6 +41,7 @@ public class OperacaoContaDTO {
 		this.valor = op.getValor();
 		this.estadoPagamento = op.getEstadoPagamento();
 		this.observacao = op.getObservacao();
+		this.conta = new NewContaDTO(op.getConta());
 	}
 
 	public Long getId() {
@@ -87,6 +90,14 @@ public class OperacaoContaDTO {
 
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
+	}
+
+	public NewContaDTO getConta() {
+		return conta;
+	}
+
+	public void setConta(NewContaDTO conta) {
+		this.conta = conta;
 	}
 
 }

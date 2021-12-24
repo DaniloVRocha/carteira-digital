@@ -10,7 +10,7 @@ public class ContaDTO implements Serializable{
 
 	private Long id;
 
-	private String instituicão;
+	private String instituicao;
 
 	private double saldo;
 
@@ -18,15 +18,16 @@ public class ContaDTO implements Serializable{
 
 	private double receitas;
 	
-	
+	private ClienteDTO cliente; 
 	
 	public ContaDTO(Conta conta) {
 		super();
 		this.id = conta.getId();
-		this.instituicão = conta.getInstituicão();
+		this.instituicao = conta.getInstituicao();
 		this.saldo = conta.getSaldo();
 		this.despesas = conta.getDespesas();
 		this.receitas = conta.getReceitas();
+		this.cliente = new ClienteDTO(conta.getCliente());
 	}
 
 	public Long getId() {
@@ -37,12 +38,12 @@ public class ContaDTO implements Serializable{
 		this.id = id;
 	}
 
-	public String getInstituicão() {
-		return instituicão;
+	public String getinstituicao() {
+		return instituicao;
 	}
 
-	public void setInstituicão(String instituicão) {
-		this.instituicão = instituicão;
+	public void setinstituicao(String instituicao) {
+		this.instituicao = instituicao;
 	}
 
 	public double getSaldo() {
@@ -68,4 +69,13 @@ public class ContaDTO implements Serializable{
 	public void setReceitas(double receitas) {
 		this.receitas = receitas;
 	}
+
+	public ClienteDTO getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(ClienteDTO cliente) {
+		this.cliente = cliente;
+	}
+	
 }

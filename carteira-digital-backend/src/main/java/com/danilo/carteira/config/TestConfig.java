@@ -49,17 +49,17 @@ public class TestConfig implements CommandLineRunner {
 		Conta con2 = new Conta(null, "Bradesco", 20.00, cli2);
 		Conta con3 = new Conta(null, "Itau", 2000.00, cli3);
 		
-		OperacaoConta op1 = new OperacaoConta(null, LocalDateTime.now(), 'R', 20.00, EstadoPagamento.QUITADO, con1, "Futebol");
+		OperacaoConta op1 = new OperacaoConta(null, LocalDateTime.now(),LocalDateTime.now(), 'R', 20.00, EstadoPagamento.QUITADO, con1, "Futebol");
 		
-		OperacaoConta op2 = new OperacaoConta(null, LocalDateTime.now(), 'R', 20.00, EstadoPagamento.QUITADO, con1, "Futebol");
+		OperacaoConta op2 = new OperacaoConta(null, LocalDateTime.now(),LocalDateTime.now(), 'R', 20.00, EstadoPagamento.QUITADO, con1, "Futebol");
 
-		OperacaoConta op3 = new OperacaoConta(null, LocalDateTime.now(), 'R', 20.00, EstadoPagamento.QUITADO, con1, "Futebol");
+		OperacaoConta op3 = new OperacaoConta(null, LocalDateTime.now(),LocalDateTime.now(), 'R', 20.00, EstadoPagamento.QUITADO, con1, "Futebol");
 
-		OperacaoConta op4 = new OperacaoConta(null, LocalDateTime.now(), 'R', 40.00, EstadoPagamento.QUITADO, con2, "teste");
+		OperacaoConta op4 = new OperacaoConta(null, LocalDateTime.now(), LocalDateTime.now(), 'R', 40.00, EstadoPagamento.QUITADO, con2, "teste");
 
-		OperacaoConta op5 = new OperacaoConta(null, LocalDateTime.now(), 'R', 40.00, EstadoPagamento.QUITADO, con2, "pix jantar");
+		OperacaoConta op5 = new OperacaoConta(null, LocalDateTime.now(), LocalDateTime.now(), 'R', 40.00, EstadoPagamento.QUITADO, con2, "pix jantar");
 
-		OperacaoConta op6 = new OperacaoConta(null, LocalDateTime.now(), 'D', 40.00, EstadoPagamento.QUITADO, con2, "pix estacionamento");
+		OperacaoConta op6 = new OperacaoConta(null, LocalDateTime.now(),LocalDateTime.now(), 'D', 40.00, EstadoPagamento.QUITADO, con2, "pix estacionamento");
 
 		
 		clienteRepository.saveAll(Arrays.asList(cli1,cli2, cli3));

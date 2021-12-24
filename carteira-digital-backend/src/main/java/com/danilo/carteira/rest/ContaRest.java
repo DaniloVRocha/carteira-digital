@@ -43,6 +43,12 @@ public class ContaRest {
 		return ResponseEntity.ok().body(contaDTO);
 	}
 	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<String> deletar(@Valid @PathVariable Long id){
+		service.deletarConta(id);
+		return ResponseEntity.ok().body("Conta ID: " + id + " Deletado com sucesso");
+	}
+	
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> inserirConta(@Valid @RequestBody Conta conta){
 		service.inserirConta(conta);
@@ -54,8 +60,8 @@ public class ContaRest {
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<Conta>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page,
-			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
-			@RequestParam(value="orderBy", defaultValue="id") String orderBy,
+			@RequestParam(value="linesPerPage", defaultValue="5") Integer linesPerPage,
+			@RequestParam(value="orderBy", defaultValue="saldo") String orderBy,
 			@RequestParam(value="direction", defaultValue="ASC") String direction) {
 
 		Page<Conta> list = service.findPage(page, linesPerPage, orderBy, direction);

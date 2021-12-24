@@ -2,7 +2,7 @@ package com.danilo.carteira.domain.enums;
 
 public enum TipoCliente {
 
-	PESSOAFISICA(1, "Pessoa Física"), PESSOAJURIDICA(2, "Pessoa Juridica");
+	PESSOAFISICA(0, "Pessoa Física"), PESSOAJURIDICA(1, "Pessoa Juridica");
 
 	private int cod;
 	private String descricao;

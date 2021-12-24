@@ -27,7 +27,7 @@ public class Conta implements Serializable {
 	private Long id;
 
 	@Column(nullable = false)
-	private String instituicão;
+	private String instituicao;
 
 	@Column(nullable = false)
 	private double saldo;
@@ -48,10 +48,10 @@ public class Conta implements Serializable {
 		super();
 	}
 
-	public Conta(Long id, String instituicão, double saldo, Cliente cliente) {
+	public Conta(Long id, String instituicao, double saldo, Cliente cliente) {
 		super();
 		this.id = id;
-		this.instituicão = instituicão;
+		this.instituicao = instituicao;
 		this.saldo = saldo;
 		this.cliente = cliente;
 	}
@@ -64,12 +64,12 @@ public class Conta implements Serializable {
 		this.id = id;
 	}
 
-	public String getInstituicão() {
-		return instituicão;
+	public String getInstituicao() {
+		return instituicao;
 	}
 
-	public void setInstituicão(String instituicão) {
-		this.instituicão = instituicão;
+	public void setInstituicão(String instituicao) {
+		this.instituicao = instituicao;
 	}
 
 	public double getSaldo() {
