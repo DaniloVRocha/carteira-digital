@@ -28,8 +28,8 @@ public class OperacaoConta implements Serializable {
 
 	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private LocalDateTime dataHora;
-	
-	@JsonFormat(pattern = "dd-MM-yyyy")
+
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private LocalDateTime vencimento;
 
 	// 'R' para receita e 'D' para despesa
@@ -53,8 +53,6 @@ public class OperacaoConta implements Serializable {
 		super();
 	}
 
-
-
 	public OperacaoConta(Long id, LocalDateTime dataHora, LocalDateTime vencimento, char tpOperacao, double valor,
 			EstadoPagamento estadoPagamento, Conta conta, String observacao) {
 		super();
@@ -67,8 +65,6 @@ public class OperacaoConta implements Serializable {
 		this.conta = conta;
 		this.observacao = observacao;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -124,6 +120,14 @@ public class OperacaoConta implements Serializable {
 
 	public void setEstadoPagamento(EstadoPagamento estadoPagamento) {
 		this.estadoPagamento = estadoPagamento;
+	}
+
+	public LocalDateTime getVencimento() {
+		return vencimento;
+	}
+
+	public void setVencimento(LocalDateTime vencimento) {
+		this.vencimento = vencimento;
 	}
 
 	public static long getSerialversionuid() {

@@ -3,8 +3,7 @@ package com.danilo.carteira.domain.enums;
 public enum EstadoPagamento {
 	
 	PENDENTE(0, "Pendente"),
-	QUITADO(1, "Quitado"),
-	CANCELADO(2, "Cancelado");
+	QUITADO(1, "Quitado");
 	
 	private int cod;
 	private String descricao;

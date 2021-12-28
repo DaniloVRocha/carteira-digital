@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.danilo.carteira.domain.OperacaoConta;
 import com.danilo.carteira.dto.OperacaoContaDTO;
 import com.danilo.carteira.service.OperacaoContaService;
+import com.danilo.carteira.service.exceptions.OperacaoNaoEncontradaException;
 
 @RestController
 @RequestMapping(value="/operacoes")
@@ -44,10 +44,17 @@ public class OperacaoContaRest {
 		return ResponseEntity.ok().body(opDTO);
 	}
 	
-	@Transactional
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> inserirOperacao(@Valid @RequestBody OperacaoConta op){
 		service.inserirOperacao(op);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}").buildAndExpand(op.getId()).toUri();
+				return ResponseEntity.created(uri).build();
+	}
+	
+	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> alterarOperacao(@Valid @RequestBody OperacaoConta op, @Valid @PathVariable Long id) throws OperacaoNaoEncontradaException{
+		service.alterarOperacao(op, id);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(op.getId()).toUri();
 				return ResponseEntity.created(uri).build();

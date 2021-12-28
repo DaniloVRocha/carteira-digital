@@ -19,6 +19,9 @@ public class OperacaoContaDTO {
 	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private LocalDateTime dataHora;
 
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+	private LocalDateTime vencimento;
+
 	private char tpOperacao;
 
 	private double valor;
@@ -42,6 +45,7 @@ public class OperacaoContaDTO {
 		this.estadoPagamento = op.getEstadoPagamento();
 		this.observacao = op.getObservacao();
 		this.conta = new NewContaDTO(op.getConta());
+		this.vencimento = op.getVencimento();
 	}
 
 	public Long getId() {

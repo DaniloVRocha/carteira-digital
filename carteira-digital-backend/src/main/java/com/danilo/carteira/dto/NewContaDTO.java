@@ -1,6 +1,5 @@
 package com.danilo.carteira.dto;
 
-import com.danilo.carteira.domain.Cliente;
 import com.danilo.carteira.domain.Conta;
 
 public class NewContaDTO {
@@ -8,13 +7,13 @@ public class NewContaDTO {
 
 	private String instituicao;
 
-	private Cliente cliente;
+	private ClienteDTO cliente;
 
 	public NewContaDTO(Conta conta) {
 		super();
 		this.id = conta.getId();
 		this.instituicao = conta.getInstituicao();
-		this.cliente = conta.getCliente();
+		this.cliente = new ClienteDTO(conta.getCliente());
 	}
 
 	public Long getId() {
@@ -33,11 +32,11 @@ public class NewContaDTO {
 		this.instituicao = instituicao;
 	}
 
-	public Cliente getCliente() {
+	public ClienteDTO getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(Cliente cliente) {
+	public void setCliente(ClienteDTO cliente) {
 		this.cliente = cliente;
 	}
 
