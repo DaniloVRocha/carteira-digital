@@ -31,10 +31,10 @@ public class ContaService {
 	}
 
 	public Conta buscarId(Long id) {
-		UserSS user = UserService.authenticated();
-		if (id != user.getId()) {
-			throw new AuthorizationException("Acesso Negado");
-		}
+//		UserSS user = UserService.authenticated();
+//		if (id != user.getId()) {
+//			throw new AuthorizationException("Acesso Negado");
+//		}
 		Optional<Conta> conta = repository.findById(id);
 		return conta.orElseThrow(() -> new ObjectNotFoundException(
 				"A busca da Conta Id: " + id + " não retornou resultados, Tipo : " + OperacaoConta.class.getName(),

@@ -16,6 +16,7 @@ import com.danilo.carteira.config.security.UserSS;
 import com.danilo.carteira.domain.Conta;
 import com.danilo.carteira.domain.OperacaoConta;
 import com.danilo.carteira.domain.enums.EstadoPagamento;
+import com.danilo.carteira.dto.ContaTransferenciaDTO;
 import com.danilo.carteira.repository.OperacaoContaRepository;
 import com.danilo.carteira.service.exceptions.AuthorizationException;
 import com.danilo.carteira.service.exceptions.OperacaoNaoEncontradaException;
@@ -82,6 +83,41 @@ public class OperacaoContaService {
 			oc1.setTpOperacao('D');
 		}
 		inserirOperacao(oc1);
+	}
+	
+	public void transferenciaEntreContas(ContaTransferenciaDTO conta) {
+		Conta contaOrigem = contaService.buscarId(conta.getIdOrigem());
+		Conta contaDestino = contaService.buscarId(conta.getIdDestino());
+		boolean id = contaOrigem.getCliente().getId() == contaDestino.getCliente().getId();
+		if(!id) {
+			throw new AuthorizationException("Só é possivel fazer transações entre suas contas");
+		}
+		
+		UserSS user = UserService.authenticated();
+		if (contaOrigem.getCliente().getId() != user.getId()) {
+			throw new AuthorizationException("Acesso Negado");
+		}
+        
+		OperacaoConta op1 = new OperacaoConta();
+		op1.setConta(contaOrigem);
+		op1.setDataHora(LocalDateTime.now());
+		op1.setEstadoPagamento(EstadoPagamento.QUITADO);
+		op1.setTpOperacao('D');
+		op1.setValor(conta.getValor());
+		op1.setObservacao("Transferencia entre contas" );
+		op1.setVencimento(LocalDateTime.now());
+		
+		OperacaoConta op2 = new OperacaoConta();
+		op2.setConta(contaDestino);
+		op2.setDataHora(LocalDateTime.now());
+		op2.setEstadoPagamento(EstadoPagamento.QUITADO);
+		op2.setTpOperacao('R');
+		op2.setValor(conta.getValor());
+		op2.setObservacao("Transferencia entre contas" );
+		op2.setVencimento(LocalDateTime.now());
+		
+		inserirOperacao(op1);
+		inserirOperacao(op2);
 	}
 
 	@Transactional

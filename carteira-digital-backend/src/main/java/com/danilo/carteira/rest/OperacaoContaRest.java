@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.danilo.carteira.domain.OperacaoConta;
+import com.danilo.carteira.dto.ContaTransferenciaDTO;
 import com.danilo.carteira.dto.OperacaoContaDTO;
 import com.danilo.carteira.service.OperacaoContaService;
 import com.danilo.carteira.service.exceptions.OperacaoNaoEncontradaException;
@@ -65,6 +66,12 @@ public class OperacaoContaRest {
 		service.ajustarSaldo(novoSaldo, id);
 		return ResponseEntity.ok().body("Saldo da conta ID: "+ id + " Alterado para: R$"
 		+ novoSaldo);
+	}
+	
+	@RequestMapping(value="/transferencia" ,method=RequestMethod.POST)
+	public ResponseEntity<String> Transferencia(@Valid @RequestBody ContaTransferenciaDTO conta){
+		service.transferenciaEntreContas(conta);
+		return ResponseEntity.ok().body(conta.getValor() + "Transferido");
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
