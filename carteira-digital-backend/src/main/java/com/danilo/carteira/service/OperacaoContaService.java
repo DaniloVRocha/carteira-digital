@@ -1,6 +1,8 @@
 package com.danilo.carteira.service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -118,6 +120,22 @@ public class OperacaoContaService {
 		
 		inserirOperacao(op1);
 		inserirOperacao(op2);
+	}
+	
+	public List<OperacaoConta> consultarOperacoesPorData(Long id, String dataInicio, String dataFinal) throws Exception {
+		Conta c = contaService.buscarId(id);
+		List<OperacaoConta> operacoes = repository.findOperacaoByConta(c);
+		List<OperacaoConta> aux = new ArrayList<>();
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime dataInicioBusca = LocalDateTime.parse(dataInicio, format);
+		LocalDateTime dataFimBusca = LocalDateTime.parse(dataFinal, format);
+		
+		for (OperacaoConta operacao: operacoes) {
+			if(operacao.getDataHora().isAfter(dataInicioBusca) && operacao.getDataHora().isBefore(dataFimBusca)) {
+				aux.add(operacao);
+			}
+		}
+		return aux;
 	}
 
 	@Transactional

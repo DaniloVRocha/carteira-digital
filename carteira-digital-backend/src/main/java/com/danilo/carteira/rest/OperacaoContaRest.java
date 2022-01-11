@@ -8,6 +8,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -66,6 +69,14 @@ public class OperacaoContaRest {
 		service.ajustarSaldo(novoSaldo, id);
 		return ResponseEntity.ok().body("Saldo da conta ID: "+ id + " Alterado para: R$"
 		+ novoSaldo);
+	}
+	
+	@RequestMapping(value = "/consultar-operacao-data/{id}/{dataInicial}/{dataFinal}", produces = MediaType.APPLICATION_JSON_VALUE, method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<List<OperacaoConta>> consultarExtratoPorData(@PathVariable Long id, @PathVariable String dataInicial, @PathVariable String dataFinal) throws Exception {
+		
+		List<OperacaoConta> extrato = service.consultarOperacoesPorData(id, dataInicial, dataFinal);
+		
+		return new ResponseEntity<>(extrato, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/transferencia" ,method=RequestMethod.POST)

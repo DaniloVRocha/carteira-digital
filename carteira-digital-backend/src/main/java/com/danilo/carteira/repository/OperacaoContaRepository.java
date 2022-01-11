@@ -1,5 +1,7 @@
 package com.danilo.carteira.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,5 +14,7 @@ public interface OperacaoContaRepository extends JpaRepository<OperacaoConta, Lo
 
 	@Transactional(readOnly=true)
 	Page<OperacaoConta> findByConta(Conta conta, Pageable pageRequest);
+
+	List<OperacaoConta> findOperacaoByConta(Conta conta);
 	
 }
