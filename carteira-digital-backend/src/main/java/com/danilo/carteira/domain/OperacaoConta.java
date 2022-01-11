@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.danilo.carteira.domain.enums.Categoria;
 import com.danilo.carteira.domain.enums.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -31,6 +32,8 @@ public class OperacaoConta implements Serializable {
 
 	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private LocalDateTime vencimento;
+
+	private Categoria categoria;
 
 	// 'R' para receita e 'D' para despesa
 	@Column(length = 1, nullable = false)
@@ -54,7 +57,7 @@ public class OperacaoConta implements Serializable {
 	}
 
 	public OperacaoConta(Long id, LocalDateTime dataHora, LocalDateTime vencimento, char tpOperacao, double valor,
-			EstadoPagamento estadoPagamento, Conta conta, String observacao) {
+			EstadoPagamento estadoPagamento, Conta conta, String observacao, Categoria categoria) {
 		super();
 		this.id = id;
 		this.dataHora = dataHora;
@@ -64,6 +67,7 @@ public class OperacaoConta implements Serializable {
 		this.estadoPagamento = estadoPagamento;
 		this.conta = conta;
 		this.observacao = observacao;
+		this.categoria = categoria;
 	}
 
 	public Long getId() {
@@ -112,6 +116,14 @@ public class OperacaoConta implements Serializable {
 
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 
 	public EstadoPagamento getEstadoPagamento() {

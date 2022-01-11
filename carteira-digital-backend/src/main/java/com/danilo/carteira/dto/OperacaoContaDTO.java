@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.danilo.carteira.domain.OperacaoConta;
+import com.danilo.carteira.domain.enums.Categoria;
 import com.danilo.carteira.domain.enums.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -30,6 +31,8 @@ public class OperacaoContaDTO {
 
 	private String observacao;
 
+	private Categoria categoria;
+
 	private NewContaDTO conta;
 
 	public OperacaoContaDTO() {
@@ -46,6 +49,7 @@ public class OperacaoContaDTO {
 		this.observacao = op.getObservacao();
 		this.conta = new NewContaDTO(op.getConta());
 		this.vencimento = op.getVencimento();
+		this.categoria = op.getCategoria();
 	}
 
 	public Long getId() {
@@ -102,6 +106,22 @@ public class OperacaoContaDTO {
 
 	public void setConta(NewContaDTO conta) {
 		this.conta = conta;
+	}
+
+	public LocalDateTime getVencimento() {
+		return vencimento;
+	}
+
+	public void setVencimento(LocalDateTime vencimento) {
+		this.vencimento = vencimento;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 
 }

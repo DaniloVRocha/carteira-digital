@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.danilo.carteira.config.security.UserSS;
 import com.danilo.carteira.domain.Conta;
 import com.danilo.carteira.domain.OperacaoConta;
+import com.danilo.carteira.domain.enums.Categoria;
 import com.danilo.carteira.domain.enums.EstadoPagamento;
 import com.danilo.carteira.dto.ContaTransferenciaDTO;
 import com.danilo.carteira.repository.OperacaoContaRepository;
@@ -80,7 +81,7 @@ public class OperacaoContaService {
 
 		double diferenca = con.getSaldo() - novoSaldo;
 		OperacaoConta oc1 = new OperacaoConta(null, LocalDateTime.now(), LocalDateTime.now(), 'R', diferenca,
-				EstadoPagamento.QUITADO, con, "Ajuste de Saldo");
+				EstadoPagamento.QUITADO, con, "Ajuste de Saldo", Categoria.AJUSTE);
 		if (diferenca > 0) {
 			oc1.setTpOperacao('D');
 		}
