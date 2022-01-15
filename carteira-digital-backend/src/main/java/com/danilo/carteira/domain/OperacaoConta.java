@@ -1,7 +1,10 @@
 package com.danilo.carteira.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -68,6 +71,29 @@ public class OperacaoConta implements Serializable {
 		this.conta = conta;
 		this.observacao = observacao;
 		this.categoria = categoria;
+	}
+
+	@Override
+	public String toString() {
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append("Uma nova operação foi registrada em sua conta. ");
+		builder.append("\n");
+		
+		builder.append(nf.format(getValor()));
+		if (tpOperacao == 'R') {
+			builder.append(" foram acrescentados.\n ");
+		} else {
+			builder.append(" foram debitados.\n ");
+		}
+
+		builder.append("Data da Operação: " + getDataHora().format(formatter));	
+		
+		return builder.toString();
+	
 	}
 
 	public Long getId() {

@@ -1,7 +1,9 @@
 package com.danilo.carteira.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
@@ -128,4 +130,26 @@ public class Conta implements Serializable {
 		Conta other = (Conta) obj;
 		return Objects.equals(id, other.id);
 	}
+	
+	@Override
+	public String toString() {
+		
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append("Informações Da Conta: ");
+		builder.append("\n");
+		builder.append("Nome da Conta: " + instituicao );
+		builder.append("\n");
+		builder.append("Saldo Atual: " + nf.format(saldo));
+		builder.append("\n");
+		builder.append("Despesas: " + nf.format(despesas));
+		builder.append("\n");
+		builder.append("Receitas: " + nf.format(receitas));
+		builder.append("\n");
+		
+		return builder.toString();
+	
+	}
+	
 }

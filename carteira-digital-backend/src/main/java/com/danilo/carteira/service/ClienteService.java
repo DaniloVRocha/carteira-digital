@@ -25,6 +25,9 @@ public class ClienteService {
 
 	@Autowired
 	private BCryptPasswordEncoder pe;
+	
+	@Autowired
+	private EmailService emailService;
 
 	public List<Cliente> listarTodos() {
 		List<Cliente> obj = repository.findAll();
@@ -48,6 +51,7 @@ public class ClienteService {
 	public Cliente inserirCliente(Cliente cli) {
 		cli.setId(null);
 		cli.setSenha(pe.encode(cli.getSenha()));
+		emailService.sendCreateClientConfirmation(cli);
 		return repository.save(cli);
 	}
 

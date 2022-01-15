@@ -69,6 +69,7 @@ public class OperacaoContaService {
 		}
 		contaService.updateValorInsert(oc.getConta().getId(), oc);
 		repository.save(oc);
+		System.out.println(oc);
 		return oc;
 	}
 

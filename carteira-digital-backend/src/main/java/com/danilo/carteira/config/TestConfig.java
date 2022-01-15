@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +20,8 @@ import com.danilo.carteira.domain.enums.TipoCliente;
 import com.danilo.carteira.repository.ClienteRepository;
 import com.danilo.carteira.repository.ContaRepository;
 import com.danilo.carteira.repository.OperacaoContaRepository;
+import com.danilo.carteira.service.EmailService;
+import com.danilo.carteira.service.SmtpEmailService;
 
 @Configuration
 @Profile("test")
@@ -67,6 +70,11 @@ public class TestConfig implements CommandLineRunner {
 		contaRepository.saveAll(Arrays.asList(con1,con2,con3,con4));
 		operacaoContaRepository.saveAll(Arrays.asList(op1, op2, op3, op4, op5, op6));
 		
+	}
+	
+	@Bean
+	public EmailService emailService() {
+		return new SmtpEmailService();
 	}
 
 }

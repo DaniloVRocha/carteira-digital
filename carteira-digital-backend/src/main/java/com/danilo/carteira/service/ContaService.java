@@ -91,6 +91,7 @@ public class ContaService {
 			}
 			conta.setSaldo(saldo);
 		}
+		System.out.println(conta);
 	}
 
 	public void updateValorDelete(Long id, OperacaoConta op) {
