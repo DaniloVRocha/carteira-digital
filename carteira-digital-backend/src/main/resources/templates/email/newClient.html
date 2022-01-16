@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title th:remove="all">Order Confirmation</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+	<div>
+		<hr>
+		<h1>Bem Vindo ao Carteira Digital, seu acesso já foi liberado.</h1>
+		<hr>
+		
+		<table border="1">
+			<tr>
+				<td>Nome</td>
+				<td>Email</td>
+				<td>Tipo Cliente</td>
+				<td>Estado do Cliente</td>
+			</tr>
+			<tr>
+				<td><span th:text="${cliente.nome}"></span></td>
+				<td><span th:text="${cliente.email}"> </span></td>
+				<td><span th:text="${cliente.tipoCliente}"></span></td>
+				<td><span th:text="${cliente.ativo} ? 'ATIVO' : 'INATIVO'"></span></td>
+			</tr>
+		</table>
+	</div>
+</body>
+
+</html>

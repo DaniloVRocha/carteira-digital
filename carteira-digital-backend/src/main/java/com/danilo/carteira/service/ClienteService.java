@@ -51,7 +51,7 @@ public class ClienteService {
 	public Cliente inserirCliente(Cliente cli) {
 		cli.setId(null);
 		cli.setSenha(pe.encode(cli.getSenha()));
-		emailService.sendCreateClientConfirmation(cli);
+		emailService.sendNewClientConfirmationHtmlEmail(cli);
 		return repository.save(cli);
 	}
 

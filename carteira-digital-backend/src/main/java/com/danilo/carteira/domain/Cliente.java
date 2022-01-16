@@ -26,7 +26,7 @@ import com.danilo.carteira.domain.enums.TipoCliente;
 @Table(name = "clientes")
 public class Cliente implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L; 
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
