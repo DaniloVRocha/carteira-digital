@@ -2,6 +2,7 @@ package com.danilo.carteira.config;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -76,5 +77,10 @@ public class TestConfig implements CommandLineRunner {
 	public EmailService emailService() {
 		return new SmtpEmailService();
 	}
+	
+	@Bean
+	 public Random random() {
+	     return new Random();
+	 }
 
 }

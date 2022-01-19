@@ -12,5 +12,6 @@ public interface EmailService {
 	void sendEmail(SimpleMailMessage msg);
 	void sendHtmlEmail(MimeMessage msg);
 	void sendNewClientConfirmationHtmlEmail(Cliente obj);
+	void sendNewPasswordEmail(Cliente cliente, String newPass);
 
 }
