@@ -1,12 +1,14 @@
 package com.danilo.carteira.dto;
 
+import javax.validation.constraints.NotEmpty;
+
 import com.danilo.carteira.domain.Conta;
 
 public class NewContaDTO {
 	private Long id;
-
+	@NotEmpty(message = "O Campo Instituição é Obrigatório.")
 	private String instituicao;
-
+	@NotEmpty(message = "O Campo de Cliente deve ser preenchido")
 	private ClienteDTO cliente;
 
 	public NewContaDTO(Conta conta) {
