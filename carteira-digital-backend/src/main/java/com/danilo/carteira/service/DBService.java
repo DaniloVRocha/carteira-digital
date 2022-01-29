@@ -34,14 +34,13 @@ public class DBService {
 	public void instantiateTestDatabase() throws ParseException {
 		
 		Cliente cli1 = new Cliente(null, "Danilo", "00000000000", "danilo@gmail.com", pe.encode("testesenha"),
-				TipoCliente.PESSOAFISICA, true, "Observação Cliente");
-		cli1.addPerfil(Perfil.ADMIN);
+				TipoCliente.PESSOAFISICA, true, "Observação Cliente", 1);
 
 		Cliente cli2 = new Cliente(null, "James Gosling", "00000000001", "java@gmail.com", pe.encode("java123"),
-				TipoCliente.PESSOAJURIDICA, true, "Use Java");
+				TipoCliente.PESSOAJURIDICA, true, "Use Java", 2);
 
 		Cliente cli3 = new Cliente(null, "Ana Costa", "00000000022", "ana@gmail.com", pe.encode("ana123"),
-				TipoCliente.PESSOAFISICA, true, "Cadastro Ana Costa");
+				TipoCliente.PESSOAFISICA, true, "Cadastro Ana Costa", 2);
 
 		Conta con1 = new Conta(null, "Itau", 900.00, cli1);
 		Conta con4 = new Conta(null, "NuBank", 800.00, cli2);

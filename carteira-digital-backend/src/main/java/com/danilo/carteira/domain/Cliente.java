@@ -64,7 +64,7 @@ public class Cliente implements Serializable {
 	}
 
 	public Cliente(Long id, String nome, String cpf, String email, String senha, TipoCliente tipoCliente, Boolean ativo,
-			String observacoes) {
+			String observacoes, Integer perfil) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -74,7 +74,8 @@ public class Cliente implements Serializable {
 		this.tipoCliente = tipoCliente;
 		this.ativo = ativo;
 		this.observacoes = observacoes;
-		addPerfil(Perfil.CLIENTE);
+		Perfil perfilEscolhido = (perfil == 0 ? Perfil.ADMIN : Perfil.CLIENTE);
+		addPerfil(perfilEscolhido);
 	}
 
 	public Long getId() {
