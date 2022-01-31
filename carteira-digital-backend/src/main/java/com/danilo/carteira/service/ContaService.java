@@ -1,6 +1,5 @@
 package com.danilo.carteira.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.ObjectNotFoundException;
@@ -24,11 +23,6 @@ public class ContaService {
 	private ContaRepository repository;
 	@Autowired
 	private ClienteService clienteService;
-
-	public List<Conta> listarTodos() {
-		List<Conta> obj = repository.findAll();
-		return obj;
-	}
 
 	public Conta buscarId(Long id) {
 //		UserSS user = UserService.authenticated();

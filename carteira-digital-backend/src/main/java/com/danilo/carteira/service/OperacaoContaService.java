@@ -32,11 +32,6 @@ public class OperacaoContaService {
 	@Autowired
 	private ContaService contaService;
 
-	public List<OperacaoConta> listarTodos() {
-		List<OperacaoConta> obj = repository.findAll();
-		return obj;
-	}
-
 	public OperacaoConta buscarId(Long id) {
 		UserSS user = UserService.authenticated();
 		Optional<OperacaoConta> oc = repository.findById(id);

@@ -13,7 +13,6 @@ import com.danilo.carteira.domain.Conta;
 import com.danilo.carteira.domain.OperacaoConta;
 import com.danilo.carteira.domain.enums.Categoria;
 import com.danilo.carteira.domain.enums.EstadoPagamento;
-import com.danilo.carteira.domain.enums.Perfil;
 import com.danilo.carteira.domain.enums.TipoCliente;
 import com.danilo.carteira.repository.ClienteRepository;
 import com.danilo.carteira.repository.ContaRepository;

@@ -1,6 +1,5 @@
 package com.danilo.carteira.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.ObjectNotFoundException;
@@ -28,11 +27,6 @@ public class ClienteService {
 	
 	@Autowired
 	private EmailService emailService;
-
-	public List<Cliente> listarTodos() {
-		List<Cliente> obj = repository.findAll();
-		return obj;
-	}
 
 	public Cliente buscarId(Long id) {
 

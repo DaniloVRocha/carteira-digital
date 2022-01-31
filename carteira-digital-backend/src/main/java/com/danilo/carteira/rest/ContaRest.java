@@ -1,15 +1,12 @@
 package com.danilo.carteira.rest;
 
 import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,13 +26,6 @@ public class ContaRest {
 	@Autowired
 	private ContaService service;
 	
-	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<ContaDTO>> listarTodos(){
-		List<Conta> list = service.listarTodos();
-		List<ContaDTO> objDTO = list.stream().map(x -> new ContaDTO(x)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(objDTO);
-	}
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<ContaDTO> buscarId(@Valid @PathVariable Long id){
 		Conta conta = service.buscarId(id);

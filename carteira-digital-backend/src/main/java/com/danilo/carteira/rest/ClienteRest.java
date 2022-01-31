@@ -1,8 +1,6 @@
 package com.danilo.carteira.rest;
 
 import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -26,14 +24,7 @@ public class ClienteRest {
 	
 	@Autowired
 	private ClienteService service;
-	
-	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<ClienteDTO>> listarTodos(){
-		List<Cliente> list = service.listarTodos();
-		List<ClienteDTO> objDTO = list.stream().map(x -> new ClienteDTO(x)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(objDTO);
-	}
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<ClienteDTO> buscarId(@Valid @PathVariable Long id){
 		Cliente cli = service.buscarId(id);

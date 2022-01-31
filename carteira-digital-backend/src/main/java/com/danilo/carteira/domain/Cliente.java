@@ -74,8 +74,7 @@ public class Cliente implements Serializable {
 		this.tipoCliente = tipoCliente;
 		this.ativo = ativo;
 		this.observacoes = observacoes;
-		Perfil perfilEscolhido = (perfil == 0 ? Perfil.ADMIN : Perfil.CLIENTE);
-		addPerfil(perfilEscolhido);
+		addPerfil(Perfil.CLIENTE);
 	}
 
 	public Long getId() {

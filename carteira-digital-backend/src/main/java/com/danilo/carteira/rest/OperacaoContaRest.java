@@ -2,7 +2,6 @@ package com.danilo.carteira.rest;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -11,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,14 +30,6 @@ import com.danilo.carteira.service.exceptions.OperacaoNaoEncontradaException;
 public class OperacaoContaRest {
 	@Autowired
 	private OperacaoContaService service;
-	
-	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<OperacaoContaDTO>> listarTodos(){
-		List<OperacaoConta> list = service.listarTodos();
-		List<OperacaoContaDTO> objDTO = list.stream().map(x -> new OperacaoContaDTO(x)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(objDTO);
-	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<OperacaoContaDTO> buscarId(@Valid @PathVariable Long id){
