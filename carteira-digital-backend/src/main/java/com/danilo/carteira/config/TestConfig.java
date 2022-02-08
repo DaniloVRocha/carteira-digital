@@ -11,6 +11,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import com.danilo.carteira.service.DBService;
+import com.danilo.carteira.service.EmailService;
+import com.danilo.carteira.service.SmtpEmailService;
 
 @Configuration
 @Profile("test")
@@ -29,6 +31,10 @@ public class TestConfig {
     public JavaMailSender javaMailSender() {
         return new JavaMailSenderImpl();
     }
+	@Bean
+	public EmailService emailService() {
+		return new SmtpEmailService();
+	}
 	
 	@Bean
 	 public Random random() {

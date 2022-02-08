@@ -1,0 +1,46 @@
+<div class="grid justify-content-center card">
+    <div class="col-10 md:col-6 lg:col-4">
+        <p-card>
+            <div class="grid">
+                <form (ngSubmit) = "onSubmit()" #form="ngForm">
+                    <div class="col-12 text-center">
+                        <i class="fas fa-wallet fa-4x"></i>
+                        <h2>Fazer Login no Carteira Digital</h2>
+                    </div>
+                    <div class="col-12 form-group">
+                        <label for="">Email: </label>
+                        <input type="email" class="col-12 form-control" name="email" [(ngModel)]="creds.email" pInputText />
+                    </div>
+                    <div class="col-12 form-group">
+                        <label for="">Senha: </label>
+                        <input type="password" class="col-12 form-control" name="senha" [(ngModel)]="creds.senha" pInputText />
+                    </div>
+                    <div class="col-12">
+                        <button pButton type="submit" label="Entrar" class="p-button-outlined col-12"></button>
+                    </div>
+                    <div class="col-12">
+                        <button pButton type="button" label="Esqueci a Senha"
+                            class="p-button-outlined p-button-danger col-12"></button>
+                    </div>
+                    <div class="col-12">
+                        <button pButton type="button" label="Não tem uma conta? Cadastre-se"
+                            class="p-button-text col-12" [routerLink]="['/create-accont']"></button>
+                    </div>
+                </form>
+            </div>
+        </p-card>
+    </div>
+    <div class="col-10 md:col-6 lg:col-4">
+        <p-card>
+            <div class="grid ">
+                <div class="col-12 text-center card ">
+                    <i class="fas fa-wallet fa-4x"></i>
+                    <h2>Olá, Visitante!</h2>
+                    <h4>Cadastre-se para se juntar ao carteira digital, te ajudamos a manter uma vida financeira mais
+                        saudável.</h4>
+                    <button pButton type="button" label="Cadastrar" class="p-button-outlined col-12"></button>
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div>
