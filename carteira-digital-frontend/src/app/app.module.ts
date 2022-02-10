@@ -11,6 +11,7 @@ import { PrincipalComponent } from './view/principal/principal.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
 import { StorageService } from './account/shared/storage.service';
+import { HttpInterceptorProviders } from './http-interceptors';
 
 
 @NgModule({
@@ -26,9 +27,9 @@ import { StorageService } from './account/shared/storage.service';
     AppRoutingModule,
     PrimengModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
-  providers: [StorageService],
+  providers: [StorageService,HttpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

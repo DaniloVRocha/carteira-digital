@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
     email:'',
     senha:''
   };
+  
 
   constructor(private accountService: AccountService,
     private router: Router) { }
@@ -21,13 +22,17 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit(){
-      this.accountService.authenticate(this.creds).subscribe(response =>  {
-        this.accountService.successLogin(response.headers.get('Authorization'));
-      },
-      error =>  {});
-      this.router.navigate(['']);
+  async onSubmit(){
+    try{
+      await this.accountService.login(this.creds).subscribe(resp => {
+        this.accountService.successLogin(resp.headers.get('Authorization'));
+        this.router.navigate([''])
+      })
 
+      this.router.navigate(['']);
+    }catch(error){
+      console.log(error)
+    }
   }
 
 }

@@ -5,6 +5,10 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { SidebarModule } from 'primeng/sidebar';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import {PanelMenuModule} from 'primeng/panelmenu';
+import {MegaMenuModule} from 'primeng/megamenu';
+import {ToolbarModule} from 'primeng/toolbar';
 
 
 @NgModule({
@@ -15,7 +19,11 @@ import { SidebarModule } from 'primeng/sidebar';
     CardModule,
     InputTextModule,
     ButtonModule,
-    SidebarModule
+    SidebarModule,
+    ProgressSpinnerModule,
+    PanelMenuModule,
+    MegaMenuModule,
+    ToolbarModule
   ]
 })
 export class PrimengModule { }

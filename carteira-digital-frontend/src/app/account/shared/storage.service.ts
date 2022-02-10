@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { STORAGE_KEYS } from 'src/app/config/storage_keys.config';
 
 @Injectable({
   providedIn: 'root'
@@ -8,20 +7,21 @@ export class StorageService {
 
   constructor() { }
 
-  getLocalUser(){
-    let user = localStorage.getItem(STORAGE_KEYS.localUser);
-    if(user == null){
+  getAuthorizationToken(){
+    let token = localStorage.getItem('token');
+    if(token == null){
       return null;
     }else{
-      return JSON.parse(user);
+      return JSON.parse(token);
     }
   }
 
-  setLocalUser(obj:any){
+  setAuthorizationToken(obj:any){
+    debugger;
     if(obj == null){
-      localStorage.removeItem(STORAGE_KEYS.localUser);
+      console.log("ERRO JWT")
     }else{
-      localStorage.setItem(STORAGE_KEYS.localUser, JSON.stringify(obj));
+      localStorage.setItem('token', JSON.stringify(obj));
     }
   }
 }
