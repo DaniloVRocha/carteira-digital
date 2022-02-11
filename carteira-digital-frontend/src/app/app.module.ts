@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
 import { StorageService } from './account/shared/storage.service';
 import { HttpInterceptorProviders } from './http-interceptors';
+import { NavbarComponent } from './layout/navbar/navbar.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { HttpInterceptorProviders } from './http-interceptors';
     HomeComponent,
     AuthenticationComponent,
     PrincipalComponent,
+    NavbarComponent,
   ],
   imports: [
     AppRoutingModule,

@@ -1,5 +1,6 @@
 package com.danilo.carteira.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.ObjectNotFoundException;
@@ -13,6 +14,7 @@ import com.danilo.carteira.config.security.UserSS;
 import com.danilo.carteira.domain.Cliente;
 import com.danilo.carteira.domain.Conta;
 import com.danilo.carteira.domain.OperacaoConta;
+import com.danilo.carteira.dto.ContaValoresDTO;
 import com.danilo.carteira.repository.ContaRepository;
 import com.danilo.carteira.service.exceptions.AuthorizationException;
 
@@ -33,6 +35,26 @@ public class ContaService {
 		return conta.orElseThrow(() -> new ObjectNotFoundException(
 				"A busca da Conta Id: " + id + " não retornou resultados, Tipo : " + OperacaoConta.class.getName(),
 				null));
+	}
+
+	public ContaValoresDTO atualizarPreencherSaldo() {
+		UserSS user = UserService.authenticated();
+		Double saldoTotal = 0.0;
+		Double despesaTotal = 0.0;
+		Double receitaTotal = 0.0;
+
+		List<Conta> contas = repository.findContasByIdCliente(user.getId());
+
+		for (Conta conta : contas) {
+
+			saldoTotal += conta.getSaldo();
+			despesaTotal += conta.getDespesas();
+			receitaTotal += conta.getReceitas();
+
+		}
+
+		ContaValoresDTO conta = new ContaValoresDTO(saldoTotal, despesaTotal, receitaTotal);
+		return conta;
 	}
 
 	public Conta alterarConta(Conta obj) {

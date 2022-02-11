@@ -1,0 +1,13 @@
+<p-toolbar>
+    <div class="p-toolbar-group-left">
+        <p-sidebar [(visible)]="visibleSidebar1" [baseZIndex]="10000">
+            <p-panelMenu [model]="items" class="sidebar"></p-panelMenu>
+        </p-sidebar>
+        <p-button type="button" class="p-button-text" (click)="visibleSidebar1 = true" icon="pi pi-bars">
+        </p-button>
+    </div>
+        <!-- <img src="./../../../assets/highImpact.png" id="logo-impact"> -->
+    <div class="p-toolbar-group-right">
+        <p-button icon="pi pi-sign-out"></p-button>
+    </div>
+</p-toolbar>

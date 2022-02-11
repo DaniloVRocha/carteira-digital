@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.danilo.carteira.domain.Conta;
 import com.danilo.carteira.dto.ContaDTO;
+import com.danilo.carteira.dto.ContaValoresDTO;
 import com.danilo.carteira.service.ContaService;
 
 @RestController
@@ -31,6 +32,12 @@ public class ContaRest {
 		Conta conta = service.buscarId(id);
 		ContaDTO contaDTO = new ContaDTO(conta);
 		return ResponseEntity.ok().body(contaDTO);
+	}
+	
+	@RequestMapping(value = "atualizarValores", method = RequestMethod.GET)
+	public ResponseEntity<ContaValoresDTO> atualizarPreencherSaldo(){
+		ContaValoresDTO conta = service.atualizarPreencherSaldo();
+		return ResponseEntity.ok().body(conta);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

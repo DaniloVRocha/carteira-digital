@@ -7,8 +7,8 @@ import { ButtonModule } from 'primeng/button';
 import { SidebarModule } from 'primeng/sidebar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import {PanelMenuModule} from 'primeng/panelmenu';
-import {MegaMenuModule} from 'primeng/megamenu';
 import {ToolbarModule} from 'primeng/toolbar';
+import {PanelModule} from 'primeng/panel';
 
 
 @NgModule({
@@ -22,8 +22,8 @@ import {ToolbarModule} from 'primeng/toolbar';
     SidebarModule,
     ProgressSpinnerModule,
     PanelMenuModule,
-    MegaMenuModule,
-    ToolbarModule
+    ToolbarModule,
+    PanelModule
   ]
 })
 export class PrimengModule { }

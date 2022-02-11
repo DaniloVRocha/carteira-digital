@@ -1,3 +1,31 @@
-<div>
-    <h1>TELA PRINCIPAL</h1>
+<div class="grid">
+    <div class="col">
+        <p-panel header="Saldo" styleClass = "card-initial" class = "text-center" [toggleable]="true">
+            <ng-template pTemplate="icons">
+                <button pButton pRipple type="button" icon="pi pi-wallet" class="p-button-rounded p-button-info"></button>
+            </ng-template>
+            <h2>{{saldo | currency:'BRL'}}</h2>
+        </p-panel>
+    </div>
+    <div class="col">
+        <p-panel header="Receitas" styleClass = "card-initial" class = "text-center" [toggleable]="true">
+            <ng-template pTemplate="icons">
+                <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-rounded p-button-success"></button>
+            </ng-template>
+                <h2>{{despesas | currency:'BRL'}}</h2>
+            </p-panel>
+    </div>
+    <div class="col">
+        <p-panel header="Despesas" styleClass = "card-initial" class = "text-center" [toggleable]="true">
+            <ng-template pTemplate="icons">
+                <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-rounded p-button-danger"></button>
+            </ng-template>
+            <h2>{{receitas | currency:'BRL'}}</h2>
+        </p-panel>
+    </div>
+</div>
+
+<div class="grid">
+    <div class="col">1</div>
+    <div class="col">2</div>
 </div>

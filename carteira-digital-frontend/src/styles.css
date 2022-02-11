@@ -1,8 +1,12 @@
 .p-toolbar{
-    /* background-color: #489CEF!important; */
-    background-color: black!important;
-    color: #fff!important;
+    background-color: #4AA7F1 !important;
+    color: #fff !important;
     margin-top: 0;
+}
+.card-initial{
+     width: auto;
+    height: auto; 
+    margin-top: 1em;
 }
 .text-center{
    text-align: center; 
