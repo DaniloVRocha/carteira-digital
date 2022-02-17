@@ -56,6 +56,14 @@ public class ContaService {
 		ContaValoresDTO conta = new ContaValoresDTO(saldoTotal, despesaTotal, receitaTotal);
 		return conta;
 	}
+	
+	public List<Conta> buscarContasCliente() {
+		UserSS user = UserService.authenticated();
+
+		List<Conta> contas = repository.findContasByIdCliente(user.getId());
+		
+		return contas;
+	}
 
 	public Conta alterarConta(Conta obj) {
 		UserSS user = UserService.authenticated();
@@ -107,7 +115,6 @@ public class ContaService {
 			}
 			conta.setSaldo(saldo);
 		}
-		System.out.println(conta);
 	}
 
 	public void updateValorDelete(Long id, OperacaoConta op) {

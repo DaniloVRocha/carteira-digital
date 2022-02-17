@@ -8,7 +8,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.danilo.carteira.domain.OperacaoConta;
 import com.danilo.carteira.dto.ContaTransferenciaDTO;
 import com.danilo.carteira.dto.OperacaoContaDTO;
+import com.danilo.carteira.dto.OperacaoPorDataDTO;
 import com.danilo.carteira.service.OperacaoContaService;
 import com.danilo.carteira.service.exceptions.OperacaoNaoEncontradaException;
 
@@ -54,6 +54,12 @@ public class OperacaoContaRest {
 				return ResponseEntity.created(uri).build();
 	}
 	
+	@RequestMapping(value="/{id}/{codOp}", method = RequestMethod.PUT)
+	public ResponseEntity<String> alterarEstadoPagamento(@Valid @PathVariable Long id, @PathVariable Long codOp) throws OperacaoNaoEncontradaException{
+		service.alterarEstadoPagamento(id, codOp);
+				return ResponseEntity.ok().body("Estado de Pagamento Alterado");
+	}
+	
 	@RequestMapping(value = "/{id}/{novoSaldo}", method=RequestMethod.POST)
 	public ResponseEntity<String> ajustarSaldo(@Valid @PathVariable Long id,  @PathVariable Double novoSaldo ){
 		service.ajustarSaldo(novoSaldo, id);
@@ -61,12 +67,20 @@ public class OperacaoContaRest {
 		+ novoSaldo);
 	}
 	
-	@RequestMapping(value = "/consultar-operacao-data/{id}/{dataInicial}/{dataFinal}", produces = MediaType.APPLICATION_JSON_VALUE, method=RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<OperacaoConta>> consultarExtratoPorData(@PathVariable Long id, @PathVariable String dataInicial, @PathVariable String dataFinal) throws Exception {
+	@RequestMapping(value = "/consultar-operacao-data", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<List<OperacaoConta>> consultarOperacaoPorData(@RequestBody OperacaoPorDataDTO op) throws Exception {
 		
-		List<OperacaoConta> extrato = service.consultarOperacoesPorData(id, dataInicial, dataFinal);
+		List<OperacaoConta> operacoes = service.consultarOperacoesPorData(op.getDataInicial(), op.getDataFinal());
 		
-		return new ResponseEntity<>(extrato, HttpStatus.OK);
+		return new ResponseEntity<>(operacoes, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/consultar-operacao-vencimento", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<List<OperacaoConta>> consultarOperacaoVencimento() throws Exception {
+		
+		List<OperacaoConta> operacoes = service.consultarOperacoesVencidas();
+		
+		return new ResponseEntity<>(operacoes, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/transferencia" ,method=RequestMethod.POST)

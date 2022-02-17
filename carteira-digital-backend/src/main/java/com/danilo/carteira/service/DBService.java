@@ -47,13 +47,13 @@ public class DBService {
 		Conta con3 = new Conta(null, "Itau", 2000.00, cli3);
 
 		OperacaoConta op1 = new OperacaoConta(null, LocalDateTime.now(), LocalDateTime.now(), 'R', 20.00,
-				EstadoPagamento.QUITADO, con1, "Futebol", Categoria.LAZER);
+				EstadoPagamento.PENDENTE, con1, "Futebol", Categoria.LAZER);
 
 		OperacaoConta op2 = new OperacaoConta(null, LocalDateTime.now(), LocalDateTime.now(), 'R', 20.00,
-				EstadoPagamento.QUITADO, con1, "Futebol", Categoria.LAZER);
+				EstadoPagamento.PENDENTE, con1, "Futebol", Categoria.LAZER);
 
-		OperacaoConta op3 = new OperacaoConta(null, LocalDateTime.now(), LocalDateTime.now(), 'R', 20.00,
-				EstadoPagamento.QUITADO, con1, "Futebol", Categoria.LAZER);
+		OperacaoConta op3 = new OperacaoConta(null, LocalDateTime.now(), LocalDateTime.now(), 'D', 20.00,
+				EstadoPagamento.PENDENTE, con1, "Futebol", Categoria.LAZER);
 
 		OperacaoConta op4 = new OperacaoConta(null, LocalDateTime.now(), LocalDateTime.now(), 'R', 40.00,
 				EstadoPagamento.QUITADO, con2, "teste", Categoria.GERAL);

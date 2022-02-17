@@ -4,12 +4,17 @@
     margin-top: 0;
 }
 .card-initial{
-     width: auto;
+    width: auto;
     height: auto; 
     margin-top: 1em;
 }
 .text-center{
    text-align: center; 
+}
+.tabela-vencidos{
+    margin-top: 2em;
+    margin-right: 1em;
+    border-color: black!important;
 }
 body{
     opacity: 0.75;

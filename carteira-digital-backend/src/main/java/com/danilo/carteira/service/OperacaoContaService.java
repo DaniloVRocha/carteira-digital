@@ -119,22 +119,36 @@ public class OperacaoContaService {
 		inserirOperacao(op2);
 	}
 	
-	public List<OperacaoConta> consultarOperacoesPorData(Long id, String dataInicio, String dataFinal) throws Exception {
-		Conta c = contaService.buscarId(id);
-		List<OperacaoConta> operacoes = repository.findOperacaoByConta(c);
-		List<OperacaoConta> aux = new ArrayList<>();
+	public List<OperacaoConta> consultarOperacoesPorData(String dataInicio, String dataFinal) throws Exception {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		LocalDateTime dataInicioBusca = LocalDateTime.parse(dataInicio, format);
 		LocalDateTime dataFimBusca = LocalDateTime.parse(dataFinal, format);
+		List<OperacaoConta> aux = new ArrayList<>();
 		
-		for (OperacaoConta operacao: operacoes) {
-			if(operacao.getDataHora().isAfter(dataInicioBusca) && operacao.getDataHora().isBefore(dataFimBusca)) {
+		List<Conta> contas = contaService.buscarContasCliente();
+		for(Conta conta: contas) {
+			List<OperacaoConta> operacoes = repository.findOperacaoByDate(conta.getId(),dataInicioBusca, dataFimBusca);
+			for (OperacaoConta operacao: operacoes) {
 				aux.add(operacao);
 			}
 		}
 		return aux;
-	}
+	}		
 
+	
+	public List<OperacaoConta> consultarOperacoesVencidas() throws Exception {
+		LocalDateTime dataAtual = LocalDateTime.now();
+		List<OperacaoConta> aux = new ArrayList<>();
+		
+		List<Conta> contas = contaService.buscarContasCliente();
+		for(Conta conta: contas) {
+			List<OperacaoConta> operacoes = repository.findOperacaoVencidas(conta.getId(),dataAtual);
+			for (OperacaoConta operacao: operacoes) {
+				aux.add(operacao);
+			}
+		}
+		return aux;
+	}	
 	@Transactional
 	public OperacaoConta alterarOperacao(OperacaoConta obj, Long id) throws OperacaoNaoEncontradaException {
 		UserSS user = UserService.authenticated();
@@ -147,6 +161,24 @@ public class OperacaoContaService {
 		oc = repository.save(obj);
 		contaService.updateValorInsert(obj.getConta().getId(), obj);
 		return oc;
+	}
+	
+	@Transactional
+	public void alterarEstadoPagamento(Long id, Long codEstado) {
+		UserSS user = UserService.authenticated();
+		OperacaoConta oc = verificarExistencia(id);
+		if (oc.getConta().getCliente().getId() != user.getId()) {
+			throw new AuthorizationException("Acesso Negado");
+		}
+		if(codEstado == 1) {
+			repository.informarPagamento(id, 1L);
+			oc.setEstadoPagamento(EstadoPagamento.QUITADO);
+			contaService.updateValorInsert(oc.getConta().getId(), oc);
+		}else {
+			repository.informarPagamento(id, 0L);
+			oc.setEstadoPagamento(EstadoPagamento.PENDENTE);
+			contaService.updateValorDelete(oc.getConta().getId(), oc);
+		}
 	}
 
 	private OperacaoConta verificarExistencia(Long id) throws OperacaoNaoEncontradaException {

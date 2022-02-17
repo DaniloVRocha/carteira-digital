@@ -6,9 +6,13 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { SidebarModule } from 'primeng/sidebar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import {PanelMenuModule} from 'primeng/panelmenu';
-import {ToolbarModule} from 'primeng/toolbar';
-import {PanelModule} from 'primeng/panel';
+import { PanelMenuModule } from 'primeng/panelmenu';
+import { ToolbarModule } from 'primeng/toolbar';
+import { PanelModule } from 'primeng/panel';
+import { TableModule } from 'primeng/table';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+
+
 
 
 @NgModule({
@@ -23,7 +27,9 @@ import {PanelModule} from 'primeng/panel';
     ProgressSpinnerModule,
     PanelMenuModule,
     ToolbarModule,
-    PanelModule
+    PanelModule,
+    TableModule,
+    ConfirmPopupModule
   ]
 })
 export class PrimengModule { }
