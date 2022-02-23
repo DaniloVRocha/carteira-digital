@@ -25,4 +25,8 @@ export class OperacoesService {
   gastoPorMes(data:DataHora){
     return this.http.get(`${this.api}/${this.endpoint}gastoPorMes`+ '/?dataInicial='+ encodeURIComponent( JSON.stringify(data.dataInicial)) + '&dataFinal='+ encodeURIComponent( JSON.stringify(data.dataFinal)));
   }
+
+  gastoPorCategoria(data:DataHora){
+    return this.http.get(`${this.api}/${this.endpoint}consultar-categorias-data`+ '/?dataInicial='+ encodeURIComponent( JSON.stringify(data.dataInicial)) + '&dataFinal='+ encodeURIComponent( JSON.stringify(data.dataFinal)));
+  }
 }

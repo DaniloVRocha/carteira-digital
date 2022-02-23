@@ -23,14 +23,15 @@ export class PrincipalComponent implements OnInit {
 
 
   constructor(private contaService: ContaService,
-    private operacaoService: OperacoesService) {
+    private operacaoService: OperacoesService,
+    private route: Router) {
 
   }
 
   ngOnInit(): void {
     this.atualizarSaldo();
     this.preencherTabelaVencidos();
-    this.preencherGrafico();
+    this.gastoPorCategoria();
   }
 
   atualizarSaldo() {
@@ -42,7 +43,6 @@ export class PrincipalComponent implements OnInit {
   }
 
   preencherTabelaVencidos() {
-    debugger;
     this.operacaoService.preencherTabelaVencidos().subscribe(res => {
       this.operacoes = res;
     })
@@ -68,9 +68,10 @@ export class PrincipalComponent implements OnInit {
               'O valor da receita foi adicionado ao seu saldo.',
               'success'
             )
+            this.preencherTabelaVencidos()
           })
+          this.route.navigate([""]);
         }
-
     }, error =>{
       Swal.fire(
         'Erro',
@@ -80,40 +81,45 @@ export class PrincipalComponent implements OnInit {
     })
   }
 
-  gastosPorMes(){
-    var qntMeses:number = 7;
-    for(var i=0; i<=qntMeses; i++){
-      this.operacaoService.gastoPorMes(this.dataHora).subscribe(res=>{
-        
+  gastoPorCategoria(){
+      this.operacaoService.gastoPorCategoria(this.dataHora).subscribe(res=>{
+        if(Object.keys(res).length !== 0){
+          this.preencherGrafico(res);
+        }  
       })
-    }
   }
 
-  preencherGrafico() {
+  preencherGrafico(res:any) {
+    
     this.data = {
-      labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho'],
+      labels: [] = Object.keys(res),
       datasets: [
-        {
-          label: 'Despesas',
-          backgroundColor: '#D05F5F',
-          data: [65, 59, 80, 81, 56, 55, 40]
-        },
-        {
-          label: 'Receitas',
-          backgroundColor: '#86AB65',
-          data: [28, 48, 40, 19, 86, 27, 90]
-        }
+          {
+              data: [] = Object.values(res),
+              backgroundColor: [
+                  "#FF6384",
+                  "#36A2EB",
+                  "#FFCE56",
+                  "#689F38"
+              ],
+              hoverBackgroundColor: [
+                  "#FF6384",
+                  "#36A2EB",
+                  "#FFCE56",
+                  "#689F38"
+              ]
+          }
       ]
-    }
+  };
+
     this.options = {
-      title: {
-        display: true,
-        text: 'My Title',
-        fontSize: 16
-      },
-      legend: {
-        position: 'bottom'
-      }
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#495057'
+                }
+            }
+        }
     };
   }
 

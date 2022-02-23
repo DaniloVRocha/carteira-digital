@@ -111,15 +111,16 @@ public class ContaService {
 					saldo -= op.getValor();
 					conta.setDespesas(despesa);
 				}
-			} else if (op.getEstadoPagamento().getDescricao().equals("Pendente")) {
-				if (Character.toLowerCase(op.getTpOperacao()) == 'r') {
-					receita += op.getValor();
-					conta.setReceitas(receita);
-				} else if (Character.toLowerCase(op.getTpOperacao()) == 'd') {
-					despesa -= op.getValor();
-					conta.setDespesas(despesa);
-				}
-			}
+			} 
+//			else if (op.getEstadoPagamento().getDescricao().equals("Pendente")) {
+//				if (Character.toLowerCase(op.getTpOperacao()) == 'r') {
+//					receita += op.getValor();
+//					conta.setReceitas(receita);
+//				} else if (Character.toLowerCase(op.getTpOperacao()) == 'd') {
+//					despesa -= op.getValor();
+//					conta.setDespesas(despesa);
+//				}
+//			}
 			conta.setSaldo(saldo);
 		}
 	}
@@ -140,16 +141,17 @@ public class ContaService {
 					saldo += op.getValor();
 					conta.setDespesas(despesa);
 				}
-			} else if (op.getEstadoPagamento().getDescricao().equals("Pendente")) {
-				if (Character.toLowerCase(op.getTpOperacao()) == 'r') {
-					receita -= op.getValor();
-					conta.setReceitas(receita);
-				} else if (Character.toLowerCase(op.getTpOperacao()) == 'd') {
-					despesa += op.getValor();
-					conta.setDespesas(despesa);
-				}
+//			} else if (op.getEstadoPagamento().getDescricao().equals("Pendente")) {
+//				if (Character.toLowerCase(op.getTpOperacao()) == 'r') {
+//					receita -= op.getValor();
+//					conta.setReceitas(receita);
+//				} else if (Character.toLowerCase(op.getTpOperacao()) == 'd') {
+//					despesa += op.getValor();
+//					conta.setDespesas(despesa);
+//				}
+//			}
+				conta.setSaldo(saldo);
 			}
-			conta.setSaldo(saldo);
 		}
 	}
 

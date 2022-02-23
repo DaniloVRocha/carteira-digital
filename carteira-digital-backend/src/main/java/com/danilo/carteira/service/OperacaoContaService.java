@@ -3,6 +3,7 @@ package com.danilo.carteira.service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +46,26 @@ public class OperacaoContaService {
 		} else {
 			throw new AuthorizationException("Acesso Negado");
 		}
+	}
+	
+	public HashMap<String, Integer> buscarTodosPorIdCliente(String dataInicial, String dataFinal) {
+		UserSS user = UserService.authenticated();
+		
+		HashMap<String, Integer> listaExistentes = new HashMap<String, Integer>();
+		
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime dataInicioBusca = LocalDateTime.parse(dataInicial, format);
+		LocalDateTime dataFimBusca = LocalDateTime.parse(dataFinal, format);
+		
+		List<OperacaoConta> operacoes = repository.buscarOperacoesPorId(user.getId(), dataInicioBusca, dataFimBusca);
+
+		for(OperacaoConta op : operacoes) {
+			Integer quantidade = repository.numeroOperacoesPorCategoria(user.getId(), dataInicioBusca, dataFimBusca, op.getCategoria().getCod());
+			listaExistentes.put(op.getCategoria().getDescricao(), quantidade);
+		}
+		
+		return listaExistentes;
+		
 	}
 
 	public void deletarOperacao(Long id) {

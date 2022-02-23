@@ -28,8 +28,10 @@
 <div class="grid">
     <div class="sm:col-12 md:col-12 lg:col-6">
         <div class="card">
-            <h3 class="text-center">Totais Por Mês <button pButton pRipple type="button" title="Expandir Gráfico" style= "float: right;" icon="pi pi-window-maximize" class="p-button-rounded p-button-success"></button></h3>
-            <p-chart type="bar" [data]="data" [options]="options"></p-chart>
+            <h3 class="text-center">Totais Mês Atual ( Categorias ) <button pButton pRipple type="button" title="Expandir Gráfico" style= "float: right;" icon="pi pi-window-maximize" class="p-button-rounded p-button-success"></button></h3>
+            <div class="container">
+                <p-chart type="doughnut" styleClass="grafico-inicio" [data]="data" [options]="options" width="30vw" height="60vh"></p-chart>
+            </div>
         </div>
     </div>
     <div class="sm:col-12 md:col-12 lg:col-6">
@@ -47,7 +49,7 @@
                     <th class="text-center">Ações</th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-operacao>
+            <ng-template pTemplate="body" [(ngModel)]="operacoes" let-operacao>
                 <tr>
                     <td class="text-center">{{operacao.estadoPagamento}}</td>
                     <td class="text-center">{{operacao.valor | currency:'BRL'}}</td>
@@ -68,5 +70,3 @@
         </p-table>
     </div>
 </div>
-
-<button pButton pRipple type="button" icon="pi pi-times"  (click) = "gastosPorMes()" class="p-button-rounded p-button-danger"></button>

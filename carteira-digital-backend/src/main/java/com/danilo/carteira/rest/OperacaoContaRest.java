@@ -1,6 +1,7 @@
 package com.danilo.carteira.rest;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -86,6 +87,13 @@ public class OperacaoContaRest {
 	public ResponseEntity<String> Transferencia(@Valid @RequestBody ContaTransferenciaDTO conta){
 		service.transferenciaEntreContas(conta);
 		return ResponseEntity.ok().body(conta.getValor() + "Transferido");
+	}
+	
+	@RequestMapping(value = "/consultar-categorias-data", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<HashMap<String, Integer>> buscarTodosPorIdCliente(@RequestParam("dataInicial") String dataInicial, @RequestParam("dataFinal") String dataFinal) throws Exception {
+		
+		HashMap<String, Integer> categorias = service.buscarTodosPorIdCliente(dataInicial.replace("\"", ""),dataFinal.replace("\"", ""));
+		return new ResponseEntity<>(categorias, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
