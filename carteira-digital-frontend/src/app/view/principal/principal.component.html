@@ -1,5 +1,5 @@
 <div class="grid">
-    <div class="col">
+    <div class="sm:col-12 md:col-4 lg:col-4">
         <p-panel header="Saldo" styleClass = "card-initial" class = "text-center" [toggleable]="true">
             <ng-template pTemplate="icons">
                 <button pButton pRipple type="button" icon="pi pi-wallet" class="p-button-rounded p-button-info"></button>
@@ -7,7 +7,7 @@
             <h2>{{saldo | currency:'BRL'}}</h2>
         </p-panel>
     </div>
-    <div class="col">
+    <div class="sm:col-12 md:col-4 lg:col-4">
         <p-panel header="Receitas" styleClass = "card-initial" class = "text-center" [toggleable]="true">
             <ng-template pTemplate="icons">
                 <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-rounded p-button-success"></button>
@@ -15,7 +15,7 @@
                 <h2>{{receitas | currency:'BRL'}}</h2>
             </p-panel>
     </div>
-    <div class="col">
+    <div class="sm:col-12 md:col-4 lg:col-4">
         <p-panel header="Despesas" styleClass = "card-initial" class = "text-center" [toggleable]="true">
             <ng-template pTemplate="icons">
                 <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-rounded p-button-danger"></button>
@@ -26,23 +26,28 @@
 </div>
 
 <div class="grid">
-    <div class="col-12 md:col-6 lg:col-6">A</div>
-    <div class="col-12 md:col-6 lg:col-6">
+    <div class="sm:col-12 md:col-12 lg:col-6">
+        <div class="card">
+            <h3 class="text-center">Totais Por Mês <button pButton pRipple type="button" title="Expandir Gráfico" style= "float: right;" icon="pi pi-window-maximize" class="p-button-rounded p-button-success"></button></h3>
+            <p-chart type="bar" [data]="data" [options]="options"></p-chart>
+        </div>
+    </div>
+    <div class="sm:col-12 md:col-12 lg:col-6">
         <p-table [value]="operacoes">
-            <ng-template pTemplate="header">
+            <ng-template pTemplate="header" class="sm:col-12 md:col-12 lg:col-6">
                 <tr>
                     <th class="text-center" colspan="6">Operações Vencidas</th>
                 </tr>
                 <tr>
                     <th class="text-center">Pagamento</th>
                     <th class="text-center">Valor</th>
-                    <th class="text-center">Data</th>
+                    <th class="text-center">Vencimento</th>
                     <th class="text-center">Instituição</th>
                     <th class="text-center">Tipo da Operacao</th>
                     <th class="text-center">Ações</th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" *ngIf="operacoes.length == 0" let-operacao>
+            <ng-template pTemplate="body" let-operacao>
                 <tr>
                     <td class="text-center">{{operacao.estadoPagamento}}</td>
                     <td class="text-center">{{operacao.valor | currency:'BRL'}}</td>
@@ -59,12 +64,9 @@
                         <button pButton pRipple type="button" icon="pi pi-times" *ngIf="operacao.tpOperacao == 'D' " label="Pagar  " (click) = "pagarContaVencida(operacao.id, operacao.tpOperacao)" class="p-button-rounded p-button-danger"></button>
                     </td>
                 </tr>
-            </ng-template>
-            <ng-template pTemplate="body" *ngIf="operacoes.length == 0" let-operacao>
-                <tr>
-                    <td class="text-center" colspan="6">Não há operações Vencidas</td>
-                </tr>
-            </ng-template>
+            </ng-template>                    
         </p-table>
     </div>
 </div>
+
+<button pButton pRipple type="button" icon="pi pi-times"  (click) = "gastosPorMes()" class="p-button-rounded p-button-danger"></button>

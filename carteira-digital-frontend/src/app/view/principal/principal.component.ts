@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DataHora } from 'src/app/model/IDataHora';
 import { IOperacao } from 'src/app/model/IOperacao';
 import { ContaService } from 'src/app/services/conta.service';
 import { OperacoesService } from 'src/app/services/operacoes.service';
@@ -16,16 +17,20 @@ export class PrincipalComponent implements OnInit {
   despesas: number = 0.0;
   receitas: number = 0.0;
   operacoes: IOperacao[] = [];
-  
+  data: any;
+  options: any;
+  dataHora:DataHora = new DataHora("2022-02-01 00:00:00", "2022-02-31 23:59:00");
+
 
   constructor(private contaService: ContaService,
-    private operacaoService: OperacoesService,
-    private router: Router) {
+    private operacaoService: OperacoesService) {
 
   }
+
   ngOnInit(): void {
     this.atualizarSaldo();
     this.preencherTabelaVencidos();
+    this.preencherGrafico();
   }
 
   atualizarSaldo() {
@@ -37,6 +42,7 @@ export class PrincipalComponent implements OnInit {
   }
 
   preencherTabelaVencidos() {
+    debugger;
     this.operacaoService.preencherTabelaVencidos().subscribe(res => {
       this.operacoes = res;
     })
@@ -56,27 +62,15 @@ export class PrincipalComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        if(tpOperacao == 'R'){
           this.operacaoService.pagarOperacaoVencida(id, 1).subscribe(res =>{
-            this.preencherTabelaVencidos();
-            this.atualizarSaldo();
             Swal.fire(
               'Feito',
               'O valor da receita foi adicionado ao seu saldo.',
               'success'
             )
           })
-        }else if(tpOperacao == 'D'){
-          this.operacaoService.pagarOperacaoVencida(id, 2).subscribe(res =>{
-            Swal.fire(
-              'Feito',
-              'O valor da despesa foi descontado do seu saldo.',
-              'success'
-            )
-          })
         }
 
-      }
     }, error =>{
       Swal.fire(
         'Erro',
@@ -84,6 +78,43 @@ export class PrincipalComponent implements OnInit {
         'error'
       )
     })
+  }
+
+  gastosPorMes(){
+    var qntMeses:number = 7;
+    for(var i=0; i<=qntMeses; i++){
+      this.operacaoService.gastoPorMes(this.dataHora).subscribe(res=>{
+        
+      })
+    }
+  }
+
+  preencherGrafico() {
+    this.data = {
+      labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho'],
+      datasets: [
+        {
+          label: 'Despesas',
+          backgroundColor: '#D05F5F',
+          data: [65, 59, 80, 81, 56, 55, 40]
+        },
+        {
+          label: 'Receitas',
+          backgroundColor: '#86AB65',
+          data: [28, 48, 40, 19, 86, 27, 90]
+        }
+      ]
+    }
+    this.options = {
+      title: {
+        display: true,
+        text: 'My Title',
+        fontSize: 16
+      },
+      legend: {
+        position: 'bottom'
+      }
+    };
   }
 
 }

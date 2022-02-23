@@ -11,6 +11,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { PanelModule } from 'primeng/panel';
 import { TableModule } from 'primeng/table';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { ChartModule } from 'primeng/chart';
 
 
 
@@ -29,7 +30,8 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
     ToolbarModule,
     PanelModule,
     TableModule,
-    ConfirmPopupModule
+    ConfirmPopupModule,
+    ChartModule
   ]
 })
 export class PrimengModule { }

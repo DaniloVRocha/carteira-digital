@@ -35,7 +35,7 @@ public class OperacaoConta implements Serializable {
 
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDateTime vencimento;
-
+	
 	private Categoria categoria;
 
 	// 'R' para receita e 'D' para despesa

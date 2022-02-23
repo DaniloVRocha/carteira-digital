@@ -36,6 +36,13 @@ public class ContaService {
 				"A busca da Conta Id: " + id + " não retornou resultados, Tipo : " + OperacaoConta.class.getName(),
 				null));
 	}
+	
+	public Conta buscarPorIdCliente(Long id) {
+		Optional<Conta> conta = repository.findById(id);
+		return conta.orElseThrow(() -> new ObjectNotFoundException(
+				"A busca da Conta Id: " + id + " não retornou resultados, Tipo : " + OperacaoConta.class.getName(),
+				null));
+	}
 
 	public ContaValoresDTO atualizarPreencherSaldo() {
 		UserSS user = UserService.authenticated();

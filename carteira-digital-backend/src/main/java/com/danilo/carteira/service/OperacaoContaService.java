@@ -20,6 +20,7 @@ import com.danilo.carteira.domain.OperacaoConta;
 import com.danilo.carteira.domain.enums.Categoria;
 import com.danilo.carteira.domain.enums.EstadoPagamento;
 import com.danilo.carteira.dto.ContaTransferenciaDTO;
+import com.danilo.carteira.dto.OperacaoContaDTO;
 import com.danilo.carteira.repository.OperacaoContaRepository;
 import com.danilo.carteira.service.exceptions.AuthorizationException;
 import com.danilo.carteira.service.exceptions.OperacaoNaoEncontradaException;
@@ -31,7 +32,8 @@ public class OperacaoContaService {
 	private OperacaoContaRepository repository;
 	@Autowired
 	private ContaService contaService;
-
+	
+	
 	public OperacaoConta buscarId(Long id) {
 		UserSS user = UserService.authenticated();
 		Optional<OperacaoConta> oc = repository.findById(id);
@@ -84,6 +86,26 @@ public class OperacaoContaService {
 		inserirOperacao(oc1);
 	}
 	
+	public List<Double> gastoPorMes(String dataInicio, String dataFinal) throws Exception {
+		List<OperacaoContaDTO> operacoes = consultarOperacoesPorData(dataInicio, dataFinal);
+		double gastoMes = 0.0;
+		double receitaMes = 0.0;
+		
+		for(OperacaoContaDTO operacao: operacoes) {
+			if(operacao.getEstadoPagamento().equals(EstadoPagamento.QUITADO) && operacao.getTpOperacao() == 'D') {
+				gastoMes+= operacao.getValor();
+			}else if(operacao.getEstadoPagamento().equals(EstadoPagamento.QUITADO) && operacao.getTpOperacao() == 'R') {
+				receitaMes+= operacao.getValor();
+			}
+		}
+		
+		List<Double> resultado = new ArrayList<Double>();
+		resultado.add(gastoMes);
+		resultado.add(receitaMes);
+		
+		return resultado;	
+	}
+	
 	public void transferenciaEntreContas(ContaTransferenciaDTO conta) {
 		Conta contaOrigem = contaService.buscarId(conta.getIdOrigem());
 		Conta contaDestino = contaService.buscarId(conta.getIdDestino());
@@ -119,32 +141,34 @@ public class OperacaoContaService {
 		inserirOperacao(op2);
 	}
 	
-	public List<OperacaoConta> consultarOperacoesPorData(String dataInicio, String dataFinal) throws Exception {
+	public List<OperacaoContaDTO> consultarOperacoesPorData(String dataInicio, String dataFinal) throws Exception {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		LocalDateTime dataInicioBusca = LocalDateTime.parse(dataInicio, format);
 		LocalDateTime dataFimBusca = LocalDateTime.parse(dataFinal, format);
-		List<OperacaoConta> aux = new ArrayList<>();
+		List<OperacaoContaDTO> auxDTO = new ArrayList<>();
 		
 		List<Conta> contas = contaService.buscarContasCliente();
 		for(Conta conta: contas) {
 			List<OperacaoConta> operacoes = repository.findOperacaoByDate(conta.getId(),dataInicioBusca, dataFimBusca);
 			for (OperacaoConta operacao: operacoes) {
-				aux.add(operacao);
+				OperacaoContaDTO opDTO = new OperacaoContaDTO(operacao);
+				auxDTO.add(opDTO);
 			}
 		}
-		return aux;
+		return auxDTO;
 	}		
 
 	
-	public List<OperacaoConta> consultarOperacoesVencidas() throws Exception {
+	public List<OperacaoContaDTO> consultarOperacoesVencidas() throws Exception {
 		LocalDateTime dataAtual = LocalDateTime.now();
-		List<OperacaoConta> aux = new ArrayList<>();
+		List<OperacaoContaDTO> aux = new ArrayList<>();
 		
 		List<Conta> contas = contaService.buscarContasCliente();
 		for(Conta conta: contas) {
 			List<OperacaoConta> operacoes = repository.findOperacaoVencidas(conta.getId(),dataAtual);
 			for (OperacaoConta operacao: operacoes) {
-				aux.add(operacao);
+				OperacaoContaDTO opDTO = new OperacaoContaDTO(operacao);
+				aux.add(opDTO);
 			}
 		}
 		return aux;

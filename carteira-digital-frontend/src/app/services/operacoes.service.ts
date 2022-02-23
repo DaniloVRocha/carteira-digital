@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { DataHora } from '../model/IDataHora';
 import { IOperacao } from '../model/IOperacao';
 
 @Injectable({
@@ -18,7 +19,10 @@ export class OperacoesService {
   }
 
   pagarOperacaoVencida(id:number, codOperacao:number){
-    console.log(this.http.put(`${this.api}/${this.endpoint}${id}/${codOperacao}`,id))
     return this.http.put(`${this.api}/${this.endpoint}${id}/${codOperacao}`,id)
+  }
+
+  gastoPorMes(data:DataHora){
+    return this.http.get(`${this.api}/${this.endpoint}gastoPorMes`+ '/?dataInicial='+ encodeURIComponent( JSON.stringify(data.dataInicial)) + '&dataFinal='+ encodeURIComponent( JSON.stringify(data.dataFinal)));
   }
 }

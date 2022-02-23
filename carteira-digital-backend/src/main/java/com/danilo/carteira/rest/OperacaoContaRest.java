@@ -68,17 +68,16 @@ public class OperacaoContaRest {
 	}
 	
 	@RequestMapping(value = "/consultar-operacao-data", method=RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<OperacaoConta>> consultarOperacaoPorData(@RequestBody OperacaoPorDataDTO op) throws Exception {
+	public @ResponseBody ResponseEntity<List<OperacaoContaDTO>> consultarOperacaoPorData(@RequestBody OperacaoPorDataDTO op) throws Exception {
 		
-		List<OperacaoConta> operacoes = service.consultarOperacoesPorData(op.getDataInicial(), op.getDataFinal());
-		
+		List<OperacaoContaDTO> operacoes = service.consultarOperacoesPorData(op.getDataInicial(), op.getDataFinal());
 		return new ResponseEntity<>(operacoes, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/consultar-operacao-vencimento", method=RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<OperacaoConta>> consultarOperacaoVencimento() throws Exception {
+	public @ResponseBody ResponseEntity<List<OperacaoContaDTO>> consultarOperacaoVencimento() throws Exception {
 		
-		List<OperacaoConta> operacoes = service.consultarOperacoesVencidas();
+		List<OperacaoContaDTO> operacoes = service.consultarOperacoesVencidas();
 		
 		return new ResponseEntity<>(operacoes, HttpStatus.OK);
 	}
