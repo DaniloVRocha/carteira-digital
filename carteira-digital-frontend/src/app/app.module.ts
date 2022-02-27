@@ -13,6 +13,10 @@ import { HttpClientModule } from '@angular/common/http'
 import { StorageService } from './account/shared/storage.service';
 import { HttpInterceptorProviders } from './http-interceptors';
 import { NavbarComponent } from './layout/navbar/navbar.component';
+import { MovimentacoesComponent } from './view/movimentacoes/movimentacoes.component';
+import { DashboardUsuarioComponent } from './layout/dashboard-usuario/dashboard-usuario.component';
+import { DatepickerComponent } from './layout/datepicker/datepicker.component';
+import { PaginatorComponent } from './layout/paginator/paginator.component';
 
 
 @NgModule({
@@ -24,6 +28,10 @@ import { NavbarComponent } from './layout/navbar/navbar.component';
     AuthenticationComponent,
     PrincipalComponent,
     NavbarComponent,
+    MovimentacoesComponent,
+    DashboardUsuarioComponent,
+    DatepickerComponent,
+    PaginatorComponent
   ],
   imports: [
     AppRoutingModule,

@@ -15,6 +15,7 @@ import com.danilo.carteira.domain.Cliente;
 import com.danilo.carteira.domain.Conta;
 import com.danilo.carteira.domain.OperacaoConta;
 import com.danilo.carteira.dto.ContaValoresDTO;
+import com.danilo.carteira.dto.OperacaoContaDTO;
 import com.danilo.carteira.repository.ContaRepository;
 import com.danilo.carteira.service.exceptions.AuthorizationException;
 
@@ -58,6 +59,25 @@ public class ContaService {
 			despesaTotal += conta.getDespesas();
 			receitaTotal += conta.getReceitas();
 
+		}
+
+		ContaValoresDTO conta = new ContaValoresDTO(saldoTotal, despesaTotal, receitaTotal);
+		return conta;
+	}
+	
+	public ContaValoresDTO calcularTotalOperacoesMes(List<OperacaoContaDTO> operacoesMes) {
+		Double saldoTotal = 0.0;
+		Double despesaTotal = 0.0;
+		Double receitaTotal = 0.0;
+
+		for (OperacaoContaDTO operacao : operacoesMes) {
+			if (Character.toLowerCase(operacao.getTpOperacao()) == 'r') {
+				receitaTotal += operacao.getValor();
+				saldoTotal += operacao.getValor();
+			} else if (Character.toLowerCase(operacao.getTpOperacao()) == 'd') {
+				despesaTotal += operacao.getValor();
+				saldoTotal -= operacao.getValor();
+			}			
 		}
 
 		ContaValoresDTO conta = new ContaValoresDTO(saldoTotal, despesaTotal, receitaTotal);

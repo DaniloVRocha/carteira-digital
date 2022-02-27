@@ -1,24 +1,29 @@
 package com.danilo.carteira.rest;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.danilo.carteira.domain.Conta;
 import com.danilo.carteira.dto.ContaDTO;
 import com.danilo.carteira.dto.ContaValoresDTO;
+import com.danilo.carteira.dto.OperacaoContaDTO;
 import com.danilo.carteira.service.ContaService;
+import com.danilo.carteira.service.OperacaoContaService;
 
 @RestController
 @RequestMapping(value="/contas")
@@ -26,6 +31,8 @@ public class ContaRest {
 	
 	@Autowired
 	private ContaService service;
+	@Autowired
+	private OperacaoContaService operacaoService;
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<ContaDTO> buscarId(@Valid @PathVariable Long id){
@@ -34,7 +41,7 @@ public class ContaRest {
 		return ResponseEntity.ok().body(contaDTO);
 	}
 	
-	@RequestMapping(value = "atualizarValores", method = RequestMethod.GET)
+	@RequestMapping(value = "/atualizarValores", method = RequestMethod.GET)
 	public ResponseEntity<ContaValoresDTO> atualizarPreencherSaldo(){
 		ContaValoresDTO conta = service.atualizarPreencherSaldo();
 		return ResponseEntity.ok().body(conta);
@@ -53,6 +60,13 @@ public class ContaRest {
 				.path("/{id}").buildAndExpand(conta.getId()).toUri();
 				return ResponseEntity.created(uri).build();
 	}	
+	
+	@RequestMapping(value = "/atualizarValores-data", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ContaValoresDTO> atualizarPreencherSaldoPorMes(@RequestParam("dataInicial") String dataInicial, @RequestParam("dataFinal") String dataFinal) throws Exception {
+		List<OperacaoContaDTO> operacoesMes = operacaoService.consultarOperacoesPorData(dataInicial.replace("\"", ""),dataFinal.replace("\"", ""));
+		ContaValoresDTO valoresMes = service.calcularTotalOperacoesMes(operacoesMes);
+		return new ResponseEntity<>(valoresMes, HttpStatus.OK);
+	}
 	
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<Conta>> findPage(

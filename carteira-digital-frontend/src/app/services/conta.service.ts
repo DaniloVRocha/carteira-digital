@@ -1,3 +1,4 @@
+import { IDataHora } from './../model/IDataHora';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
@@ -9,10 +10,15 @@ import { IContaViewDTO } from '../model/IContaViewDTO';
 export class ContaService {
   endpoint = "contas/";
   api = environment.api;
-  
+
   constructor(private http: HttpClient) { }
 
   preencherSaldo() {
     return this.http.get<IContaViewDTO>(`${this.api}/${this.endpoint}atualizarValores`)
+  }
+  preencherSaldoPorMes(data:IDataHora) {
+    let dataInicial = encodeURIComponent( JSON.stringify(data.dataInicial));
+    let dataFinal = encodeURIComponent( JSON.stringify(data.dataFinal));
+    return this.http.get<IContaViewDTO>(`${this.api}/${this.endpoint}atualizarValores-data?dataInicial=${dataInicial}&dataFinal=${dataFinal}`);
   }
 }

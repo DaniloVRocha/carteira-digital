@@ -5,11 +5,11 @@
 }
 .card-initial{
     width: auto;
-    height: auto; 
+    height: auto;
     margin-top: 1em;
 }
 .text-center{
-   text-align: center; 
+   text-align: center!important;
 }
 .tabela-vencidos{
     margin-top: 2em;

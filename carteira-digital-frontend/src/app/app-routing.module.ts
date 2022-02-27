@@ -5,13 +5,15 @@ import { LoginComponent } from './account/login/login.component';
 import { AuthGuard } from './account/shared/auth.guard';
 import { AuthenticationComponent } from './layout/authentication/authentication.component';
 import { HomeComponent } from './layout/home/home.component';
+import { MovimentacoesComponent } from './view/movimentacoes/movimentacoes.component';
 import { PrincipalComponent } from './view/principal/principal.component';
 
 const routes: Routes = [
   {
     path:'', component: HomeComponent,
     children:[
-      {path:'', component: PrincipalComponent}
+      {path:'', component: PrincipalComponent},
+      {path:'movimentacoes', component: MovimentacoesComponent}
     ],
     canActivate:[AuthGuard]
   },

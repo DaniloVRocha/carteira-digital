@@ -114,4 +114,18 @@ public class OperacaoContaRest {
 		return ResponseEntity.ok().body(listDto);
 
 	}
+	@RequestMapping(value = "/page-date", method = RequestMethod.GET)
+	public ResponseEntity<Page<OperacaoContaDTO>> findPagePorData(
+			@RequestParam(value="page", defaultValue="0") Integer page,
+			@RequestParam(value="linesPerPage", defaultValue="5") Integer linesPerPage,
+			@RequestParam(value="orderBy", defaultValue="id") String orderBy,
+			@RequestParam(value="direction", defaultValue="ASC") String direction,
+			@RequestParam("dataInicial") String dataInicial, 
+			@RequestParam("dataFinal") String dataFinal){
+
+		Page<OperacaoConta> list = service.findPagePorData(page, linesPerPage, orderBy, direction,dataInicial.replace("\"", ""),dataFinal.replace("\"", ""));
+		Page<OperacaoContaDTO> listDto = list.map(obj -> new OperacaoContaDTO(obj));
+		return ResponseEntity.ok().body(listDto);
+
+	}
 }

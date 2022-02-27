@@ -46,23 +46,23 @@ public class DBService {
 		Conta con2 = new Conta(null, "Bradesco", 20.00, cli2);
 		Conta con3 = new Conta(null, "Itau", 2000.00, cli3);
 
-		OperacaoConta op1 = new OperacaoConta(null, LocalDateTime.now(), LocalDateTime.now(), 'R', 20.00,
-				EstadoPagamento.PENDENTE, con1, "Futebol", Categoria.LAZER);
+		OperacaoConta op1 = new OperacaoConta(null, "Futebol", LocalDateTime.now(), LocalDateTime.now(), 'R', 20.00,
+				EstadoPagamento.PENDENTE, con1, Categoria.LAZER);
 
-		OperacaoConta op2 = new OperacaoConta(null, LocalDateTime.now(), LocalDateTime.now(), 'R', 20.00,
-				EstadoPagamento.PENDENTE, con1, "Futebol", Categoria.LAZER);
+		OperacaoConta op2 = new OperacaoConta(null,"Futebol", LocalDateTime.now(), LocalDateTime.now(), 'R', 20.00,
+				EstadoPagamento.PENDENTE, con1, Categoria.LAZER);
 
-		OperacaoConta op3 = new OperacaoConta(null, LocalDateTime.now(), LocalDateTime.now(), 'D', 20.00,
-				EstadoPagamento.PENDENTE, con1, "Futebol", Categoria.LAZER);
+		OperacaoConta op3 = new OperacaoConta(null, "Futebol",LocalDateTime.now(), LocalDateTime.now(), 'D', 20.00,
+				EstadoPagamento.PENDENTE, con1, Categoria.LAZER);
 
-		OperacaoConta op4 = new OperacaoConta(null, LocalDateTime.now(), LocalDateTime.now(), 'R', 40.00,
-				EstadoPagamento.QUITADO, con2, "teste", Categoria.GERAL);
+		OperacaoConta op4 = new OperacaoConta(null, "teste", LocalDateTime.now(), LocalDateTime.now(), 'R', 40.00,
+				EstadoPagamento.QUITADO, con2,  Categoria.GERAL);
 
-		OperacaoConta op5 = new OperacaoConta(null, LocalDateTime.now(), LocalDateTime.now(), 'R', 40.00,
-				EstadoPagamento.QUITADO, con2, "pix jantar", Categoria.ALIMENTACAO);
+		OperacaoConta op5 = new OperacaoConta(null, "pix jantar",LocalDateTime.now(), LocalDateTime.now(), 'R', 40.00,
+				EstadoPagamento.QUITADO, con2, Categoria.ALIMENTACAO);
 
-		OperacaoConta op6 = new OperacaoConta(null, LocalDateTime.now(), LocalDateTime.now(), 'D', 40.00,
-				EstadoPagamento.QUITADO, con2, "pix estacionamento", Categoria.GERAL);
+		OperacaoConta op6 = new OperacaoConta(null, "pix estacionamento",LocalDateTime.now(), LocalDateTime.now(), 'D', 40.00,
+				EstadoPagamento.QUITADO, con2, Categoria.GERAL);
 
 		clienteRepository.saveAll(Arrays.asList(cli1, cli2, cli3));
 		contaRepository.saveAll(Arrays.asList(con1, con2, con3, con4));

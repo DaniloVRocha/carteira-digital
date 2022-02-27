@@ -29,6 +29,9 @@ public class OperacaoConta implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(nullable = false, length=50)
+	private String nome;
 
 	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private LocalDateTime dataHora;
@@ -52,24 +55,21 @@ public class OperacaoConta implements Serializable {
 	@JoinColumn(name = "fk_conta_id")
 	private Conta conta;
 
-	@Column(length = 100)
-	private String observacao;
-
 	public OperacaoConta() {
 		super();
 	}
 
-	public OperacaoConta(Long id, LocalDateTime dataHora, LocalDateTime vencimento, char tpOperacao, double valor,
-			EstadoPagamento estadoPagamento, Conta conta, String observacao, Categoria categoria) {
+	public OperacaoConta(Long id, String nome, LocalDateTime dataHora, LocalDateTime vencimento, char tpOperacao, double valor,
+			EstadoPagamento estadoPagamento, Conta conta, Categoria categoria) {
 		super();
 		this.id = id;
+		this.nome= nome;
 		this.dataHora = dataHora;
 		this.vencimento = vencimento;
 		this.tpOperacao = tpOperacao;
 		this.valor = valor;
 		this.estadoPagamento = estadoPagamento;
 		this.conta = conta;
-		this.observacao = observacao;
 		this.categoria = categoria;
 	}
 
@@ -136,12 +136,12 @@ public class OperacaoConta implements Serializable {
 		this.conta = conta;
 	}
 
-	public String getObservacao() {
-		return observacao;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setObservacao(String observacao) {
-		this.observacao = observacao;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public Categoria getCategoria() {

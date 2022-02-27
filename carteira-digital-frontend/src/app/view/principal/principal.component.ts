@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { DataHora } from 'src/app/model/IDataHora';
+import { IContaViewDTO } from 'src/app/model/IContaViewDTO';
+import { IDataHora } from 'src/app/model/IDataHora';
 import { IOperacao } from 'src/app/model/IOperacao';
 import { ContaService } from 'src/app/services/conta.service';
 import { OperacoesService } from 'src/app/services/operacoes.service';
@@ -13,33 +13,28 @@ import Swal from 'sweetalert2';
 })
 export class PrincipalComponent implements OnInit {
 
-  saldo: number = 0.0;
-  despesas: number = 0.0;
-  receitas: number = 0.0;
+  existeOperacao:boolean = false;
+
   operacoes: IOperacao[] = [];
+
   data: any;
   options: any;
-  dataHora:DataHora = new DataHora("2022-02-01 00:00:00", "2022-02-31 23:59:00");
-
+  dataHora:IDataHora = {dataInicial:"2022-02-01 00:00:00", dataFinal:"2022-02-31 23:59:00"};
+  dashboardView: IContaViewDTO = {
+    saldo: 0.0,
+    despesas: 0.0,
+    receitas: 0.0
+  }
 
   constructor(private contaService: ContaService,
-    private operacaoService: OperacoesService,
-    private route: Router) {
+    private operacaoService: OperacoesService) {
 
   }
 
   ngOnInit(): void {
-    this.atualizarSaldo();
     this.preencherTabelaVencidos();
     this.gastoPorCategoria();
-  }
-
-  atualizarSaldo() {
-    this.contaService.preencherSaldo().subscribe(res => {
-      this.saldo = res.saldo;
-      this.despesas = res.despesas;
-      this.receitas = res.receitas;
-    })
+    this.atualizarSaldo();
   }
 
   preencherTabelaVencidos() {
@@ -48,9 +43,13 @@ export class PrincipalComponent implements OnInit {
     })
   }
 
+  atualizarSaldo() {
+    this.contaService.preencherSaldo().subscribe(res => {
+      this.dashboardView = res;
+    })
+  }
+
   pagarContaVencida(id:number, tpOperacao:string){
-    console.log(id)
-    console.log(tpOperacao)
     Swal.fire({
       title: 'Deseja Mudar o Estado de Pagamento para quitado?',
       text: "O valor será descontado de seu saldo.",
@@ -68,9 +67,8 @@ export class PrincipalComponent implements OnInit {
               'O valor da receita foi adicionado ao seu saldo.',
               'success'
             )
-            this.preencherTabelaVencidos()
           })
-          this.route.navigate([""]);
+          this.preencherTabelaVencidos()
         }
     }, error =>{
       Swal.fire(
@@ -82,15 +80,19 @@ export class PrincipalComponent implements OnInit {
   }
 
   gastoPorCategoria(){
+    debugger;
       this.operacaoService.gastoPorCategoria(this.dataHora).subscribe(res=>{
         if(Object.keys(res).length !== 0){
           this.preencherGrafico(res);
-        }  
+          this.existeOperacao = true;
+        }else{
+          this.existeOperacao = false;
+        }
       })
   }
 
   preencherGrafico(res:any) {
-    
+
     this.data = {
       labels: [] = Object.keys(res),
       datasets: [
@@ -100,13 +102,15 @@ export class PrincipalComponent implements OnInit {
                   "#FF6384",
                   "#36A2EB",
                   "#FFCE56",
-                  "#689F38"
+                  "#689F38",
+                  "#581845"
               ],
               hoverBackgroundColor: [
                   "#FF6384",
                   "#36A2EB",
                   "#FFCE56",
-                  "#689F38"
+                  "#689F38",
+                  "#581845"
               ]
           }
       ]

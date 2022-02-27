@@ -1,7 +1,9 @@
+import { IPage } from './../model/IPage';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { DataHora } from '../model/IDataHora';
+import { IDataHora } from '../model/IDataHora';
 import { IOperacao } from '../model/IOperacao';
 
 @Injectable({
@@ -22,11 +24,17 @@ export class OperacoesService {
     return this.http.put(`${this.api}/${this.endpoint}${id}/${codOperacao}`,id)
   }
 
-  gastoPorMes(data:DataHora){
+  gastoPorMes(data:IDataHora){
     return this.http.get(`${this.api}/${this.endpoint}gastoPorMes`+ '/?dataInicial='+ encodeURIComponent( JSON.stringify(data.dataInicial)) + '&dataFinal='+ encodeURIComponent( JSON.stringify(data.dataFinal)));
   }
 
-  gastoPorCategoria(data:DataHora){
+  gastoPorCategoria(data:IDataHora){
     return this.http.get(`${this.api}/${this.endpoint}consultar-categorias-data`+ '/?dataInicial='+ encodeURIComponent( JSON.stringify(data.dataInicial)) + '&dataFinal='+ encodeURIComponent( JSON.stringify(data.dataFinal)));
+  }
+
+  operacoesPaginadasPorData(data:IDataHora, page:number, qntLinhas:number, orderBy:string, direction:string){
+    let dataInicial = encodeURIComponent( JSON.stringify(data.dataInicial));
+    let dataFinal = encodeURIComponent( JSON.stringify(data.dataFinal));
+    return this.http.get<IPage>(`${this.api}/${this.endpoint}page-date?page=${page}&linesPerPage=${qntLinhas}&orderBy=${orderBy}&direction=${direction}&dataInicial=${dataInicial}&dataFinal=${dataFinal}`);
   }
 }

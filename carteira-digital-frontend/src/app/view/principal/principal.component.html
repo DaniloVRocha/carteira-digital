@@ -1,72 +1,53 @@
-<div class="grid">
-    <div class="sm:col-12 md:col-4 lg:col-4">
-        <p-panel header="Saldo" styleClass = "card-initial" class = "text-center" [toggleable]="true">
-            <ng-template pTemplate="icons">
-                <button pButton pRipple type="button" icon="pi pi-wallet" class="p-button-rounded p-button-info"></button>
-            </ng-template>
-            <h2>{{saldo | currency:'BRL'}}</h2>
-        </p-panel>
-    </div>
-    <div class="sm:col-12 md:col-4 lg:col-4">
-        <p-panel header="Receitas" styleClass = "card-initial" class = "text-center" [toggleable]="true">
-            <ng-template pTemplate="icons">
-                <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-rounded p-button-success"></button>
-            </ng-template>
-                <h2>{{receitas | currency:'BRL'}}</h2>
-            </p-panel>
-    </div>
-    <div class="sm:col-12 md:col-4 lg:col-4">
-        <p-panel header="Despesas" styleClass = "card-initial" class = "text-center" [toggleable]="true">
-            <ng-template pTemplate="icons">
-                <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-rounded p-button-danger"></button>
-            </ng-template>
-            <h2>{{despesas | currency:'BRL'}}</h2>
-        </p-panel>
-    </div>
-</div>
-
+<app-dashboard-usuario [dashboardView] = "dashboardView"></app-dashboard-usuario>
+<div class="container">
 <div class="grid">
     <div class="sm:col-12 md:col-12 lg:col-6">
         <div class="card">
-            <h3 class="text-center">Totais Mês Atual ( Categorias ) <button pButton pRipple type="button" title="Expandir Gráfico" style= "float: right;" icon="pi pi-window-maximize" class="p-button-rounded p-button-success"></button></h3>
-            <div class="container">
+            <h3 class="text-center">Gráfico de Operações Por Categoria</h3>
+            <app-datepicker class="text-center"></app-datepicker>
+            <div class="container" *ngIf="existeOperacao==true">
                 <p-chart type="doughnut" styleClass="grafico-inicio" [data]="data" [options]="options" width="30vw" height="60vh"></p-chart>
             </div>
+            <div class="container" *ngIf="existeOperacao==false">
+              <p-card class="text-center">
+                Ainda não constam operações para o mês atual.
+                <button pButton pRipple type="button" label="Inserir Operações" class="p-button-info mt-3"></button>
+              </p-card>
+          </div>
         </div>
     </div>
-    <div class="sm:col-12 md:col-12 lg:col-6">
-        <p-table [value]="operacoes">
-            <ng-template pTemplate="header" class="sm:col-12 md:col-12 lg:col-6">
+    <div class="sm:col-12 md:col-12 lg:col-6 container">
+        <p-table [value]="operacoes" [scrollable]="true" [rows]="10" scrollHeight="500px">
+            <ng-template pTemplate="header">
                 <tr>
                     <th class="text-center" colspan="6">Operações Vencidas</th>
                 </tr>
                 <tr>
-                    <th class="text-center">Pagamento</th>
                     <th class="text-center">Valor</th>
                     <th class="text-center">Vencimento</th>
-                    <th class="text-center">Instituição</th>
+                    <th class="text-center">Nome</th>
                     <th class="text-center">Tipo da Operacao</th>
                     <th class="text-center">Ações</th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" [(ngModel)]="operacoes" let-operacao>
+            <ng-template pTemplate="body" let-operacao>
                 <tr>
-                    <td class="text-center">{{operacao.estadoPagamento}}</td>
-                    <td class="text-center">{{operacao.valor | currency:'BRL'}}</td>
-                    <td class="text-center">{{operacao.vencimento}}</td>
-                    <td class="text-center">{{operacao.conta.instituicao}}</td>
-                    <td>
+                    <td class="text-center" style="width:140px">{{operacao.valor | currency:'BRL'}}</td>
+                    <td class="text-center" style="width:140px">{{operacao.vencimento}}</td>
+                    <td class="text-center" style="width:140px">{{operacao.nome}}</td>
+                    <td style="width:140px">
                         <h5 class="text-success" *ngIf="operacao.tpOperacao == 'R' "><i class="pi pi-arrow-up"></i>
                          Receita</h5>
                         <h5 class="text-danger" *ngIf="operacao.tpOperacao == 'D' "><i class="pi pi-arrow-down"></i>
                         Despesa</h5>
                       </td>
-                    <td>
+                    <td style="width:150px">
                         <button pButton pRipple type="button" icon="pi pi-check" *ngIf="operacao.tpOperacao == 'R' " label="Receber" (click) = "pagarContaVencida(operacao.id, operacao.tpOperacao)" class="p-button-rounded p-button-success"></button>
                         <button pButton pRipple type="button" icon="pi pi-times" *ngIf="operacao.tpOperacao == 'D' " label="Pagar  " (click) = "pagarContaVencida(operacao.id, operacao.tpOperacao)" class="p-button-rounded p-button-danger"></button>
                     </td>
                 </tr>
-            </ng-template>                    
+            </ng-template>
         </p-table>
     </div>
+</div>
 </div>

@@ -99,8 +99,8 @@ public class OperacaoContaService {
 		}
 
 		double diferenca = con.getSaldo() - novoSaldo;
-		OperacaoConta oc1 = new OperacaoConta(null, LocalDateTime.now(), LocalDateTime.now(), 'R', diferenca,
-				EstadoPagamento.QUITADO, con, "Ajuste de Saldo", Categoria.AJUSTE);
+		OperacaoConta oc1 = new OperacaoConta(null, "Ajuste de Saldo", LocalDateTime.now(), LocalDateTime.now(), 'R', diferenca,
+				EstadoPagamento.QUITADO, con, Categoria.AJUSTE);
 		if (diferenca > 0) {
 			oc1.setTpOperacao('D');
 		}
@@ -146,7 +146,7 @@ public class OperacaoContaService {
 		op1.setEstadoPagamento(EstadoPagamento.QUITADO);
 		op1.setTpOperacao('D');
 		op1.setValor(conta.getValor());
-		op1.setObservacao("Transferencia entre contas" );
+		op1.setNome("Transferencia entre contas" );
 		op1.setVencimento(LocalDateTime.now());
 		
 		OperacaoConta op2 = new OperacaoConta();
@@ -155,7 +155,7 @@ public class OperacaoContaService {
 		op2.setEstadoPagamento(EstadoPagamento.QUITADO);
 		op2.setTpOperacao('R');
 		op2.setValor(conta.getValor());
-		op2.setObservacao("Transferencia entre contas" );
+		op2.setNome("Transferencia entre contas" );
 		op2.setVencimento(LocalDateTime.now());
 		
 		inserirOperacao(op1);
@@ -177,7 +177,7 @@ public class OperacaoContaService {
 			}
 		}
 		return auxDTO;
-	}		
+	}
 
 	
 	public List<OperacaoContaDTO> consultarOperacoesVencidas() throws Exception {
@@ -236,6 +236,15 @@ public class OperacaoContaService {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		Conta conta = contaService.buscarId(user.getId());
 		return repository.findByConta(conta, pageRequest);
+	}
+	
+	public Page<OperacaoConta> findPagePorData(Integer page, Integer linesPerPage, String orderBy, String direction, String dataInicio, String dataFinal) {
+		UserSS user = UserService.authenticated();
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime dataInicioBusca = LocalDateTime.parse(dataInicio, format);
+		LocalDateTime dataFimBusca = LocalDateTime.parse(dataFinal, format);
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repository.findByCliente(user.getId(),dataInicioBusca,dataFimBusca,pageRequest);
 	}
 
 }

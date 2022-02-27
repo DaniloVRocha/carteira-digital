@@ -1,0 +1,32 @@
+<app-dashboard-usuario [dashboardView]="dashboardView"></app-dashboard-usuario>
+<div class="grid">
+<div class="card col-12">
+  <p-table [value]="operacoes" [paginator]="true" [(rows)]="rows" [showCurrentPageReport]="true" [(first)]="first"
+      currentPageReportTemplate="Exibindo de {first} a {last} de {{page?.totalElements}} registros" [rowsPerPageOptions]="[5,10,15]">
+      <ng-template pTemplate="header">
+          <tr>
+            <th colspan="3" class="text-center">Operações Por Mês</th>
+            <th colspan="2" class="text-center">
+              <app-datepicker></app-datepicker>
+            </th>
+          </tr>
+          <tr>
+              <th>Name</th>
+              <th>Country</th>
+              <th>Company</th>
+              <th>Representative</th>
+              <th>Representative</th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-operacao>
+          <tr>
+              <td>{{operacao.nome}}</td>
+              <td>{{operacao.vencimento}}</td>
+              <td>{{operacao.categoria}}</td>
+              <td>{{operacao.estadoPagamento}}</td>
+              <td>{{operacao.conta.instituicao}}</td>
+          </tr>
+      </ng-template>
+  </p-table>
+</div>
+</div>

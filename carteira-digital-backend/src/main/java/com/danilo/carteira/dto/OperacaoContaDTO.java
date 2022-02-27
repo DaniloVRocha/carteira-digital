@@ -16,6 +16,8 @@ public class OperacaoContaDTO {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	private String nome;
 
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDateTime dataHora;
@@ -29,8 +31,6 @@ public class OperacaoContaDTO {
 
 	private EstadoPagamento estadoPagamento;
 
-	private String observacao;
-
 	private Categoria categoria;
 
 	private NewContaDTO conta;
@@ -42,11 +42,11 @@ public class OperacaoContaDTO {
 	public OperacaoContaDTO(OperacaoConta op) {
 		super();
 		this.id = op.getId();
+		this.nome = op.getNome();
 		this.dataHora = op.getDataHora();
 		this.tpOperacao = op.getTpOperacao();
 		this.valor = op.getValor();
 		this.estadoPagamento = op.getEstadoPagamento();
-		this.observacao = op.getObservacao();
 		this.conta = new NewContaDTO(op.getConta());
 		this.vencimento = op.getVencimento();
 		this.categoria = op.getCategoria();
@@ -92,12 +92,12 @@ public class OperacaoContaDTO {
 		this.estadoPagamento = estadoPagamento;
 	}
 
-	public String getObservacao() {
-		return observacao;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setObservacao(String observacao) {
-		this.observacao = observacao;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public NewContaDTO getConta() {
