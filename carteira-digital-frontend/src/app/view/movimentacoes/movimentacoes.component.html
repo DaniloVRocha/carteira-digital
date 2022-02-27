@@ -5,26 +5,57 @@
       currentPageReportTemplate="Exibindo de {first} a {last} de {{page?.totalElements}} registros" [rowsPerPageOptions]="[5,10,15]">
       <ng-template pTemplate="header">
           <tr>
-            <th colspan="3" class="text-center">Operações Por Mês</th>
-            <th colspan="2" class="text-center">
-              <app-datepicker></app-datepicker>
+            <th colspan="4" class="text-center">Operações Por Mês</th>
+            <th colspan="3" class="text-center">
+              <div class="grid">
+                <div class="col-6">
+                  <label>Selecione o mês da consulta</label>
+                  <app-datepicker></app-datepicker>
+                </div>
+                <div class="col-6">
+                  <button pButton pRipple type="button" label="Incluir nova Operação" icon="pi pi-plus" class="p-button-raised p-button-success"></button>
+                </div>
+            </div>
+
             </th>
           </tr>
           <tr>
-              <th>Name</th>
-              <th>Country</th>
-              <th>Company</th>
-              <th>Representative</th>
-              <th>Representative</th>
+              <th class="text-center">Nome</th>
+              <th class="text-center">Data de Vencimento</th>
+              <th class="text-center">Categoria</th>
+              <th class="text-center">Estado de Pagamento</th>
+              <th class="text-center">Instituição</th>
+              <th class="text-center">Tipo</th>
+              <th class="text-center">Ações</th>
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-operacao>
           <tr>
-              <td>{{operacao.nome}}</td>
-              <td>{{operacao.vencimento}}</td>
-              <td>{{operacao.categoria}}</td>
-              <td>{{operacao.estadoPagamento}}</td>
-              <td>{{operacao.conta.instituicao}}</td>
+              <td class="text-center">{{operacao.nome}}</td>
+              <td class="text-center">{{operacao.vencimento}}</td>
+              <td class="text-center">{{operacao.categoria}}</td>
+              <td class="text-center">{{operacao.estadoPagamento}}</td>
+              <td class="text-center">{{operacao.conta.instituicao}}</td>
+              <td class="text-center">
+                <h5 class="text-success" *ngIf="operacao.tpOperacao == 'R' "><i class="pi pi-arrow-up"></i>
+                 Receita</h5>
+                <h5 class="text-danger" *ngIf="operacao.tpOperacao == 'D' "><i class="pi pi-arrow-down"></i>
+                Despesa</h5>
+              </td>
+
+              <td class="text-center">
+                <div class="grid">
+                  <div class="col">
+                    <button *ngIf="operacao.estadoPagamento == 'PENDENTE'" (click)="pagarContaVencida(operacao.id);" pButton pRipple pTooltip="Informar Pagamento" tooltipPosition="bottom" type="button" icon="pi pi-check" class="p-button-rounded p-button-success p-button-outlined"></button>
+                  </div>
+                  <div class="col">
+                    <button pButton pRipple pTooltip="Editar Operação" tooltipPosition="bottom" type="button" icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-outlined"></button>
+                  </div>
+                  <div class="col">
+                    <button pButton pRipple pTooltip="Excluir Operação"(click)="excluirOperacao(operacao.id);" tooltipPosition="bottom" type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-outlined"></button>
+                  </div>
+              </div>
+              </td>
           </tr>
       </ng-template>
   </p-table>

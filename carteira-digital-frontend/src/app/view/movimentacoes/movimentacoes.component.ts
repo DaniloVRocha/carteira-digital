@@ -5,6 +5,7 @@ import { IDataHora } from 'src/app/model/IDataHora';
 import { IPage } from 'src/app/model/IPage';
 import { IContaViewDTO } from 'src/app/model/IContaViewDTO';
 import { ContaService } from 'src/app/services/conta.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-movimentacoes',
@@ -52,6 +53,64 @@ export class MovimentacoesComponent implements OnInit {
   atualizarSaldoPorData() {
     this.contaService.preencherSaldoPorMes(this.dataHora).subscribe(res => {
       this.dashboardView = res;
+    })
+  }
+
+  pagarContaVencida(id:number){
+    Swal.fire({
+      title: 'Deseja Mudar o Estado de Pagamento para quitado?',
+      text: "O valor será descontado de seu saldo.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, Pagar Conta!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+          this.operacoesService.pagarOperacaoVencida(id, 1).subscribe(res =>{
+            Swal.fire(
+              'Feito',
+              'O valor da receita foi adicionado ao seu saldo.',
+              'success'
+            )
+          })
+        }
+    }, error =>{
+      Swal.fire(
+        'Erro',
+        'Um Erro Inesperado aconteceu' + error,
+        'error'
+      )
+    })
+  }
+
+  excluirOperacao(id:number){
+    Swal.fire({
+      title: 'Deseja Excluir a operação?',
+      text: "A ação não poderá ser desfeita",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, Excluir Operação!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+          this.operacoesService.excluirOperacao(id).subscribe(res =>{
+            Swal.fire(
+              'Feito',
+              'Operação foi excluida com sucesso.',
+              'success'
+            )
+          })
+        }
+    }, error =>{
+      Swal.fire(
+        'Erro',
+        'Um Erro Inesperado aconteceu' + error,
+        'error'
+      )
     })
   }
 

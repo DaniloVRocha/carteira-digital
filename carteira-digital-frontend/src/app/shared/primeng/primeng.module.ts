@@ -14,7 +14,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ChartModule } from 'primeng/chart';
 import { DropdownModule } from 'primeng/dropdown';
 import { PaginatorModule } from 'primeng/paginator';
-
+import { TooltipModule } from 'primeng/tooltip';
 
 
 
@@ -35,7 +35,8 @@ import { PaginatorModule } from 'primeng/paginator';
     ConfirmPopupModule,
     ChartModule,
     DropdownModule,
-    PaginatorModule
+    PaginatorModule,
+    TooltipModule
   ]
 })
 export class PrimengModule { }

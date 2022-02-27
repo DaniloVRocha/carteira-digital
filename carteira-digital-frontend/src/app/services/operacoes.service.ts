@@ -32,6 +32,10 @@ export class OperacoesService {
     return this.http.get(`${this.api}/${this.endpoint}consultar-categorias-data`+ '/?dataInicial='+ encodeURIComponent( JSON.stringify(data.dataInicial)) + '&dataFinal='+ encodeURIComponent( JSON.stringify(data.dataFinal)));
   }
 
+  excluirOperacao(id:number){
+    return this.http.delete(`${this.api}/${this.endpoint}${id}`)
+  }
+
   operacoesPaginadasPorData(data:IDataHora, page:number, qntLinhas:number, orderBy:string, direction:string){
     let dataInicial = encodeURIComponent( JSON.stringify(data.dataInicial));
     let dataFinal = encodeURIComponent( JSON.stringify(data.dataFinal));
