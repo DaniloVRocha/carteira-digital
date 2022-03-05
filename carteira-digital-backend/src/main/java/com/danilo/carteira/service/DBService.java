@@ -50,10 +50,18 @@ public class DBService {
 				EstadoPagamento.PENDENTE, con1, Categoria.LAZER);
 
 		OperacaoConta op2 = new OperacaoConta(null,"Futebol", LocalDateTime.now(), LocalDateTime.now(), 'R', 20.00,
-				EstadoPagamento.PENDENTE, con1, Categoria.LAZER);
+				EstadoPagamento.PENDENTE, con1, Categoria.FIXO);
 
 		OperacaoConta op3 = new OperacaoConta(null, "Futebol",LocalDateTime.now(), LocalDateTime.now(), 'D', 20.00,
-				EstadoPagamento.PENDENTE, con1, Categoria.LAZER);
+				EstadoPagamento.PENDENTE, con1, Categoria.ALIMENTACAO);
+		OperacaoConta op7 = new OperacaoConta(null, "Futebol",LocalDateTime.now(), LocalDateTime.now(), 'D', 20.00,
+				EstadoPagamento.PENDENTE, con1, Categoria.ALIMENTACAO);
+		
+		OperacaoConta op8 = new OperacaoConta(null, "Futebol",LocalDateTime.now(), LocalDateTime.now(), 'D', 20.00,
+				EstadoPagamento.PENDENTE, con1, Categoria.ALIMENTACAO);
+		
+		OperacaoConta op9 = new OperacaoConta(null, "Futebol",LocalDateTime.now(), LocalDateTime.now(), 'D', 20.00,
+				EstadoPagamento.PENDENTE, con1, Categoria.ALIMENTACAO);
 
 		OperacaoConta op4 = new OperacaoConta(null, "teste", LocalDateTime.now(), LocalDateTime.now(), 'R', 40.00,
 				EstadoPagamento.QUITADO, con2,  Categoria.GERAL);
@@ -66,7 +74,7 @@ public class DBService {
 
 		clienteRepository.saveAll(Arrays.asList(cli1, cli2, cli3));
 		contaRepository.saveAll(Arrays.asList(con1, con2, con3, con4));
-		operacaoContaRepository.saveAll(Arrays.asList(op1, op2, op3, op4, op5, op6));
+		operacaoContaRepository.saveAll(Arrays.asList(op1, op2, op3, op4, op5, op6, op7, op8, op9));
 
 	}
 }

@@ -8,7 +8,7 @@ import { CreateAccountComponent } from './account/create-account/create-account.
 import { HomeComponent } from './layout/home/home.component';
 import { AuthenticationComponent } from './layout/authentication/authentication.component';
 import { PrincipalComponent } from './view/principal/principal.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
 import { StorageService } from './account/shared/storage.service';
 import { HttpInterceptorProviders } from './http-interceptors';
@@ -37,6 +37,7 @@ import { PaginatorComponent } from './layout/paginator/paginator.component';
     AppRoutingModule,
     PrimengModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
   ],
   providers: [StorageService,HttpInterceptorProviders],

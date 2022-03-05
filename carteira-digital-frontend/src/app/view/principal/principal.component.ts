@@ -19,7 +19,7 @@ export class PrincipalComponent implements OnInit {
 
   data: any;
   options: any;
-  dataHora:IDataHora = {dataInicial:"2022-02-01 00:00:00", dataFinal:"2022-02-31 23:59:00"};
+  dataHora:IDataHora = {dataInicial:"2022-03-01 00:00:00", dataFinal:"2022-03-31 23:59:00"};
   dashboardView: IContaViewDTO = {
     saldo: 0.0,
     despesas: 0.0,

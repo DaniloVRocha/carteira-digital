@@ -7,7 +7,7 @@ export interface IOperacao {
     instituicao:string;
     vencimento: Date;
     categoria: string;
-    tpOperacao: CharacterData;
+    tpOperacao: string;
 	  valor: number;
 	  estadoPagamento: string;
     conta: IConta;

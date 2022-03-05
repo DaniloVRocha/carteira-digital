@@ -15,6 +15,13 @@ import { ChartModule } from 'primeng/chart';
 import { DropdownModule } from 'primeng/dropdown';
 import { PaginatorModule } from 'primeng/paginator';
 import { TooltipModule } from 'primeng/tooltip';
+import { DialogModule } from 'primeng/dialog';
+import { CalendarModule } from 'primeng/calendar';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { MessagesModule } from 'primeng/messages';
+import { ToastModule} from 'primeng/toast';
 
 
 
@@ -36,7 +43,14 @@ import { TooltipModule } from 'primeng/tooltip';
     ChartModule,
     DropdownModule,
     PaginatorModule,
-    TooltipModule
+    TooltipModule,
+    DialogModule,
+    CalendarModule,
+    InputSwitchModule,
+    RadioButtonModule,
+    ConfirmDialogModule,
+    MessagesModule,
+    ToastModule
   ]
 })
 export class PrimengModule { }

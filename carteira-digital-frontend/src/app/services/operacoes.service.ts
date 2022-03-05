@@ -16,6 +16,10 @@ export class OperacoesService {
 
   constructor(private http:HttpClient) { }
 
+  buscarPorId(id:number){
+    return this.http.get<IOperacao>(`${this.api}/${this.endpoint}${id}`)
+  }
+
   preencherTabelaVencidos(){
     return this.http.get<IOperacao[]>(`${this.api}/${this.endpoint}consultar-operacao-vencimento`)
   }

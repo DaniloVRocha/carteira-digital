@@ -1,63 +1,213 @@
 <app-dashboard-usuario [dashboardView]="dashboardView"></app-dashboard-usuario>
+<p-confirmDialog [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}"></p-confirmDialog>
+<p-toast></p-toast>
 <div class="grid">
-<div class="card col-12">
-  <p-table [value]="operacoes" [paginator]="true" [(rows)]="rows" [showCurrentPageReport]="true" [(first)]="first"
-      currentPageReportTemplate="Exibindo de {first} a {last} de {{page?.totalElements}} registros" [rowsPerPageOptions]="[5,10,15]">
+  <div class="card col-12">
+    <p-table [value]="operacoes" [paginator]="true" [(rows)]="rows" [showCurrentPageReport]="true" [(first)]="first"
+      currentPageReportTemplate="Exibindo de {first} a {last} de {{page?.totalElements}} registros"
+      [rowsPerPageOptions]="[5,10,15]">
       <ng-template pTemplate="header">
-          <tr>
-            <th colspan="4" class="text-center">Operações Por Mês</th>
-            <th colspan="3" class="text-center">
-              <div class="grid">
-                <div class="col-6">
-                  <label>Selecione o mês da consulta</label>
-                  <app-datepicker></app-datepicker>
-                </div>
-                <div class="col-6">
-                  <button pButton pRipple type="button" label="Incluir nova Operação" icon="pi pi-plus" class="p-button-raised p-button-success"></button>
-                </div>
+        <tr>
+          <th colspan="4" class="text-center">Operações Por Mês</th>
+          <th colspan="3" class="text-center">
+            <div class="grid">
+              <div class="col-6">
+                <label>Selecione o mês da consulta</label>
+                <app-datepicker></app-datepicker>
+              </div>
+              <div class="col-6">
+                <button pButton pRipple type="button" label="Incluir nova Operação" (click)="showDialogIncluir()"
+                  icon="pi pi-plus" class="p-button-raised p-button-success"></button>
+                <p-dialog [(visible)]="displayIncluir">
+                  <ng-template pTemplate="header">
+                    <h1>Incluir Nova Operação</h1>
+                  </ng-template>
+                  <form [formGroup]="formValueOperacao" [style]="{'width':'80vw', 'heigth':'80vw'}">
+                    <div class="grid p-fluid">
+                      <div class="col-12 md:col-6">
+                        <h5>Descrição Operação</h5>
+                        <div class="form-group p-inputgroup">
+                          <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                          <input type="text" class="form-control" formControlName="nome" pInputText>
+                        </div>
+                      </div>
+
+                      <div class="col-12 md:col-6">
+                        <h5>Data de Vencimento</h5>
+                        <div class="form-group p-inputgroup">
+                          <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
+                          <p-calendar appendTo="body" [touchUI]="true" [readonlyInput]="true"
+                            localeformControlName="vencimento" dateFormat="dd/mm/yy"></p-calendar>
+                        </div>
+                      </div>
+
+                      <div class="col-12 md:col-6">
+                        <h5>Valor da Operação</h5>
+                        <div class="form-group p-inputgroup">
+                          <span class="p-inputgroup-addon">$</span>
+                          <p-inputNumber class="form-control" formControlName="valor" mode="currency" currency="BRL"
+                            locale="pt-BR"></p-inputNumber>
+                        </div>
+                      </div>
+
+
+                      <div class="col-12 md:col-6">
+                        <h5>Tipo da Operação</h5>
+                        <div class="form-group">
+                          <p-dropdown class="form-control" formControlName="tpOperacao" [options]="tpOperacoes"
+                            optionLabel="label" optionValue="operador"></p-dropdown>
+                        </div>
+                      </div>
+
+                      <div class="col-12 md:col-6">
+                        <h5>Categoria</h5>
+                        <div>
+                          <p-dropdown [options]="categorias" [(ngModel)]="categoriaSelecionada"
+                            [ngModelOptions]="{standalone: true}" optionLabel="nome" optionValue="id"
+                            [showClear]="true"></p-dropdown>
+                        </div>
+                      </div>
+
+                      <div class="col-12 md:col-6">
+                        <h5>Conta</h5>
+                        <div>
+                          <p-dropdown [options]="categorias" [(ngModel)]="categoriaSelecionada"
+                            [ngModelOptions]="{standalone: true}" optionLabel="nome" optionValue="id"
+                            [showClear]="true"></p-dropdown>
+                        </div>
+                      </div>
+
+                      <div class="col-12 md:col-12">
+                        <div class="form-group p-inputgroup container" styleClass="botaoPago">
+                          <h5 style="float: left;">Pago</h5>
+                          <p-inputSwitch class="form-control" formControlName="estadoPagamento"></p-inputSwitch>
+                        </div>
+                      </div>
+                    </div>
+
+                  </form>
+                  <ng-template pTemplate="footer">
+                    <button pButton pRipple type="button" icon="pi pi-times" label="Cancelar"
+                      class="p-button-raised p-button-danger"></button>
+                    <button pButton pRipple type="button" icon="pi pi-check" label="Incluir"
+                      class="p-button-raised p-button-success"></button>
+                  </ng-template>
+                </p-dialog>
+              </div>
             </div>
 
-            </th>
-          </tr>
-          <tr>
-              <th class="text-center">Nome</th>
-              <th class="text-center">Data de Vencimento</th>
-              <th class="text-center">Categoria</th>
-              <th class="text-center">Estado de Pagamento</th>
-              <th class="text-center">Instituição</th>
-              <th class="text-center">Tipo</th>
-              <th class="text-center">Ações</th>
-          </tr>
+          </th>
+        </tr>
+        <tr>
+          <th class="text-center">Nome</th>
+          <th class="text-center">Data de Vencimento</th>
+          <th class="text-center">Categoria</th>
+          <th class="text-center">Estado de Pagamento</th>
+          <th class="text-center">Instituição</th>
+          <th class="text-center">Tipo</th>
+          <th class="text-center">Ações</th>
+        </tr>
       </ng-template>
       <ng-template pTemplate="body" let-operacao>
-          <tr>
-              <td class="text-center">{{operacao.nome}}</td>
-              <td class="text-center">{{operacao.vencimento}}</td>
-              <td class="text-center">{{operacao.categoria}}</td>
-              <td class="text-center">{{operacao.estadoPagamento}}</td>
-              <td class="text-center">{{operacao.conta.instituicao}}</td>
-              <td class="text-center">
-                <h5 class="text-success" *ngIf="operacao.tpOperacao == 'R' "><i class="pi pi-arrow-up"></i>
-                 Receita</h5>
-                <h5 class="text-danger" *ngIf="operacao.tpOperacao == 'D' "><i class="pi pi-arrow-down"></i>
-                Despesa</h5>
-              </td>
+        <tr>
+          <td class="text-center">{{operacao.nome}}</td>
+          <td class="text-center">{{operacao.vencimento}}</td>
+          <td class="text-center">{{operacao.categoria}}</td>
+          <td class="text-center">{{operacao.estadoPagamento}}</td>
+          <td class="text-center">{{operacao.conta.instituicao}}</td>
+          <td class="text-center">
+            <h5 class="text-success" *ngIf="operacao.tpOperacao == 'R' "><i class="pi pi-arrow-up"></i>
+              Receita</h5>
+            <h5 class="text-danger" *ngIf="operacao.tpOperacao == 'D' "><i class="pi pi-arrow-down"></i>
+              Despesa</h5>
+          </td>
 
-              <td class="text-center">
-                <div class="grid">
-                  <div class="col">
-                    <button *ngIf="operacao.estadoPagamento == 'PENDENTE'" (click)="pagarContaVencida(operacao.id);" pButton pRipple pTooltip="Informar Pagamento" tooltipPosition="bottom" type="button" icon="pi pi-check" class="p-button-rounded p-button-success p-button-outlined"></button>
-                  </div>
-                  <div class="col">
-                    <button pButton pRipple pTooltip="Editar Operação" tooltipPosition="bottom" type="button" icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-outlined"></button>
-                  </div>
-                  <div class="col">
-                    <button pButton pRipple pTooltip="Excluir Operação"(click)="excluirOperacao(operacao.id);" tooltipPosition="bottom" type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-outlined"></button>
-                  </div>
+          <td class="text-center">
+            <div class="grid">
+              <div class="col">
+                <button *ngIf="operacao.estadoPagamento == 'PENDENTE'" (click)="pagarContaVencida(operacao.id);" pButton
+                  pRipple pTooltip="Informar Pagamento" tooltipPosition="bottom" type="button" icon="pi pi-check"
+                  class="p-button-rounded p-button-success p-button-outlined"></button>
               </div>
-              </td>
-          </tr>
+              <div class="col">
+                <button pButton pRipple pTooltip="Editar Operação" (click)="showDialogEditar(operacao.id)"
+                  tooltipPosition="bottom" type="button" icon="pi pi-pencil"
+                  class="p-button-rounded p-button-warning p-button-outlined"></button>
+                <p-dialog [(visible)]="displayEditar">
+                  <ng-template pTemplate="header">
+                    Editar Operação
+                  </ng-template>
+                  <form [formGroup]="formValueOperacao">
+                    <div class="grid p-fluid">
+                      <div class="col-12 md:col-6">
+                        <h5>Descrição Operação</h5>
+                        <div class="form-group p-inputgroup">
+                          <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                          <input type="text" class="form-control" formControlName="nome" pInputText>
+                        </div>
+                      </div>
+
+                      <div class="col-12 md:col-6">
+                        <h5>Data de Vencimento</h5>
+                        <div class="form-group p-inputgroup">
+                          <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
+                          <p-calendar appendTo="body" [touchUI]="true" [readonlyInput]="true"
+                            formControlName="vencimento" dateFormat="dd/mm/yy"></p-calendar>
+                        </div>
+                      </div>
+
+                      <div class="col-12 md:col-6">
+                        <h5>Valor da Operação</h5>
+                        <div class="form-group p-inputgroup">
+                          <span class="p-inputgroup-addon">$</span>
+                          <p-inputNumber class="form-control" formControlName="valor" mode="currency" currency="BRL"
+                            locale="pt-BR"></p-inputNumber>
+                        </div>
+                      </div>
+
+
+                      <div class="col-12 md:col-6">
+                        <h5>Tipo da Operação</h5>
+                        <div class="form-group">
+                          <p-dropdown class="form-control" formControlName="tpOperacao" id="tpOperacaoId"
+                            name="tpOperacao" [options]="tpOperacoes" optionLabel="label" optionValue="operador">
+                          </p-dropdown>
+                        </div>
+                      </div>
+
+                      <div class="col-12 md:col-6">
+                        <h5>Categoria</h5>
+                        <div>
+                          <p-dropdown [(ngModel)]="categoriaSelecionada" [ngModelOptions]="{standalone: true}"
+                            [options]="categorias" optionLabel="nome" optionValue="id" [showClear]="true"></p-dropdown>
+                        </div>
+                      </div>
+
+                      <div class="col-12 md:col-12">
+                        <div class="form-group p-inputgroup container" styleClass="botaoPago">
+                          <h5 style="float: left;">Pago</h5>
+                          <p-inputSwitch class="form-control" formControlName="estadoPagamento"></p-inputSwitch>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                  <ng-template pTemplate="footer">
+                    <button pButton pRipple type="button" icon="pi pi-times" label="Cancelar"
+                      class="p-button-raised p-button-danger"></button>
+                    <button pButton pRipple type="button" icon="pi pi-check" label="Editar"
+                      class="p-button-raised p-button-success"></button>
+                  </ng-template>
+                </p-dialog>
+              </div>
+              <div class="col">
+                <button pButton pRipple pTooltip="Excluir Operação" (click)="excluirOperacao(operacao.id);"
+                  tooltipPosition="bottom" type="button" icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger p-button-outlined"></button>
+              </div>
+            </div>
+          </td>
+        </tr>
       </ng-template>
-  </p-table>
-</div>
+    </p-table>
+  </div>
 </div>
