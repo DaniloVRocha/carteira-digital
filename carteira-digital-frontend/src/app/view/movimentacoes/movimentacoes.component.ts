@@ -35,7 +35,6 @@ export class MovimentacoesComponent implements OnInit {
   operacoes:IOperacao[] = [];
 
   categorias: Categoria[] = [
-    {nome: 'Selecione uma Categoria', id: -1},
     {nome: 'Geral', id: 0},
     {nome: 'Alimentacao', id: 1},
     {nome: 'Saude', id: 2},
@@ -94,7 +93,7 @@ export class MovimentacoesComponent implements OnInit {
       id: new FormControl(operacao.id),
       nome: new FormControl(operacao.nome),
       valor: new FormControl(operacao.valor),
-      vencimento: new FormControl(operacao.vencimento),
+      vencimento: new FormControl(new Date(operacao.vencimento)),
       tpOperacao: new FormControl(operacao.tpOperacao),
       estadoPagamento: new FormControl(estadoPagamentovar),
       categoria : new FormControl(this.categoriaSelecionada)
@@ -146,7 +145,6 @@ export class MovimentacoesComponent implements OnInit {
       acceptLabel:'Pagar',
       accept: () => {
           this.operacoesService.pagarOperacaoVencida(id, 1).subscribe(res =>{
-            console.log(res);
           })
           this.messageService.add({severity:'success', summary:'Feito', detail:'Estado de Pagamento Alterado para QUITADO'});
 
@@ -178,22 +176,42 @@ export class MovimentacoesComponent implements OnInit {
   editarOperacao(){
     debugger;
     const operacao: IOperacao = this.formValueOperacao.value;
-    console.log(operacao.vencimento);
-    let dataForm = operacao.vencimento.replace("/", "-").replace("/", "-") + " 00:00:00";
     let codCategoria = this.formValueOperacao.value.estadoPagamento;
-    operacao.vencimento = dataForm;
+    operacao.vencimento = this.formatarDataBackend(this.formValueOperacao.value.vencimento);
+    console.log(operacao.vencimento);
     operacao.conta = {id:1};
     operacao.categoria = this.categoriaSelecionada;
-
     if(codCategoria == false ? operacao.estadoPagamento = "0" : operacao.estadoPagamento = "1")
+
     this.operacoesService.editarCliente(operacao).subscribe(result => {
-      console.log(result)
       this.messageService.add({ severity: 'success', summary: 'Editado', detail: 'A Operação foi editada.' });
       this.displayEditar = false;
     }, error => {
       this.messageService.add({ severity: 'error', summary: `Cancelado`, detail: `${error}` });
       this.displayEditar = false;
     })
+
+  }
+
+  formatarDataBackend(data: Date) {
+    debugger;
+    //captura de dia, mes, ano.
+    let dia = data.getDate();
+    let mes = data.getMonth() + 1;
+    let ano = data.getFullYear();
+    var hora = data.getHours();
+    var minuto = data.getMinutes();
+    var segundo = data.getSeconds();
+    //verifica se é necessario incluir 0 para datas de apenas 1 dígito
+    var dataForm = "" + ((dia < 10) ? `0${dia}`: dia);
+    dataForm += ((mes < 10) ? "-0" : "-") + mes;
+    dataForm += `-${ano}`;
+    //verifica se é necessario incluir 0 para horas com apenas 1 digito
+    var horaForm = "" + ((hora < 10) ? `0${hora}` : hora) ;
+    horaForm += ((minuto < 10) ? ":0" : ":") + minuto;
+    horaForm += ((segundo < 10) ? ":0" : ":") + segundo;
+
+    return `${dataForm} ${horaForm}`
   }
 
   cancelarEdicao() {

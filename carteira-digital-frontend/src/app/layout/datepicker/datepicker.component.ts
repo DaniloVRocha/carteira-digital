@@ -26,6 +26,26 @@ export class DatepickerComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.meses);
+    this.JSClock();
   }
 
+  JSClock() {
+    var data = new Date();
+    let dia = data.getDay();
+    let mes = data.getMonth() + 1;
+    let ano = data.getFullYear();
+    var hora = data.getHours();
+    var minuto = data.getMinutes();
+    var segundo = data.getSeconds();
+    var dataForm = "" + ((dia < 10) ? `0${dia}`: dia);
+    dataForm += ((mes < 10) ? "-0" : "-") + mes;
+    dataForm += `-${ano}`;
+    console.log(dataForm);
+    var horaForm = "" + hora;
+    horaForm += ((minuto < 10) ? ":0" : ":") + minuto;
+    horaForm += ((segundo < 10) ? ":0" : ":") + segundo;
+    console.log(horaForm)
+
+    console.log(`${dataForm} ${horaForm}`)
+  }
 }
