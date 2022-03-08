@@ -1,3 +1,4 @@
+import { IConta } from './../model/IConta';
 import { IDataHora } from './../model/IDataHora';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -20,5 +21,9 @@ export class ContaService {
     let dataInicial = encodeURIComponent( JSON.stringify(data.dataInicial));
     let dataFinal = encodeURIComponent( JSON.stringify(data.dataFinal));
     return this.http.get<IContaViewDTO>(`${this.api}/${this.endpoint}atualizarValores-data?dataInicial=${dataInicial}&dataFinal=${dataFinal}`);
+  }
+
+  buscarContaPorId(id:number) {
+    return this.http.get<IConta>(`${this.api}/${this.endpoint}${id}`);
   }
 }

@@ -203,6 +203,7 @@ public class OperacaoContaService {
 		}
 		obj.setId(id);
 		contaService.updateValorDelete(oc.getConta().getId(), oc);
+		obj.setDataHora(LocalDateTime.now());
 		oc = repository.save(obj);
 		contaService.updateValorInsert(obj.getConta().getId(), obj);
 		return oc;

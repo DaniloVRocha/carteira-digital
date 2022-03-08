@@ -1,3 +1,4 @@
+import { ContaService } from './../../services/conta.service';
 import { Categoria } from './../../model/Categoria';
 import { OperacoesService } from 'src/app/services/operacoes.service';
 import { IOperacao } from 'src/app/model/IOperacao';
@@ -5,7 +6,6 @@ import { Component, OnInit} from '@angular/core';
 import { IDataHora } from 'src/app/model/IDataHora';
 import { IPage } from 'src/app/model/IPage';
 import { IContaViewDTO } from 'src/app/model/IContaViewDTO';
-import { ContaService } from 'src/app/services/conta.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, Message, MessageService, PrimeNGConfig } from 'primeng/api';
 
@@ -25,6 +25,7 @@ export class MovimentacoesComponent implements OnInit {
   }
 
   formValueOperacao: FormGroup = new FormGroup({
+    id: new FormControl(''),
     nome: new FormControl(''),
     valor: new FormControl('', Validators.required),
     vencimento: new FormControl(new Date()),
@@ -84,17 +85,19 @@ export class MovimentacoesComponent implements OnInit {
     var i = 0;
     console.log(this.categoriaSelecionada);
     for(i = 0; i < this.categorias.length;i++){
-      if(this.categorias[i].nome.toLocaleUpperCase() === operacao.categoria){
+      if(this.categorias[i].nome.toLocaleUpperCase() === operacao.categoria.toString()){
         this.categoriaSelecionada = this.categorias[i].id;
         break;
       }
     }
     this.formValueOperacao = new FormGroup({
+      id: new FormControl(operacao.id),
       nome: new FormControl(operacao.nome),
       valor: new FormControl(operacao.valor),
       vencimento: new FormControl(operacao.vencimento),
       tpOperacao: new FormControl(operacao.tpOperacao),
-      estadoPagamento: new FormControl(estadoPagamentovar)
+      estadoPagamento: new FormControl(estadoPagamentovar),
+      categoria : new FormControl(this.categoriaSelecionada)
     });
   }
 
@@ -170,6 +173,33 @@ export class MovimentacoesComponent implements OnInit {
         this.messageService.add({severity:'error', summary:'Cancelado', detail:'A Operação não foi excluida'});
       }
   });
+  }
+
+  editarOperacao(){
+    debugger;
+    const operacao: IOperacao = this.formValueOperacao.value;
+    console.log(operacao.vencimento);
+    let dataForm = operacao.vencimento.replace("/", "-").replace("/", "-") + " 00:00:00";
+    let codCategoria = this.formValueOperacao.value.estadoPagamento;
+    operacao.vencimento = dataForm;
+    operacao.conta = {id:1};
+    operacao.categoria = this.categoriaSelecionada;
+
+    if(codCategoria == false ? operacao.estadoPagamento = "0" : operacao.estadoPagamento = "1")
+    this.operacoesService.editarCliente(operacao).subscribe(result => {
+      console.log(result)
+      this.messageService.add({ severity: 'success', summary: 'Editado', detail: 'A Operação foi editada.' });
+      this.displayEditar = false;
+    }, error => {
+      this.messageService.add({ severity: 'error', summary: `Cancelado`, detail: `${error}` });
+      this.displayEditar = false;
+    })
+  }
+
+  cancelarEdicao() {
+    this.displayEditar = false;
+    this.displayIncluir = false;
+    this.messageService.add({ severity: 'error', summary: 'Cancelado', detail: 'Edição Cancelada.' });
   }
 
   next() {

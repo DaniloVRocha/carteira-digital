@@ -41,10 +41,10 @@ public class DBService {
 		Cliente cli3 = new Cliente(null, "Ana Costa", "00000000022", "ana@gmail.com", pe.encode("ana123"),
 				TipoCliente.PESSOAFISICA, true, "Cadastro Ana Costa", 2);
 
-		Conta con1 = new Conta(null, "Itau", 900.00, cli1);
-		Conta con4 = new Conta(null, "NuBank", 800.00, cli2);
-		Conta con2 = new Conta(null, "Bradesco", 20.00, cli2);
-		Conta con3 = new Conta(null, "Itau", 2000.00, cli3);
+		Conta con1 = new Conta(null, "Itau", 0.00, cli1);
+		Conta con4 = new Conta(null, "NuBank", 0.00, cli2);
+		Conta con2 = new Conta(null, "Bradesco", 0.00, cli2);
+		Conta con3 = new Conta(null, "Itau", 0.00, cli3);
 
 		OperacaoConta op1 = new OperacaoConta(null, "Futebol", LocalDateTime.now(), LocalDateTime.now(), 'R', 20.00,
 				EstadoPagamento.PENDENTE, con1, Categoria.LAZER);
@@ -64,13 +64,13 @@ public class DBService {
 				EstadoPagamento.PENDENTE, con1, Categoria.ALIMENTACAO);
 
 		OperacaoConta op4 = new OperacaoConta(null, "teste", LocalDateTime.now(), LocalDateTime.now(), 'R', 40.00,
-				EstadoPagamento.QUITADO, con2,  Categoria.GERAL);
+				EstadoPagamento.PENDENTE, con2,  Categoria.GERAL);
 
 		OperacaoConta op5 = new OperacaoConta(null, "pix jantar",LocalDateTime.now(), LocalDateTime.now(), 'R', 40.00,
-				EstadoPagamento.QUITADO, con2, Categoria.ALIMENTACAO);
+				EstadoPagamento.PENDENTE, con2, Categoria.ALIMENTACAO);
 
 		OperacaoConta op6 = new OperacaoConta(null, "pix estacionamento",LocalDateTime.now(), LocalDateTime.now(), 'D', 40.00,
-				EstadoPagamento.QUITADO, con2, Categoria.GERAL);
+				EstadoPagamento.PENDENTE, con2, Categoria.GERAL);
 
 		clienteRepository.saveAll(Arrays.asList(cli1, cli2, cli3));
 		contaRepository.saveAll(Arrays.asList(con1, con2, con3, con4));

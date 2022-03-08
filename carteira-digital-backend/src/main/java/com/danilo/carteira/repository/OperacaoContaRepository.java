@@ -35,6 +35,11 @@ public interface OperacaoContaRepository extends JpaRepository<OperacaoConta, Lo
 	@Modifying
 	void informarPagamento(Long id, Long codEstado);
 	
+	@Query("UPDATE OperacaoConta op SET estado_pagamento = ?2 WHERE id = ?1 AND estado_pagamento <> ?2")
+	@Transactional
+	@Modifying
+	void editrOperacaoConta(OperacaoConta op);
+	
 	@Query("SELECT op FROM OperacaoConta op INNER JOIN Conta con ON con.id = op.conta.id AND con.cliente.id = ?1 WHERE op.dataHora BETWEEN ?2 AND ?3")
 	List<OperacaoConta> buscarOperacoesPorId(Long id, LocalDateTime dataInicio, LocalDateTime dataFim);
 	

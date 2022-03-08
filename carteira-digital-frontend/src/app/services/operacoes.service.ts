@@ -40,6 +40,10 @@ export class OperacoesService {
     return this.http.delete(`${this.api}/${this.endpoint}${id}`)
   }
 
+  editarCliente(operacao:IOperacao){
+    return this.http.put(`${this.api}/${this.endpoint}${operacao.id}`,operacao)
+  }
+
   operacoesPaginadasPorData(data:IDataHora, page:number, qntLinhas:number, orderBy:string, direction:string){
     let dataInicial = encodeURIComponent( JSON.stringify(data.dataInicial));
     let dataFinal = encodeURIComponent( JSON.stringify(data.dataFinal));
