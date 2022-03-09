@@ -71,9 +71,8 @@
                       <div class="col-12 md:col-6">
                         <h5>Conta</h5>
                         <div>
-                          <p-dropdown [options]="categorias" [(ngModel)]="categoriaSelecionada"
-                            [ngModelOptions]="{standalone: true}" optionLabel="nome" optionValue="id"
-                            [showClear]="true"></p-dropdown>
+                          <p-dropdown [(ngModel)]="contaSelecionada" [ngModelOptions]="{standalone: true}"
+                              appendTo="body" [options]="contas" optionLabel="instituicao" optionValue="id" [showClear]="true"></p-dropdown>
                         </div>
                       </div>
 
@@ -87,9 +86,9 @@
 
                   </form>
                   <ng-template pTemplate="footer">
-                    <button pButton pRipple type="button" icon="pi pi-times" label="Cancelar"
+                    <button pButton pRipple type="button" icon="pi pi-times" (click)="cancelarEdicao();" label="Cancelar"
                       class="p-button-raised p-button-danger"></button>
-                    <button pButton pRipple type="button" icon="pi pi-check" label="Incluir"
+                    <button pButton pRipple type="button" icon="pi pi-check" (click)="incluirOperacao()" label="Incluir"
                       class="p-button-raised p-button-success"></button>
                   </ng-template>
                 </p-dialog>
@@ -180,6 +179,14 @@
                         <div>
                           <p-dropdown [(ngModel)]="categoriaSelecionada" [ngModelOptions]="{standalone: true}"
                               appendTo="body" [options]="categorias" optionLabel="nome" optionValue="id" [showClear]="true"></p-dropdown>
+                        </div>
+                      </div>
+
+                      <div class="col-12 md:col-6">
+                        <h5>Conta</h5>
+                        <div>
+                          <p-dropdown [(ngModel)]="contaSelecionada" [ngModelOptions]="{standalone: true}"
+                              appendTo="body" [options]="contas" optionLabel="instituicao" optionValue="id" [showClear]="true"></p-dropdown>
                         </div>
                       </div>
 

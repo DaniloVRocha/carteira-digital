@@ -1,3 +1,4 @@
+import { IConta } from './../../model/IConta';
 import { ContaService } from './../../services/conta.service';
 import { Categoria } from './../../model/Categoria';
 import { OperacoesService } from 'src/app/services/operacoes.service';
@@ -45,7 +46,9 @@ export class MovimentacoesComponent implements OnInit {
     {nome: 'Pagamento', id: 7},
     {nome: 'Internet', id: 8},
     {nome: 'Ajuste', id: 9}
-  ];;
+  ];
+
+  contas:IConta[] = [];
 
   tpOperacoes = [
     {operador:"D", label:"Despesa"},
@@ -53,7 +56,7 @@ export class MovimentacoesComponent implements OnInit {
   ]
 
   operacaoSelecionada = {operador:"", label:"Selecione um Tipo de Operação"}
-
+  contaSelecionada:any = 0;
   categoriaSelecionada: number = -1;
 
   msgs: Message[] = [];
@@ -75,6 +78,24 @@ export class MovimentacoesComponent implements OnInit {
   ngOnInit() {
     this.operacoesPaginadasPorData();
     this.atualizarSaldoPorData();
+    this.preencherContasCliente();
+  }
+
+  showDialogIncluir(){
+    this.displayIncluir = true;
+    this.formValueOperacao = new FormGroup({
+      nome: new FormControl(''),
+      conta: new FormControl('', Validators.required),
+      valor: new FormControl('', Validators.required),
+      vencimento: new FormControl(new Date()),
+      tpOperacao: new FormControl('D'),
+      estadoPagamento: new FormControl(true)
+    });
+    this.categoriaSelecionada = 0;
+  }
+  showDialogEditar(id:number){
+    this.buscarPorId(id);
+    this.displayEditar = true;
   }
 
   preencherForm(operacao:IOperacao) {
@@ -89,6 +110,7 @@ export class MovimentacoesComponent implements OnInit {
         break;
       }
     }
+    this.contaSelecionada = operacao.conta.id
     this.formValueOperacao = new FormGroup({
       id: new FormControl(operacao.id),
       nome: new FormControl(operacao.nome),
@@ -106,27 +128,17 @@ export class MovimentacoesComponent implements OnInit {
     })
   }
 
-  showDialogIncluir(){
-    this.displayIncluir = true;
-    this.formValueOperacao = new FormGroup({
-      nome: new FormControl(''),
-      conta: new FormControl('', Validators.required),
-      valor: new FormControl('', Validators.required),
-      vencimento: new FormControl(new Date()),
-      tpOperacao: new FormControl('D'),
-      estadoPagamento: new FormControl(true)
-    });
-  }
-  showDialogEditar(id:number){
-    this.buscarPorId(id);
-    this.displayEditar = true;
-  }
-
   operacoesPaginadasPorData(){
     debugger;
     this.operacoesService.operacoesPaginadasPorData(this.dataHora, 0, this.rows, "vencimento", this.direction).subscribe(res => {
       this.page = res;
       this.operacoes = res.content;
+    })
+  }
+
+  preencherContasCliente(){
+    this.contaService.preencherContasCliente().subscribe(res => {
+      this.contas = res;
     })
   }
 
@@ -179,16 +191,35 @@ export class MovimentacoesComponent implements OnInit {
     let codCategoria = this.formValueOperacao.value.estadoPagamento;
     operacao.vencimento = this.formatarDataBackend(this.formValueOperacao.value.vencimento);
     console.log(operacao.vencimento);
-    operacao.conta = {id:1};
+    operacao.conta = {id:this.contaSelecionada};
     operacao.categoria = this.categoriaSelecionada;
     if(codCategoria == false ? operacao.estadoPagamento = "0" : operacao.estadoPagamento = "1")
 
-    this.operacoesService.editarCliente(operacao).subscribe(result => {
+    this.operacoesService.editarOperacao(operacao).subscribe(result => {
       this.messageService.add({ severity: 'success', summary: 'Editado', detail: 'A Operação foi editada.' });
       this.displayEditar = false;
     }, error => {
       this.messageService.add({ severity: 'error', summary: `Cancelado`, detail: `${error}` });
       this.displayEditar = false;
+    })
+
+  }
+
+  incluirOperacao(){
+    debugger;
+    const operacao: IOperacao = this.formValueOperacao.value;
+    let codCategoria = this.formValueOperacao.value.estadoPagamento;
+    operacao.vencimento = this.formatarDataBackend(this.formValueOperacao.value.vencimento);
+    operacao.conta = {id:this.contaSelecionada};
+    operacao.categoria = this.categoriaSelecionada;
+    if(codCategoria == false ? operacao.estadoPagamento = "0" : operacao.estadoPagamento = "1")
+    operacao.dataHora = this.formatarDataBackend(new Date());
+    this.operacoesService.novaOperacao(operacao).subscribe(result => {
+      this.messageService.add({ severity: 'success', summary: 'Editado', detail: 'A Operação foi salva.' });
+      this.displayIncluir = false;
+    }, error => {
+      this.messageService.add({ severity: 'error', summary: `A operação não foi salva`, detail: `${error}` });
+      this.displayIncluir = false;
     })
 
   }

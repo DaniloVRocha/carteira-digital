@@ -40,8 +40,11 @@ export class OperacoesService {
     return this.http.delete(`${this.api}/${this.endpoint}${id}`)
   }
 
-  editarCliente(operacao:IOperacao){
+  editarOperacao(operacao:IOperacao){
     return this.http.put(`${this.api}/${this.endpoint}${operacao.id}`,operacao)
+  }
+  novaOperacao(operacao:IOperacao){
+    return this.http.post(`${this.api}/${this.endpoint}`,operacao)
   }
 
   operacoesPaginadasPorData(data:IDataHora, page:number, qntLinhas:number, orderBy:string, direction:string){

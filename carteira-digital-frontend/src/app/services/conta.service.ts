@@ -26,4 +26,8 @@ export class ContaService {
   buscarContaPorId(id:number) {
     return this.http.get<IConta>(`${this.api}/${this.endpoint}${id}`);
   }
+
+  preencherContasCliente(){
+    return this.http.get<IConta[]>(`${this.api}/${this.endpoint}`);
+  }
 }

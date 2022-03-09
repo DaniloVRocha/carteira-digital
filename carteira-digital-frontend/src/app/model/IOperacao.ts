@@ -3,7 +3,7 @@ import { IConta } from "./IConta";
 export interface IOperacao {
 
     id: number;
-	  dataHora: Date;
+	  dataHora: string;
     instituicao:string;
     vencimento: string;
     categoria: number;

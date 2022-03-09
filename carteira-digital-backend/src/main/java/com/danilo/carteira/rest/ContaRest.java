@@ -41,6 +41,12 @@ public class ContaRest {
 		return ResponseEntity.ok().body(contaDTO);
 	}
 	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<Conta>> buscarPorIdCliente(){
+		List<Conta> contas = service.buscarPorIdCliente();
+		return ResponseEntity.ok().body(contas);
+	}
+	
 	@RequestMapping(value = "/atualizarValores", method = RequestMethod.GET)
 	public ResponseEntity<ContaValoresDTO> atualizarPreencherSaldo(){
 		ContaValoresDTO conta = service.atualizarPreencherSaldo();
