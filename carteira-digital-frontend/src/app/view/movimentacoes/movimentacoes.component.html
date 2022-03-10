@@ -1,24 +1,31 @@
 <app-dashboard-usuario [dashboardView]="dashboardView"></app-dashboard-usuario>
 <p-confirmDialog [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}"></p-confirmDialog>
 <p-toast></p-toast>
+<div class="col-12 sm:col-12 md:col-12 lg:col-12">
+  <p-card>
+    <div class="grid">
+      <div class="col">
+        <label>Selecione o mês da consulta</label>
+      </div>
+      <div class="col">
+        <app-datepicker [date]="date"></app-datepicker>
+      </div>
+      <div class="col">
+        <button pButton pRipple type="button" label="Incluir Operação" (click)="showDialogIncluir()"
+        icon="pi pi-plus" class="p-button-raised p-button-success"></button>
+      </div>
+    </div>
+  </p-card>
+</div>
 <div class="grid">
-  <div class="card col-12">
-    <p-table [value]="operacoes" [paginator]="true" [(rows)]="rows" [showCurrentPageReport]="true" [(first)]="first"
+  <div class="col-12 sm:col-12 md:col-12 lg:col-12">
+    <div class="card">
+    <p-table [value]="operacoes" responsiveLayout="stack" styleClass="p-datatable-gridlines" [paginator]="true" [(rows)]="rows" [showCurrentPageReport]="true" [(first)]="first"
       currentPageReportTemplate="Exibindo de {first} a {last} de {{page?.totalElements}} registros"
       [rowsPerPageOptions]="[5,10,15]">
-      <ng-template pTemplate="header">
-        <tr>
-          <th colspan="4" class="text-center">Operações Por Mês</th>
-          <th colspan="3" class="text-center">
-            <div class="grid">
-              <div class="col-6">
-                <label>Selecione o mês da consulta</label>
-                <app-datepicker></app-datepicker>
-              </div>
-              <div class="col-6">
-                <button pButton pRipple type="button" label="Incluir nova Operação" (click)="showDialogIncluir()"
-                  icon="pi pi-plus" class="p-button-raised p-button-success"></button>
-                <p-dialog [(visible)]="displayIncluir">
+      <ng-template pTemplate="header" let-columns>
+
+                  <p-dialog [(visible)]="displayIncluir">
                   <ng-template pTemplate="header">
                     <h1>Incluir Nova Operação</h1>
                   </ng-template>
@@ -92,11 +99,6 @@
                       class="p-button-raised p-button-success"></button>
                   </ng-template>
                 </p-dialog>
-              </div>
-            </div>
-
-          </th>
-        </tr>
         <tr>
           <th class="text-center">Nome</th>
           <th class="text-center">Data de Vencimento</th>
@@ -107,21 +109,21 @@
           <th class="text-center">Ações</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-operacao>
+      <ng-template pTemplate="body" let-operacao let-columns="columns">
         <tr>
-          <td class="text-center">{{operacao.nome}}</td>
-          <td class="text-center">{{operacao.vencimento}}</td>
-          <td class="text-center">{{operacao.categoria}}</td>
-          <td class="text-center">{{operacao.estadoPagamento}}</td>
-          <td class="text-center">{{operacao.conta.instituicao}}</td>
-          <td class="text-center">
+          <td class="text-center"> <span class="p-column-title">Nome</span>{{operacao.nome}}</td>
+          <td class="text-center"> <span class="p-column-title">Vencimento</span>{{operacao.vencimento}}</td>
+          <td class="text-center"> <span class="p-column-title">Categoria</span>{{operacao.categoria}}</td>
+          <td class="text-center"> <span class="p-column-title">Estado Pagamento</span>{{operacao.estadoPagamento}}</td>
+          <td class="text-center"><span class="p-column-title">Instituição</span>{{operacao.conta.instituicao}}</td>
+          <td class="text-center"><span class="p-column-title">Tipo de Operação</span>
             <h5 class="text-success" *ngIf="operacao.tpOperacao == 'R' "><i class="pi pi-arrow-up"></i>
               Receita</h5>
             <h5 class="text-danger" *ngIf="operacao.tpOperacao == 'D' "><i class="pi pi-arrow-down"></i>
               Despesa</h5>
           </td>
 
-          <td class="text-center">
+          <td class="text-center"><span class="p-column-title">Ações</span>
             <div class="grid">
               <div class="col">
                 <button *ngIf="operacao.estadoPagamento == 'PENDENTE'" (click)="pagarContaVencida(operacao.id);" pButton
@@ -217,5 +219,6 @@
         </tr>
       </ng-template>
     </p-table>
+  </div>
   </div>
 </div>

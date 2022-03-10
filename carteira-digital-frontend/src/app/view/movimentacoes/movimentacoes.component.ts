@@ -25,6 +25,8 @@ export class MovimentacoesComponent implements OnInit {
     receitas: 0.0
   }
 
+  date:Date = new Date(2022, 2, 1);
+
   formValueOperacao: FormGroup = new FormGroup({
     id: new FormControl(''),
     nome: new FormControl(''),
@@ -76,7 +78,8 @@ export class MovimentacoesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.operacoesPaginadasPorData();
+    // this.operacoesPaginadasPorData();
+    this.operacoesPaginadasPorMesAno();
     this.atualizarSaldoPorData();
     this.preencherContasCliente();
   }
@@ -244,6 +247,21 @@ export class MovimentacoesComponent implements OnInit {
 
     return `${dataForm} ${horaForm}`
   }
+
+  // operacoesPaginadasPorMesAno(){
+  //   debugger;
+  //   this.operacoesService.operacoesPaginadasPorData(this.dataHora, 0, this.rows, "vencimento", this.direction).subscribe(res => {
+  //     this.page = res;
+  //     this.operacoes = res.content;
+  //   })
+  // }
+
+  operacoesPaginadasPorMesAno(){
+    this.operacoesService.operacoesPaginadasPorMesAno(this.date.getMonth()+1, this.date.getFullYear()).subscribe(res=>{
+      this.operacoes = res;
+    })
+  }
+
 
   cancelarEdicao() {
     this.displayEditar = false;

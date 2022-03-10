@@ -1,5 +1,5 @@
-<div class="grid container">
-  <div class="sm:col-12 md:col-4 lg:col-4">
+<div class="grid">
+  <div class="col-12 sm:col-12 md:col-4 lg:col-4">
     <p-panel header="Saldo" styleClass="card-initial" class="text-center" [toggleable]="true">
       <ng-template pTemplate="icons">
         <button pButton pRipple type="button" icon="pi pi-wallet" class="p-button-rounded p-button-info"></button>
@@ -7,7 +7,7 @@
       <h2>{{dashboardView.saldo | currency:'BRL'}}</h2>
     </p-panel>
   </div>
-  <div class="sm:col-12 md:col-4 lg:col-4">
+  <div class="col-12 sm:col-12 md:col-4 lg:col-4">
     <p-panel header="Receitas" styleClass="card-initial" class="text-center" [toggleable]="true">
       <ng-template pTemplate="icons">
         <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-rounded p-button-success"></button>
@@ -15,7 +15,7 @@
       <h2>{{dashboardView.receitas | currency:'BRL'}}</h2>
     </p-panel>
   </div>
-  <div class="sm:col-12 md:col-4 lg:col-4">
+  <div class="col-12 sm:col-12 md:col-4 lg:col-4">
     <p-panel header="Despesas" styleClass="card-initial" class="text-center" [toggleable]="true">
       <ng-template pTemplate="icons">
         <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-rounded p-button-danger"></button>

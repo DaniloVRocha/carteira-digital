@@ -75,6 +75,13 @@ public class OperacaoContaRest {
 		return new ResponseEntity<>(operacoes, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/consultar-operacao-data/{numeroMes}/{numeroAno}", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<List<OperacaoContaDTO>> consultarOperacoesPorMes(@PathVariable Integer numeroMes, @PathVariable Integer numeroAno) throws Exception {
+		
+		List<OperacaoContaDTO> operacoes = service.consultarOperacoesPorMesAno(numeroMes, numeroAno);
+		return new ResponseEntity<>(operacoes, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/consultar-operacao-vencimento", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<OperacaoContaDTO>> consultarOperacaoVencimento() throws Exception {
 		

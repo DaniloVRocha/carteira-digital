@@ -161,7 +161,6 @@ public class OperacaoContaService {
 		inserirOperacao(op1);
 		inserirOperacao(op2);
 	}
-	
 	public List<OperacaoContaDTO> consultarOperacoesPorData(String dataInicio, String dataFinal) throws Exception {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		LocalDateTime dataInicioBusca = LocalDateTime.parse(dataInicio, format);
@@ -171,6 +170,19 @@ public class OperacaoContaService {
 		List<Conta> contas = contaService.buscarContasCliente();
 		for(Conta conta: contas) {
 			List<OperacaoConta> operacoes = repository.findOperacaoByDate(conta.getId(),dataInicioBusca, dataFimBusca);
+			for (OperacaoConta operacao: operacoes) {
+				OperacaoContaDTO opDTO = new OperacaoContaDTO(operacao);
+				auxDTO.add(opDTO);
+			}
+		}
+		return auxDTO;
+	}
+	
+	public List<OperacaoContaDTO> consultarOperacoesPorMesAno(Integer numeroMes, Integer numeroAno) throws Exception {
+		List<Conta> contas = contaService.buscarContasCliente();
+		List<OperacaoContaDTO> auxDTO = new ArrayList<>();
+		for(Conta conta: contas) {
+			List<OperacaoConta> operacoes = repository.findOperacaoByMesAno(conta.getId(),numeroMes, numeroAno);
 			for (OperacaoConta operacao: operacoes) {
 				OperacaoContaDTO opDTO = new OperacaoContaDTO(operacao);
 				auxDTO.add(opDTO);

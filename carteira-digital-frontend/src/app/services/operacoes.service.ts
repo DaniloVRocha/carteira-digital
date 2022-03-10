@@ -1,7 +1,6 @@
 import { IPage } from './../model/IPage';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IDataHora } from '../model/IDataHora';
 import { IOperacao } from '../model/IOperacao';
@@ -51,5 +50,9 @@ export class OperacoesService {
     let dataInicial = encodeURIComponent( JSON.stringify(data.dataInicial));
     let dataFinal = encodeURIComponent( JSON.stringify(data.dataFinal));
     return this.http.get<IPage>(`${this.api}/${this.endpoint}page-date?page=${page}&linesPerPage=${qntLinhas}&orderBy=${orderBy}&direction=${direction}&dataInicial=${dataInicial}&dataFinal=${dataFinal}`);
+  }
+
+  operacoesPaginadasPorMesAno(numeroMes:number, numeroAno:number){
+    return this.http.get<IOperacao[]>(`${this.api}/${this.endpoint}consultar-operacao-data/${numeroMes}/${numeroAno}`)
   }
 }

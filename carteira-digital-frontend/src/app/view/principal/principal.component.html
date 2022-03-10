@@ -1,8 +1,7 @@
 <app-dashboard-usuario [dashboardView] = "dashboardView"></app-dashboard-usuario>
 <div class="container">
 <div class="grid">
-    <div class="sm:col-12 md:col-12 lg:col-6">
-        <div class="card">
+    <div class="col-12 sm:col-12 md:col-12 lg:col-6">
             <h3 class="text-center">Gráfico de Operações Por Categoria</h3>
             <app-datepicker class="text-center"></app-datepicker>
             <div class="container" *ngIf="existeOperacao==true">
@@ -14,14 +13,10 @@
                 <button pButton pRipple type="button" label="Inserir Operações" class="p-button-info mt-3"></button>
               </p-card>
           </div>
-        </div>
     </div>
-    <div class="sm:col-12 md:col-12 lg:col-6 container">
-        <p-table [value]="operacoes" [scrollable]="true" [rows]="10" scrollHeight="500px">
+    <div class="col-12 sm:col-12 md:col-12 lg:col-6">
+        <p-table [value]="operacoes" responsiveLayout="stack" [virtualRowHeight]="40">
             <ng-template pTemplate="header">
-                <tr>
-                    <th class="text-center" colspan="6">Operações Vencidas</th>
-                </tr>
                 <tr>
                     <th class="text-center">Valor</th>
                     <th class="text-center">Vencimento</th>
@@ -30,18 +25,18 @@
                     <th class="text-center">Ações</th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-operacao>
-                <tr>
-                    <td class="text-center" style="width:140px">{{operacao.valor | currency:'BRL'}}</td>
-                    <td class="text-center" style="width:140px">{{operacao.vencimento}}</td>
-                    <td class="text-center" style="width:140px">{{operacao.nome}}</td>
-                    <td style="width:140px">
+            <ng-template pTemplate="body" let-operacao let-columns="columns">
+                <tr style="height:70px">
+                    <td class="text-center" style="width:140px"><span class="p-column-title">Valor</span>{{operacao.valor | currency:'BRL'}}</td>
+                    <td class="text-center" style="width:140px"><span class="p-column-title">Vencimento</span>{{operacao.vencimento}}</td>
+                    <td class="text-center" style="width:140px"><span class="p-column-title">Nome</span>{{operacao.nome}}</td>
+                    <td style="width:140px"><span class="p-column-title">Tp Operação</span>
                         <h5 class="text-success" *ngIf="operacao.tpOperacao == 'R' "><i class="pi pi-arrow-up"></i>
                          Receita</h5>
                         <h5 class="text-danger" *ngIf="operacao.tpOperacao == 'D' "><i class="pi pi-arrow-down"></i>
                         Despesa</h5>
                       </td>
-                    <td style="width:150px">
+                    <td style="width:150px"><span class="p-column-title">Ação</span>
                         <button pButton pRipple type="button" icon="pi pi-check" *ngIf="operacao.tpOperacao == 'R' " label="Receber" (click) = "pagarContaVencida(operacao.id, operacao.tpOperacao)" class="p-button-rounded p-button-success"></button>
                         <button pButton pRipple type="button" icon="pi pi-times" *ngIf="operacao.tpOperacao == 'D' " label="Pagar  " (click) = "pagarContaVencida(operacao.id, operacao.tpOperacao)" class="p-button-rounded p-button-danger"></button>
                     </td>

@@ -27,6 +27,9 @@ public interface OperacaoContaRepository extends JpaRepository<OperacaoConta, Lo
 	@Query("SELECT op FROM OperacaoConta op WHERE fk_conta_id = ?1 AND data_hora BETWEEN ?2 AND ?3")
 	List<OperacaoConta> findOperacaoByDate(Long id, LocalDateTime dataInicio, LocalDateTime dataFim);
 	
+	@Query(value = "SELECT * FROM operacoes WHERE fk_conta_id = ?1 AND MONTH(vencimento) = ?2 AND YEAR(VENCIMENTO) = ?3", nativeQuery=true)
+	List<OperacaoConta> findOperacaoByMesAno(Long id, Integer numeroMes, Integer numeroAno);
+	
 	@Query("SELECT op FROM OperacaoConta op WHERE fk_conta_id = ?1 AND vencimento < ?2 AND estado_pagamento = 0")
 	List<OperacaoConta> findOperacaoVencidas(Long id, LocalDateTime dataAtual);
 	
