@@ -27,6 +27,10 @@ export class ContaService {
     return this.http.get<IConta>(`${this.api}/${this.endpoint}${id}`);
   }
 
+  buscarContasCliente(){
+    return this.http.get<IConta[]>(`${this.api}/${this.endpoint}`)
+  }
+
   preencherContasCliente(){
     return this.http.get<IConta[]>(`${this.api}/${this.endpoint}`);
   }

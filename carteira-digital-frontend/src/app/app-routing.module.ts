@@ -1,3 +1,4 @@
+import { VisualizarContasComponent } from './view/visualizar-contas/visualizar-contas.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateAccountComponent } from './account/create-account/create-account.component';
@@ -13,7 +14,8 @@ const routes: Routes = [
     path:'', component: HomeComponent,
     children:[
       {path:'', component: PrincipalComponent},
-      {path:'movimentacoes', component: MovimentacoesComponent}
+      {path:'movimentacoes', component: MovimentacoesComponent},
+      {path:'visualizar-contas', component: VisualizarContasComponent}
     ],
     canActivate:[AuthGuard]
   },

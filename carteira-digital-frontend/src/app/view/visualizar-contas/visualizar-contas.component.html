@@ -1,0 +1,72 @@
+<!-- dialog de exibição de contas -->
+<p-carousel [value]="contas" [numVisible]="2" [numScroll]="2" [circular]="false"
+  [responsiveOptions]="responsiveOptions">
+  <ng-template pTemplate="header">
+    <h2 class="text-center">Gestão de Contas</h2>
+    <hr>
+  </ng-template>
+  <ng-template let-conta pTemplate="item">
+    <div class="conta-item">
+      <div class="conta-item-content">
+        <div class="p-mb-3 p-mt-3">
+        </div>
+        <div>
+          <h3 class="p-mb-1 text-center">{{conta.instituicao}}</h3>
+          <h5 class="p-mt-0 p-mb-3 text-center">Saldo: {{conta.saldo | currency:'BRL'}}</h5>
+          <h5 class="p-mt-0 p-mb-3 text-center text-success">Receitas: {{conta.receitas | currency:'BRL'}}</h5>
+          <h5 class="p-mt-0 p-mb-3 text-center text-danger">Despesas: {{conta.despesas | currency:'BRL'}}</h5>
+          <div class="car-buttons p-mt-5 text-center">
+            <p-button type="button" pTooltip="Editar Conta" styleClass="p-button-warning p-button-rounded p-mr-2"
+              icon="pi pi-pencil" (click)="showDialogEditar(conta.id)"></p-button>
+            <p-button type="button" pTooltip="Excluir Conta" styleClass="p-button-danger p-button-rounded p-mr-2"
+              icon="pi pi-trash"></p-button>
+            <p-button type="button" pTooltip="Detalhar Conta" styleClass="p-button p-button-rounded p-mr-2"
+              icon="pi pi-info"></p-button>
+            <p-button type="button" pTooltip="Transferencia entre contas" styleClass="p-button-help p-button-rounded"
+              icon="pi pi-arrows-h"></p-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-carousel>
+
+<!-- dialog de edição de contas -->
+<p-dialog [(visible)]="display">
+  <ng-template pTemplate="header">
+    <h1>Editar Conta</h1>
+  </ng-template>
+  <form [formGroup]="formValueConta">
+    <div class="grid p-fluid">
+      <div class="col-12 md:col-12">
+        <h5>Nome Conta / Instituição</h5>
+        <div class="form-group p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-wallet"></i></span>
+          <input type="text" class="form-control" formControlName="instituicao" pInputText>
+        </div>
+      </div>
+
+      <div class="col-12 md:col-12">
+        <h5>Saldo</h5>
+        <div class="form-group p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-wallet"></i></span>
+          <input [disabled]="disabled"  type="text" class="form-control" [(ngModel)]="saldo" mode="currency" currency="BRL"
+          locale="pt-BR" [ngModelOptions]="{standalone: true}" pInputText>
+        </div>
+      </div>
+
+      <div class="col-12 md:col-12">
+        <h5>Mostrar na tela inicial? </h5>
+        <div class="form-group p-inputgroup">
+          <p-inputSwitch class="form-control" formControlName="inicial"></p-inputSwitch>
+        </div>
+      </div>
+    </div>
+  </form>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple type="button" icon="pi pi-times" label="Cancelar"
+      class="p-button-raised p-button-danger"></button>
+    <button pButton pRipple type="button" icon="pi pi-check" label="Editar Conta"
+      class="p-button-raised p-button-success"></button>
+  </ng-template>
+</p-dialog>

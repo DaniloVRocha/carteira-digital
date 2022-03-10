@@ -4,13 +4,13 @@
 <div class="col-12 sm:col-12 md:col-12 lg:col-12">
   <p-card>
     <div class="grid">
-      <div class="col">
-        <label>Selecione o mês da consulta</label>
-      </div>
-      <div class="col">
+      <div class="col container">
         <app-datepicker [date]="date"></app-datepicker>
       </div>
-      <div class="col">
+      <div class="col container">
+
+      </div>
+      <div class="col container">
         <button pButton pRipple type="button" label="Incluir Operação" (click)="showDialogIncluir()"
         icon="pi pi-plus" class="p-button-raised p-button-success"></button>
       </div>
@@ -90,7 +90,6 @@
                         </div>
                       </div>
                     </div>
-
                   </form>
                   <ng-template pTemplate="footer">
                     <button pButton pRipple type="button" icon="pi pi-times" (click)="cancelarEdicao();" label="Cancelar"
@@ -111,14 +110,14 @@
       </ng-template>
       <ng-template pTemplate="body" let-operacao let-columns="columns">
         <tr>
-          <td class="text-center"> <span class="p-column-title">Nome</span>{{operacao.nome}}</td>
+          <td class="text-center"> <span class="p-column-title">Nome</span> {{operacao.nome}}</td>
           <td class="text-center"> <span class="p-column-title">Vencimento</span>{{operacao.vencimento}}</td>
           <td class="text-center"> <span class="p-column-title">Categoria</span>{{operacao.categoria}}</td>
           <td class="text-center"> <span class="p-column-title">Estado Pagamento</span>{{operacao.estadoPagamento}}</td>
           <td class="text-center"><span class="p-column-title">Instituição</span>{{operacao.conta.instituicao}}</td>
           <td class="text-center"><span class="p-column-title">Tipo de Operação</span>
             <h5 class="text-success" *ngIf="operacao.tpOperacao == 'R' "><i class="pi pi-arrow-up"></i>
-              Receita</h5>
+              <b>Receita</b></h5>
             <h5 class="text-danger" *ngIf="operacao.tpOperacao == 'D' "><i class="pi pi-arrow-down"></i>
               Despesa</h5>
           </td>

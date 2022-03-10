@@ -17,6 +17,7 @@ import { MovimentacoesComponent } from './view/movimentacoes/movimentacoes.compo
 import { DashboardUsuarioComponent } from './layout/dashboard-usuario/dashboard-usuario.component';
 import { DatepickerComponent } from './layout/datepicker/datepicker.component';
 import { PaginatorComponent } from './layout/paginator/paginator.component';
+import { VisualizarContasComponent } from './view/visualizar-contas/visualizar-contas.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { PaginatorComponent } from './layout/paginator/paginator.component';
     MovimentacoesComponent,
     DashboardUsuarioComponent,
     DatepickerComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    VisualizarContasComponent
   ],
   imports: [
     AppRoutingModule,

@@ -21,7 +21,8 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MessagesModule } from 'primeng/messages';
-import { ToastModule} from 'primeng/toast';
+import { ToastModule } from 'primeng/toast';
+import { CarouselModule } from 'primeng/carousel';
 
 
 
@@ -50,7 +51,8 @@ import { ToastModule} from 'primeng/toast';
     RadioButtonModule,
     ConfirmDialogModule,
     MessagesModule,
-    ToastModule
+    ToastModule,
+    CarouselModule
   ]
 })
 export class PrimengModule { }
