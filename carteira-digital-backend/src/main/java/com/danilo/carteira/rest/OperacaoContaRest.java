@@ -96,10 +96,10 @@ public class OperacaoContaRest {
 		return ResponseEntity.ok().body(conta.getValor() + "Transferido");
 	}
 	
-	@RequestMapping(value = "/consultar-categorias-data", method=RequestMethod.GET)
-	public @ResponseBody ResponseEntity<HashMap<String, Integer>> buscarTodosPorIdCliente(@RequestParam("dataInicial") String dataInicial, @RequestParam("dataFinal") String dataFinal) throws Exception {
+	@RequestMapping(value = "/consultar-categorias-data/{numeroMes}/{numeroAno}", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<HashMap<String, Integer>> buscarTodosPorIdCliente(@PathVariable Integer numeroMes, @PathVariable Integer numeroAno) throws Exception {
 		
-		HashMap<String, Integer> categorias = service.buscarTodosPorIdCliente(dataInicial.replace("\"", ""),dataFinal.replace("\"", ""));
+		HashMap<String, Integer> categorias = service.buscarTodosPorIdCliente(numeroMes, numeroAno);
 		return new ResponseEntity<>(categorias, HttpStatus.OK);
 	}
 	

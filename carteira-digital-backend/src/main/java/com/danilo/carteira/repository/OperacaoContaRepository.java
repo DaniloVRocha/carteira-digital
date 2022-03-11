@@ -43,9 +43,9 @@ public interface OperacaoContaRepository extends JpaRepository<OperacaoConta, Lo
 	@Modifying
 	void editrOperacaoConta(OperacaoConta op);
 	
-	@Query("SELECT op FROM OperacaoConta op INNER JOIN Conta con ON con.id = op.conta.id AND con.cliente.id = ?1 WHERE op.dataHora BETWEEN ?2 AND ?3")
-	List<OperacaoConta> buscarOperacoesPorId(Long id, LocalDateTime dataInicio, LocalDateTime dataFim);
+	@Query("SELECT op FROM OperacaoConta op INNER JOIN Conta con ON con.id = op.conta.id AND con.cliente.id = ?1 WHERE MONTH(vencimento) = ?2 AND YEAR(VENCIMENTO) = ?3")
+	List<OperacaoConta> buscarOperacoesPorId(Long id, Integer numeroMes, Integer numeroAno);
 	
-	@Query(value = "SELECT count(op.categoria) FROM operacoes op INNER JOIN conta con ON con.id = op.fk_conta_id AND con.fk_cliente_id = ?1 WHERE (op.data_hora BETWEEN ?2 AND ?3) AND op.categoria=?4", nativeQuery = true)
-	public Integer numeroOperacoesPorCategoria(Long id, LocalDateTime dataInicio, LocalDateTime dataFim, int categoria);
+	@Query(value = "SELECT count(op.categoria) FROM operacoes op INNER JOIN conta con ON con.id = op.fk_conta_id AND con.fk_cliente_id = ?1 WHERE MONTH(vencimento) = ?2 AND YEAR(VENCIMENTO) = ?3 AND op.categoria=?4", nativeQuery = true)
+	public Integer numeroOperacoesPorCategoria(Long id, Integer numeroMes, Integer numeroAno, int categoria);
 }

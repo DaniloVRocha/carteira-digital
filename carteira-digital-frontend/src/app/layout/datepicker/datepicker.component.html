@@ -1,2 +1,2 @@
-<label>Selecione o mês da consulta: </label>
-<p-calendar [(ngModel)]="date" view="month" dateFormat="mm/yy" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true" inputId="monthpicker"></p-calendar>
+<label>Selecione mês e ano da consulta: </label>
+<p-calendar [(ngModel)]="date" (ngModelChange)="recarregaConteudo()" view="month" dateFormat="mm/yy" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true" inputId="monthpicker"></p-calendar>

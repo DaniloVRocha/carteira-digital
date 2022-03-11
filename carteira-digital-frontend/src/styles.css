@@ -25,6 +25,7 @@ body{
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    border-radius:3ex;;
 }
 
 .botaoPago{
@@ -40,5 +41,3 @@ body{
 .text-danger{
   color: red!important;
 }
-
-

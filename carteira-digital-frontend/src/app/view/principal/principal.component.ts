@@ -16,10 +16,9 @@ export class PrincipalComponent implements OnInit {
   existeOperacao:boolean = false;
 
   operacoes: IOperacao[] = [];
-
+  dataHora:Date = new Date(2022, 2, 1);
   data: any;
   options: any;
-  dataHora:IDataHora = {dataInicial:"2022-03-01 00:00:00", dataFinal:"2022-03-31 23:59:00"};
   dashboardView: IContaViewDTO = {
     saldo: 0.0,
     despesas: 0.0,
@@ -79,9 +78,14 @@ export class PrincipalComponent implements OnInit {
     })
   }
 
+  mudouDate(event:any){
+    this.dataHora = event.novaData;
+    this.gastoPorCategoria();
+  }
+
   gastoPorCategoria(){
     debugger;
-      this.operacaoService.gastoPorCategoria(this.dataHora).subscribe(res=>{
+      this.operacaoService.gastoPorCategoria(this.dataHora.getMonth()+1, this.dataHora.getFullYear()).subscribe(res=>{
         if(Object.keys(res).length !== 0){
           this.preencherGrafico(res);
           this.existeOperacao = true;

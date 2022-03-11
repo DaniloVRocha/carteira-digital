@@ -3,7 +3,7 @@ import { ContaService } from './../../services/conta.service';
 import { Categoria } from './../../model/Categoria';
 import { OperacoesService } from 'src/app/services/operacoes.service';
 import { IOperacao } from 'src/app/model/IOperacao';
-import { Component, OnInit} from '@angular/core';
+import { Component, EventEmitter, OnInit} from '@angular/core';
 import { IDataHora } from 'src/app/model/IDataHora';
 import { IPage } from 'src/app/model/IPage';
 import { IContaViewDTO } from 'src/app/model/IContaViewDTO';
@@ -78,7 +78,7 @@ export class MovimentacoesComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.operacoesPaginadasPorData();
+    //this.operacoesPaginadasPorData();
     this.operacoesPaginadasPorMesAno();
     this.atualizarSaldoPorData();
     this.preencherContasCliente();
@@ -227,6 +227,12 @@ export class MovimentacoesComponent implements OnInit {
 
   }
 
+  mudouDate(event:any){
+    this.date = event.novaData;
+    this.operacoesPaginadasPorMesAno();
+    console.log(event)
+  }
+
   formatarDataBackend(data: Date) {
     debugger;
     //captura de dia, mes, ano.
@@ -247,14 +253,6 @@ export class MovimentacoesComponent implements OnInit {
 
     return `${dataForm} ${horaForm}`
   }
-
-  // operacoesPaginadasPorMesAno(){
-  //   debugger;
-  //   this.operacoesService.operacoesPaginadasPorData(this.dataHora, 0, this.rows, "vencimento", this.direction).subscribe(res => {
-  //     this.page = res;
-  //     this.operacoes = res.content;
-  //   })
-  // }
 
   operacoesPaginadasPorMesAno(){
     this.operacoesService.operacoesPaginadasPorMesAno(this.date.getMonth()+1, this.date.getFullYear()).subscribe(res=>{

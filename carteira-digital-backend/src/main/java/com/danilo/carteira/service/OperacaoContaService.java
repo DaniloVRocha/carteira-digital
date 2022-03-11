@@ -48,19 +48,15 @@ public class OperacaoContaService {
 		}
 	}
 	
-	public HashMap<String, Integer> buscarTodosPorIdCliente(String dataInicial, String dataFinal) {
+	public HashMap<String, Integer> buscarTodosPorIdCliente(Integer numeroMes, Integer numeroAno) {
 		UserSS user = UserService.authenticated();
 		
 		HashMap<String, Integer> listaExistentes = new HashMap<String, Integer>();
 		
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		LocalDateTime dataInicioBusca = LocalDateTime.parse(dataInicial, format);
-		LocalDateTime dataFimBusca = LocalDateTime.parse(dataFinal, format);
-		
-		List<OperacaoConta> operacoes = repository.buscarOperacoesPorId(user.getId(), dataInicioBusca, dataFimBusca);
+		List<OperacaoConta> operacoes = repository.buscarOperacoesPorId(user.getId(), numeroMes, numeroAno);
 
 		for(OperacaoConta op : operacoes) {
-			Integer quantidade = repository.numeroOperacoesPorCategoria(user.getId(), dataInicioBusca, dataFimBusca, op.getCategoria().getCod());
+			Integer quantidade = repository.numeroOperacoesPorCategoria(user.getId(), numeroMes, numeroAno, op.getCategoria().getCod());
 			listaExistentes.put(op.getCategoria().getDescricao(), quantidade);
 		}
 		

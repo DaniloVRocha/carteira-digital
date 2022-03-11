@@ -18,9 +18,9 @@
           <div class="car-buttons p-mt-5 text-center">
             <p-button type="button" pTooltip="Editar Conta" styleClass="p-button-warning p-button-rounded p-mr-2"
               icon="pi pi-pencil" (click)="showDialogEditar(conta.id)"></p-button>
-            <p-button type="button" pTooltip="Excluir Conta" styleClass="p-button-danger p-button-rounded p-mr-2"
-              icon="pi pi-trash"></p-button>
-            <p-button type="button" pTooltip="Detalhar Conta" styleClass="p-button p-button-rounded p-mr-2"
+            <!-- <p-button type="button" pTooltip="Excluir Conta" styleClass="p-button-danger p-button-rounded p-mr-2"
+              icon="pi pi-trash"></p-button> -->
+            <p-button type="button" pTooltip="Detalhar Conta" (click)="showDialogInformacoes(conta.id)" styleClass="p-button p-button-rounded p-mr-2"
               icon="pi pi-info"></p-button>
             <p-button type="button" pTooltip="Transferencia entre contas" styleClass="p-button-help p-button-rounded"
               icon="pi pi-arrows-h"></p-button>
@@ -63,6 +63,33 @@
       </div>
     </div>
   </form>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple type="button" icon="pi pi-times" label="Cancelar"
+      class="p-button-raised p-button-danger"></button>
+    <button pButton pRipple type="button" icon="pi pi-check" label="Editar Conta"
+      class="p-button-raised p-button-success"></button>
+  </ng-template>
+</p-dialog>
+<!-- dialog informação de contas -->
+<p-dialog [(visible)]="displayInformacao">
+  <ng-template pTemplate="header">
+    <div class="container">
+      <h1>{{conta.instituicao}}</h1>
+    </div>
+  </ng-template>
+
+  <p-card>
+    <ng-template pTemplate="header">
+          <h4 class="text-success col-12 text-center">Saldo: {{conta.saldo | currency:'BRL'}}</h4>
+          <h4 class="text-danger col-12 text-center">Despesas: {{conta.despesas | currency:'BRL'}}</h4>
+          <h4 class="text-success col-12 text-center">Receita: {{conta.receitas | currency:'BRL'}}</h4>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        Footer content here
+    </ng-template>
+  </p-card>
+
   <ng-template pTemplate="footer">
     <button pButton pRipple type="button" icon="pi pi-times" label="Cancelar"
       class="p-button-raised p-button-danger"></button>

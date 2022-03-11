@@ -3,7 +3,10 @@
 <div class="grid">
     <div class="col-12 sm:col-12 md:col-12 lg:col-6">
             <h3 class="text-center">Gráfico de Operações Por Categoria</h3>
-            <app-datepicker class="text-center"></app-datepicker>
+            <div class="container">
+              <app-datepicker (mudouData)="mudouDate($event)"></app-datepicker>
+            </div>
+
             <div class="container" *ngIf="existeOperacao==true">
                 <p-chart type="doughnut" styleClass="grafico-inicio" [data]="data" [options]="options" width="30vw" height="60vh"></p-chart>
             </div>

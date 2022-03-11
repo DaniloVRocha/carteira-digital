@@ -5,10 +5,7 @@
   <p-card>
     <div class="grid">
       <div class="col container">
-        <app-datepicker [date]="date"></app-datepicker>
-      </div>
-      <div class="col container">
-
+        <app-datepicker (mudouData)="mudouDate($event)"></app-datepicker>
       </div>
       <div class="col container">
         <button pButton pRipple type="button" label="Incluir Operação" (click)="showDialogIncluir()"
@@ -21,7 +18,7 @@
   <div class="col-12 sm:col-12 md:col-12 lg:col-12">
     <div class="card">
     <p-table [value]="operacoes" responsiveLayout="stack" styleClass="p-datatable-gridlines" [paginator]="true" [(rows)]="rows" [showCurrentPageReport]="true" [(first)]="first"
-      currentPageReportTemplate="Exibindo de {first} a {last} de {{page?.totalElements}} registros"
+      currentPageReportTemplate="Exibindo de {first} a {last} de {totalRecords} registros"
       [rowsPerPageOptions]="[5,10,15]">
       <ng-template pTemplate="header" let-columns>
 

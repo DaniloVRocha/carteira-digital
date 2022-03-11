@@ -1,3 +1,4 @@
+import { IOperacao } from 'src/app/model/IOperacao';
 import { IConta } from './../../model/IConta';
 import { ContaService } from './../../services/conta.service';
 import { Component, OnInit } from '@angular/core';
@@ -11,8 +12,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class VisualizarContasComponent implements OnInit {
 
   contas: IConta[] = [];
+  conta:IConta={};
   responsiveOptions:any;
   display:boolean = false;
+  displayInformacao:boolean = false;
   saldo:any = 0;
   disabled: boolean = true;
 
@@ -51,7 +54,12 @@ export class VisualizarContasComponent implements OnInit {
 
   showDialogEditar(id:number){
     this.display = true;
-    this.buscarPorIdConta(id);
+    this.preencherFormPorIdConta(id);
+  }
+
+  showDialogInformacoes(id:number){
+    this.preencherCardDetalhes(id);
+    this.displayInformacao = true
   }
 
   preencherForm(conta:IConta){
@@ -62,9 +70,16 @@ export class VisualizarContasComponent implements OnInit {
     });
   }
 
-  buscarPorIdConta(id:number){
+  preencherFormPorIdConta(id:number){
     this.contaService.buscarContaPorId(id).subscribe(conta=>{
       this.preencherForm(conta);
     })
   }
+
+  preencherCardDetalhes(id:number){
+    this.contaService.buscarContaPorId(id).subscribe(conta=>{
+      this.conta = conta;
+    })
+  }
+
 }

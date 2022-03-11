@@ -31,8 +31,8 @@ export class OperacoesService {
     return this.http.get(`${this.api}/${this.endpoint}gastoPorMes`+ '/?dataInicial='+ encodeURIComponent( JSON.stringify(data.dataInicial)) + '&dataFinal='+ encodeURIComponent( JSON.stringify(data.dataFinal)));
   }
 
-  gastoPorCategoria(data:IDataHora){
-    return this.http.get(`${this.api}/${this.endpoint}consultar-categorias-data`+ '/?dataInicial='+ encodeURIComponent( JSON.stringify(data.dataInicial)) + '&dataFinal='+ encodeURIComponent( JSON.stringify(data.dataFinal)));
+  gastoPorCategoria(numeroMes:number, numeroAno:number){
+    return this.http.get(`${this.api}/${this.endpoint}consultar-categorias-data/${numeroMes}/${numeroAno}`)
   }
 
   excluirOperacao(id:number){
