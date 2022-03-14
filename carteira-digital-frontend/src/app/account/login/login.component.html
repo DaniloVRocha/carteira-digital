@@ -1,7 +1,7 @@
 <div class="grid justify-content-center card">
     <div class="col-10 md:col-6 lg:col-4">
         <p-card>
-            <div class="grid">
+            <div class="grid container">
                 <form (ngSubmit) = "onSubmit()" #form="ngForm">
                     <div class="col-12 text-center">
                         <i class="fas fa-wallet fa-4x"></i>
@@ -38,7 +38,7 @@
                     <h2>Olá, Visitante!</h2>
                     <h4>Cadastre-se para se juntar ao carteira digital, te ajudamos a manter uma vida financeira mais
                         saudável.</h4>
-                    <button pButton type="button" label="Cadastrar" class="p-button-outlined col-12"></button>
+                    <button pButton type="button" label="Cadastrar" routerLink = "/create-account" class="p-button-outlined col-12"></button>
                 </div>
             </div>
         </p-card>

@@ -55,4 +55,8 @@ export class OperacoesService {
   operacoesPaginadasPorMesAno(numeroMes:number, numeroAno:number){
     return this.http.get<IOperacao[]>(`${this.api}/${this.endpoint}consultar-operacao-data/${numeroMes}/${numeroAno}`)
   }
+
+  buscarQntOperacoes(id:any){
+    return this.http.get(`${this.api}/${this.endpoint}qnt-operacoes/${id}`);
+  }
 }

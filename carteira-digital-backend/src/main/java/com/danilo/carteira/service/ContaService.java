@@ -43,6 +43,11 @@ public class ContaService {
 		List<Conta> contas = repository.findContasByIdCliente(user.getId());
 		return contas;
 	}
+	
+	public Integer buscarQuantidadeDeOperacaoPorConta(char tpOperacao, Long idConta){
+		Integer quantidadeOperacoes = repository.numeroOperacoesPorConta(tpOperacao, idConta);
+		return quantidadeOperacoes;
+	}
 
 	public ContaValoresDTO atualizarPreencherSaldo() {
 		UserSS user = UserService.authenticated();

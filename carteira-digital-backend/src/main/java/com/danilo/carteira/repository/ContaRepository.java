@@ -18,5 +18,8 @@ public interface ContaRepository extends JpaRepository<Conta, Long> {
 	
 	@Query("SELECT c FROM Conta c WHERE fk_cliente_id = ?1")
 	List<Conta> findContasByIdCliente(Long id);
+	
+	@Query(value = "SELECT count(id) FROM OPERACOES WHERE tp_operacao = ?1 AND fk_conta_id = ?2 ", nativeQuery = true)
+	public Integer numeroOperacoesPorConta(char tpOperacao, Long idConta);
 
 }

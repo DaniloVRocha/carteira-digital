@@ -61,6 +61,12 @@ public class OperacaoContaRest {
 				return ResponseEntity.ok().body("Estado de Pagamento Alterado");
 	}
 	
+	@RequestMapping(value = "/qnt-operacoes/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<Integer>> buscaQuantidadeDeOperacoesPorConta(@Valid @PathVariable Long id){
+		List<Integer> quantidadeDeOperacoes = service.buscaQuantidadeDeOperacoesPorConta(id);
+		return ResponseEntity.ok().body(quantidadeDeOperacoes);
+	}
+	
 	@RequestMapping(value = "/{id}/{novoSaldo}", method=RequestMethod.POST)
 	public ResponseEntity<String> ajustarSaldo(@Valid @PathVariable Long id,  @PathVariable Double novoSaldo ){
 		service.ajustarSaldo(novoSaldo, id);
@@ -133,6 +139,5 @@ public class OperacaoContaRest {
 		Page<OperacaoConta> list = service.findPagePorData(page, linesPerPage, orderBy, direction,dataInicial.replace("\"", ""),dataFinal.replace("\"", ""));
 		Page<OperacaoContaDTO> listDto = list.map(obj -> new OperacaoContaDTO(obj));
 		return ResponseEntity.ok().body(listDto);
-
 	}
 }

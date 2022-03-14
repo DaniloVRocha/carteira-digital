@@ -22,7 +22,7 @@ public interface OperacaoContaRepository extends JpaRepository<OperacaoConta, Lo
 	
 	@Transactional(readOnly=true)
 	@Query(value = "SELECT * FROM operacoes op INNER JOIN conta con ON con.id = op.fk_conta_id AND con.fk_cliente_id = ?1 WHERE (op.data_hora BETWEEN ?2 AND ?3)", nativeQuery = true)
-	Page<OperacaoConta> findByCliente(Long id, LocalDateTime dataInicial, LocalDateTime dataFinal, Pageable pageRequest);
+	Page<OperacaoConta> pageByCliente(Long id, LocalDateTime dataInicial, LocalDateTime dataFinal, Pageable pageRequest);
 	
 	@Query("SELECT op FROM OperacaoConta op WHERE fk_conta_id = ?1 AND data_hora BETWEEN ?2 AND ?3")
 	List<OperacaoConta> findOperacaoByDate(Long id, LocalDateTime dataInicio, LocalDateTime dataFim);

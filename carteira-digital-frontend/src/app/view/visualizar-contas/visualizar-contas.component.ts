@@ -1,8 +1,8 @@
-import { IOperacao } from 'src/app/model/IOperacao';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { OperacoesService } from 'src/app/services/operacoes.service';
 import { IConta } from './../../model/IConta';
 import { ContaService } from './../../services/conta.service';
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-visualizar-contas',
@@ -24,7 +24,13 @@ export class VisualizarContasComponent implements OnInit {
     inicial: new FormControl('')
   });
 
-  constructor(private contaService: ContaService) {
+  quantidadeView = {
+    quantidadeDespesas: 0,
+    quantidadeReceitas: 0
+  }
+
+  constructor(private contaService: ContaService,
+              private operacoesService: OperacoesService) {
     this.responsiveOptions = [
       {
           breakpoint: '1024px',
@@ -77,8 +83,13 @@ export class VisualizarContasComponent implements OnInit {
   }
 
   preencherCardDetalhes(id:number){
+    debugger;
     this.contaService.buscarContaPorId(id).subscribe(conta=>{
       this.conta = conta;
+      this.operacoesService.buscarQntOperacoes(this.conta.id).subscribe(res=>{
+        this.quantidadeView.quantidadeReceitas = parseInt(Object.values(res)[0]);
+        this.quantidadeView.quantidadeDespesas = parseInt(Object.values(res)[1]);
+      })
     })
   }
 

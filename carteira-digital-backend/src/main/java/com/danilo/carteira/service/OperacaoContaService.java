@@ -63,6 +63,18 @@ public class OperacaoContaService {
 		return listaExistentes;
 		
 	}
+	
+	public List<Integer> buscaQuantidadeDeOperacoesPorConta(Long id){
+		UserSS user = UserService.authenticated();
+		Conta con = contaService.buscarId(user.getId());
+		List<Integer> quantidadeOperacoes = new ArrayList<Integer>();
+		Integer quantidadeReceita = contaService.buscarQuantidadeDeOperacaoPorConta('R', con.getId());
+		Integer quantidadeDespesa = contaService.buscarQuantidadeDeOperacaoPorConta('D', con.getId());
+		quantidadeOperacoes.add(quantidadeReceita);
+		quantidadeOperacoes.add(quantidadeDespesa);
+		
+		return quantidadeOperacoes;
+	}
 
 	public void deletarOperacao(Long id) {
 		UserSS user = UserService.authenticated();
@@ -253,7 +265,7 @@ public class OperacaoContaService {
 		LocalDateTime dataInicioBusca = LocalDateTime.parse(dataInicio, format);
 		LocalDateTime dataFimBusca = LocalDateTime.parse(dataFinal, format);
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return repository.findByCliente(user.getId(),dataInicioBusca,dataFimBusca,pageRequest);
+		return repository.pageByCliente(user.getId(),dataInicioBusca,dataFimBusca,pageRequest);
 	}
 
 }

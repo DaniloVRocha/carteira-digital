@@ -50,8 +50,7 @@
         <h5>Saldo</h5>
         <div class="form-group p-inputgroup">
           <span class="p-inputgroup-addon"><i class="pi pi-wallet"></i></span>
-          <input [disabled]="disabled"  type="text" class="form-control" [(ngModel)]="saldo" mode="currency" currency="BRL"
-          locale="pt-BR" [ngModelOptions]="{standalone: true}" pInputText>
+          <input [disabled]="disabled" pTooltip="Para Alterar o saldo acesse a aba Ajuste de Saldo" type="text" class="form-control" [(ngModel)]="saldo" [ngModelOptions]="{standalone: true}" pInputText>
         </div>
       </div>
 
@@ -74,26 +73,15 @@
 <p-dialog [(visible)]="displayInformacao">
   <ng-template pTemplate="header">
     <div class="container">
-      <h1>{{conta.instituicao}}</h1>
+
     </div>
   </ng-template>
-
-  <p-card>
-    <ng-template pTemplate="header">
+    <p-card>
+          <h1 class="text-center">{{conta.instituicao}}</h1>
           <h4 class="text-success col-12 text-center">Saldo: {{conta.saldo | currency:'BRL'}}</h4>
           <h4 class="text-danger col-12 text-center">Despesas: {{conta.despesas | currency:'BRL'}}</h4>
           <h4 class="text-success col-12 text-center">Receita: {{conta.receitas | currency:'BRL'}}</h4>
-    </ng-template>
-
-    <ng-template pTemplate="footer">
-        Footer content here
-    </ng-template>
-  </p-card>
-
-  <ng-template pTemplate="footer">
-    <button pButton pRipple type="button" icon="pi pi-times" label="Cancelar"
-      class="p-button-raised p-button-danger"></button>
-    <button pButton pRipple type="button" icon="pi pi-check" label="Editar Conta"
-      class="p-button-raised p-button-success"></button>
-  </ng-template>
+          <h4 class="text-danger col-12 text-center"> Quantidade de despesas: {{quantidadeView.quantidadeDespesas}}</h4>
+          <h4 class="text-success col-12 text-center">Quantidade de receitas: {{quantidadeView.quantidadeReceitas}}</h4>
+    </p-card>
 </p-dialog>

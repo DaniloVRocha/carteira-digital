@@ -15,9 +15,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CPF;
 
 import com.danilo.carteira.domain.enums.Perfil;
 import com.danilo.carteira.domain.enums.TipoCliente;
@@ -38,11 +40,13 @@ public class Cliente implements Serializable {
 	private String nome;
 
 	@NotEmpty(message = "O Campo CPF é Obrigatório")
+	@CPF
 	@Column(name = "cpf", length = 11)
 	private String cpf;
 
 	@NotEmpty(message = "O Campo Email é Obrigatório")
 	@Column(nullable = false)
+	@Email(message="O campo email deve ser preenchido com um email válido")
 	private String email;
 
 	@NotEmpty(message = "O Campo Senha é Obrigatório")
@@ -63,20 +67,17 @@ public class Cliente implements Serializable {
 		addPerfil(Perfil.CLIENTE);
 	}
 
-	public Cliente(Long id, String nome, String cpf, String email, String senha, TipoCliente tipoCliente, Boolean ativo,
-			String observacoes, Integer perfil) {
+	public Cliente(Long id, String nome, String cpf, String email, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.email = email;
 		this.senha = senha;
-		this.tipoCliente = tipoCliente;
-		this.ativo = ativo;
-		this.observacoes = observacoes;
 		addPerfil(Perfil.CLIENTE);
 	}
-
+	
+	
 	public Long getId() {
 		return id;
 	}

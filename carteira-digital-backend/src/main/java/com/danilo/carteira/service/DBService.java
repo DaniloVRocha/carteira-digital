@@ -13,7 +13,6 @@ import com.danilo.carteira.domain.Conta;
 import com.danilo.carteira.domain.OperacaoConta;
 import com.danilo.carteira.domain.enums.Categoria;
 import com.danilo.carteira.domain.enums.EstadoPagamento;
-import com.danilo.carteira.domain.enums.TipoCliente;
 import com.danilo.carteira.repository.ClienteRepository;
 import com.danilo.carteira.repository.ContaRepository;
 import com.danilo.carteira.repository.OperacaoContaRepository;
@@ -32,14 +31,11 @@ public class DBService {
 
 	public void instantiateTestDatabase() throws ParseException {
 		
-		Cliente cli1 = new Cliente(null, "Danilo", "00000000000", "danilo@gmail.com", pe.encode("testesenha"),
-				TipoCliente.PESSOAFISICA, true, "Observação Cliente", 1);
+		Cliente cli1 = new Cliente(null, "Danilo", "40476325030", "danilo@gmail.com", pe.encode("testesenha"));
 
-		Cliente cli2 = new Cliente(null, "James Gosling", "00000000001", "java@gmail.com", pe.encode("java123"),
-				TipoCliente.PESSOAJURIDICA, true, "Use Java", 2);
+		Cliente cli2 = new Cliente(null, "James Gosling", "42024840027", "java@gmail.com", pe.encode("java123"));
 
-		Cliente cli3 = new Cliente(null, "Ana Costa", "00000000022", "ana@gmail.com", pe.encode("ana123"),
-				TipoCliente.PESSOAFISICA, true, "Cadastro Ana Costa", 2);
+		Cliente cli3 = new Cliente(null, "Ana Costa", "26658128006", "ana@gmail.com", pe.encode("ana123"));
 
 		Conta con1 = new Conta(null, "Itau", 0.00, cli1);
 		Conta con4 = new Conta(null, "NuBank", 0.00, cli2);
