@@ -1,3 +1,4 @@
+import { ContaEdicaoDTO } from './../../model/ContaEdicaoDTO';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -32,7 +33,7 @@ export class VisualizarContasComponent implements OnInit {
 
   formValueConta: FormGroup = new FormGroup({
     instituicao: new FormControl(''),
-    inicial: new FormControl('')
+    mostrarTelaInicial: new FormControl('')
   });
 
   formTransferencia: FormGroup = new FormGroup({
@@ -98,7 +99,7 @@ export class VisualizarContasComponent implements OnInit {
     this.saldo = conta.saldo;
     this.formValueConta = new FormGroup({
       instituicao: new FormControl(conta.instituicao),
-      inicial: new FormControl(conta.mostrarTelaInicial),
+      mostrarTelaInicial: new FormControl(conta.mostrarTelaInicial),
     });
   }
 
@@ -106,6 +107,7 @@ export class VisualizarContasComponent implements OnInit {
     debugger;
     this.contaService.buscarContaPorId(id).subscribe(conta=>{
       this.preencherForm(conta);
+      this.conta = conta;
     })
   }
 
@@ -142,7 +144,13 @@ export class VisualizarContasComponent implements OnInit {
         this.messageService.add({severity:'error', summary:'Cancelado', detail:'A Transferencia não foi feita, tente novamente'});
       }
   });
+  }
 
-
+  editarConta(id:any){
+    const conta:ContaEdicaoDTO = this.formValueConta.value;
+    this.contaService.editarConta(conta, id).subscribe(res=>{
+    })
+    this.messageService.add({severity:'success', summary:'Feito', detail:'Conta Editada com sucesso'});
+    this.display = false;
   }
 }
