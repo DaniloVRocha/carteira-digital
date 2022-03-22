@@ -10,5 +10,6 @@ export interface IConta {
     receitas?: number;
 	  cliente?: ICliente;
 	  operacao?: IOperacao[];
+    mostrarTelaInicial?:boolean;
 
 }

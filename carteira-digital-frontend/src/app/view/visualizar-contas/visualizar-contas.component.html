@@ -1,8 +1,18 @@
+<!-- dialog de Transferencia -->
+<p-confirmDialog [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}"></p-confirmDialog>
+<p-toast></p-toast>
 <!-- dialog de exibição de contas -->
 <p-carousel [value]="contas" [numVisible]="2" [numScroll]="2" [circular]="false"
   [responsiveOptions]="responsiveOptions">
   <ng-template pTemplate="header">
-    <h2 class="text-center">Gestão de Contas</h2>
+    <div class="grid">
+      <div class="col"></div>
+      <div class="col"><h2 class="text-center mt-4">Gestão de Contas</h2></div>
+      <div class="col">
+        <button style="float: right;" pButton pRipple *ngIf="contas.length>1" (click)="showDialogTransferencia()" type="button" icon="pi pi-arrows-h" label="Transferencia"
+        class="p-button-raised p-button-help mt-4"></button>
+      </div>
+    </div>
     <hr>
   </ng-template>
   <ng-template let-conta pTemplate="item">
@@ -18,12 +28,8 @@
           <div class="car-buttons p-mt-5 text-center">
             <p-button type="button" pTooltip="Editar Conta" styleClass="p-button-warning p-button-rounded p-mr-2"
               icon="pi pi-pencil" (click)="showDialogEditar(conta.id)"></p-button>
-            <!-- <p-button type="button" pTooltip="Excluir Conta" styleClass="p-button-danger p-button-rounded p-mr-2"
-              icon="pi pi-trash"></p-button> -->
-            <p-button type="button" pTooltip="Detalhar Conta" (click)="showDialogInformacoes(conta.id)" styleClass="p-button p-button-rounded p-mr-2"
-              icon="pi pi-info"></p-button>
-            <p-button type="button" pTooltip="Transferencia entre contas" styleClass="p-button-help p-button-rounded"
-              icon="pi pi-arrows-h"></p-button>
+            <p-button type="button" pTooltip="Detalhar Conta" (click)="showDialogInformacoes(conta.id)"
+              styleClass="p-button p-button-rounded p-mr-2" icon="pi pi-info"></p-button>
           </div>
         </div>
       </div>
@@ -38,6 +44,19 @@
   </ng-template>
   <form [formGroup]="formValueConta">
     <div class="grid p-fluid">
+      <div class="col-6 md:col-6">
+        <h5>Saldo</h5>
+        <div class="form-group p-inputgroup">
+          <h1 class="text-success" *ngIf="saldo>0">{{saldo | currency:'BRL'}}</h1>
+          <h1 class="text-danger" *ngIf="saldo<=0">{{saldo | currency:'BRL'}}</h1>
+        </div>
+      </div>
+      <div class="col-6 md:col-6">
+        <h5>Mostrar na tela inicial? </h5>
+        <div class="form-group p-inputgroup">
+          <p-inputSwitch class="form-control" formControlName="inicial"></p-inputSwitch>
+        </div>
+      </div>
       <div class="col-12 md:col-12">
         <h5>Nome Conta / Instituição</h5>
         <div class="form-group p-inputgroup">
@@ -46,20 +65,6 @@
         </div>
       </div>
 
-      <div class="col-12 md:col-12">
-        <h5>Saldo</h5>
-        <div class="form-group p-inputgroup">
-          <span class="p-inputgroup-addon"><i class="pi pi-wallet"></i></span>
-          <input [disabled]="disabled" pTooltip="Para Alterar o saldo acesse a aba Ajuste de Saldo" type="text" class="form-control" [(ngModel)]="saldo" [ngModelOptions]="{standalone: true}" pInputText>
-        </div>
-      </div>
-
-      <div class="col-12 md:col-12">
-        <h5>Mostrar na tela inicial? </h5>
-        <div class="form-group p-inputgroup">
-          <p-inputSwitch class="form-control" formControlName="inicial"></p-inputSwitch>
-        </div>
-      </div>
     </div>
   </form>
   <ng-template pTemplate="footer">
@@ -76,12 +81,56 @@
 
     </div>
   </ng-template>
-    <p-card>
-          <h1 class="text-center">{{conta.instituicao}}</h1>
-          <h4 class="text-success col-12 text-center">Saldo: {{conta.saldo | currency:'BRL'}}</h4>
-          <h4 class="text-danger col-12 text-center">Despesas: {{conta.despesas | currency:'BRL'}}</h4>
-          <h4 class="text-success col-12 text-center">Receita: {{conta.receitas | currency:'BRL'}}</h4>
-          <h4 class="text-danger col-12 text-center"> Quantidade de despesas: {{quantidadeView.quantidadeDespesas}}</h4>
-          <h4 class="text-success col-12 text-center">Quantidade de receitas: {{quantidadeView.quantidadeReceitas}}</h4>
-    </p-card>
+  <p-card>
+    <h1 class="text-center">{{conta.instituicao}}</h1>
+    <h4 class="text-success col-12 text-center">Saldo: {{conta.saldo | currency:'BRL'}}</h4>
+    <h4 class="text-danger col-12 text-center">Despesas: {{conta.despesas | currency:'BRL'}}</h4>
+    <h4 class="text-success col-12 text-center">Receita: {{conta.receitas | currency:'BRL'}}</h4>
+    <h4 class="text-danger col-12 text-center"> Quantidade de despesas: {{quantidadeView.quantidadeDespesas}}</h4>
+    <h4 class="text-success col-12 text-center">Quantidade de receitas: {{quantidadeView.quantidadeReceitas}}</h4>
+  </p-card>
 </p-dialog>
+
+<!-- dialog transferencia entre contas -->
+<p-dialog [(visible)]="displayTransferencia">
+  <ng-template pTemplate="header">
+    <h1>Transferencia entre contas</h1>
+  </ng-template>
+  <form [formGroup]="formTransferencia" [style]="{'width':'80vw', 'heigth':'80vw'}">
+    <div class="grid p-fluid">
+      <div class="col-12 md:col-6">
+        <h5>Valor da Transferencia</h5>
+        <div class="form-group p-inputgroup">
+          <span class="p-inputgroup-addon">$</span>
+          <p-inputNumber class="form-control" formControlName="valor" mode="currency" currency="BRL" locale="pt-BR">
+          </p-inputNumber>
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <h5>Conta Origem</h5>
+        <div>
+          <p-dropdown [(ngModel)]="contaOrigemSelecionada" [ngModelOptions]="{standalone: true}" appendTo="body"
+            [options]="contas" optionLabel="instituicao" optionValue="id" [showClear]="true"></p-dropdown>
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <h5>Conta Destino</h5>
+        <div>
+          <p-dropdown [(ngModel)]="contaDestinoSelecionada" [ngModelOptions]="{standalone: true}" appendTo="body"
+            [options]="contas" optionLabel="instituicao" optionValue="id" [showClear]="true"></p-dropdown>
+        </div>
+      </div>
+
+    </div>
+  </form>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple type="button" icon="pi pi-times" (click)="displayTransferencia=false" label="Cancelar"
+      class="p-button-raised p-button-danger"></button>
+    <button pButton pRipple type="button" icon="pi pi-check" (click)="transferenciaEntreContas()" label="Transferir"
+      class="p-button-raised p-button-success"></button>
+  </ng-template>
+</p-dialog>
+
+

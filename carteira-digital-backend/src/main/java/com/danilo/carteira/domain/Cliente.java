@@ -41,15 +41,16 @@ public class Cliente implements Serializable {
 
 	@NotEmpty(message = "O Campo CPF é Obrigatório")
 	@CPF
-	@Column(name = "cpf", length = 11)
+	@Column(name = "cpf", length = 11, unique=true)
 	private String cpf;
 
 	@NotEmpty(message = "O Campo Email é Obrigatório")
-	@Column(nullable = false)
+	@Column(nullable = false, unique=true)
 	@Email(message="O campo email deve ser preenchido com um email válido")
 	private String email;
 
 	@NotEmpty(message = "O Campo Senha é Obrigatório")
+	@Length(min = 5, max = 80, message = "O tamanho da senha deve ser entre 5 e 80 caracteres")
 	@Column(nullable = false)
 	private String senha;
 

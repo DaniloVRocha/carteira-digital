@@ -78,7 +78,6 @@ export class MovimentacoesComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.operacoesPaginadasPorData();
     this.operacoesPaginadasPorMesAno();
     this.atualizarSaldoPorData();
     this.preencherContasCliente();
@@ -106,19 +105,19 @@ export class MovimentacoesComponent implements OnInit {
     let estadoPagamentovar;
     if(operacao.estadoPagamento === "QUITADO"? estadoPagamentovar = true : estadoPagamentovar = false)
     var i = 0;
-    console.log(this.categoriaSelecionada);
     for(i = 0; i < this.categorias.length;i++){
       if(this.categorias[i].nome.toLocaleUpperCase() === operacao.categoria.toString()){
         this.categoriaSelecionada = this.categorias[i].id;
         break;
       }
     }
+    console.log(operacao.vencimento)
     this.contaSelecionada = operacao.conta.id
     this.formValueOperacao = new FormGroup({
       id: new FormControl(operacao.id),
       nome: new FormControl(operacao.nome),
       valor: new FormControl(operacao.valor),
-      vencimento: new FormControl(new Date(operacao.vencimento)),
+      vencimento: new FormControl(operacao.vencimento),
       tpOperacao: new FormControl(operacao.tpOperacao),
       estadoPagamento: new FormControl(estadoPagamentovar),
       categoria : new FormControl(this.categoriaSelecionada)
@@ -140,15 +139,11 @@ export class MovimentacoesComponent implements OnInit {
   }
 
   preencherContasCliente(){
-    this.contaService.preencherContasCliente().subscribe(res => {
-      this.contas = res;
-    })
+    this.contaService.preencherContasCliente().subscribe(res => {this.contas = res;})
   }
 
   atualizarSaldoPorData() {
-    this.contaService.preencherSaldoPorMes(this.dataHora).subscribe(res => {
-      this.dashboardView = res;
-    })
+    this.contaService.preencherSaldoPorMes(this.dataHora).subscribe(res => {this.dashboardView = res;})
   }
 
   pagarContaVencida(id:number){
@@ -230,7 +225,6 @@ export class MovimentacoesComponent implements OnInit {
   mudouDate(event:any){
     this.date = event.novaData;
     this.operacoesPaginadasPorMesAno();
-    console.log(event)
   }
 
   formatarDataBackend(data: Date) {

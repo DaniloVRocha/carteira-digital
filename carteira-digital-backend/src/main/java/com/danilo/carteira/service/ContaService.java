@@ -14,6 +14,7 @@ import com.danilo.carteira.config.security.UserSS;
 import com.danilo.carteira.domain.Cliente;
 import com.danilo.carteira.domain.Conta;
 import com.danilo.carteira.domain.OperacaoConta;
+import com.danilo.carteira.dto.ContaEdicaoDTO;
 import com.danilo.carteira.dto.ContaValoresDTO;
 import com.danilo.carteira.dto.OperacaoContaDTO;
 import com.danilo.carteira.repository.ContaRepository;
@@ -96,14 +97,18 @@ public class ContaService {
 		return contas;
 	}
 
-	public Conta alterarConta(Conta obj) {
-		UserSS user = UserService.authenticated();
-		if (obj.getCliente().getId() != user.getId()) {
-			throw new AuthorizationException("Acesso Negado");
+	public Conta alterarConta(ContaEdicaoDTO obj, Long id) {
+		List<Conta> contas = buscarPorIdCliente();
+		
+		for(Conta conta: contas) {
+			if(conta.getId() == id) {
+				Conta newObj = conta;
+				newObj.setInstituicão(obj.getInstituicao());
+				newObj.setMostrarTelaInicial(obj.getMostrarTelaInicial());
+				return repository.save(newObj);
+			}
 		}
-		Conta newObj = buscarId(user.getId());
-		updateData(newObj, obj);
-		return repository.save(newObj);
+		return null;
 	}
 
 	public void deletarConta(Long id) {
@@ -188,7 +193,4 @@ public class ContaService {
 		return repository.findByCliente(cliente, pageRequest);
 	}
 
-	private void updateData(Conta newObj, Conta obj) {
-		newObj.setInstituicão(obj.getInstituicao());
-	}
 }
