@@ -18,6 +18,8 @@ public class ContaDTO implements Serializable{
 
 	private double receitas;
 	
+	private boolean mostrarTelaInicial;
+	
 	private ClienteDTO cliente; 
 	
 	public ContaDTO(Conta conta) {
@@ -28,6 +30,7 @@ public class ContaDTO implements Serializable{
 		this.despesas = conta.getDespesas();
 		this.receitas = conta.getReceitas();
 		this.cliente = new ClienteDTO(conta.getCliente());
+		this.mostrarTelaInicial = conta.getMostrarTelaInicial();
 	}
 
 	public Long getId() {
@@ -76,6 +79,14 @@ public class ContaDTO implements Serializable{
 
 	public void setCliente(ClienteDTO cliente) {
 		this.cliente = cliente;
+	}
+
+	public boolean isMostrarTelaInicial() {
+		return mostrarTelaInicial;
+	}
+
+	public void setMostrarTelaInicial(boolean mostrarTelaInicial) {
+		this.mostrarTelaInicial = mostrarTelaInicial;
 	}
 	
 }

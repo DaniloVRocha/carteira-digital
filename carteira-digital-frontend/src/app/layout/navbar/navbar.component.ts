@@ -35,11 +35,7 @@ export class NavbarComponent implements OnInit {
                     label: 'Visualizar Contas',
                     icon: 'pi pi-pi pi-credit-card',
                     routerLink:'/visualizar-contas'
-                },
-                {
-                    label: 'Transferencias entre contas',
-                    icon: 'pi pi-pi pi-arrows-h'
-                },
+                }
             ]
         },
         {

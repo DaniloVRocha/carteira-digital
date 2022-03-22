@@ -68,8 +68,8 @@ public class OperacaoContaService {
 		UserSS user = UserService.authenticated();
 		Conta con = contaService.buscarId(user.getId());
 		List<Integer> quantidadeOperacoes = new ArrayList<Integer>();
-		Integer quantidadeReceita = contaService.buscarQuantidadeDeOperacaoPorConta('R', con.getId());
-		Integer quantidadeDespesa = contaService.buscarQuantidadeDeOperacaoPorConta('D', con.getId());
+		Integer quantidadeReceita = contaService.buscarQuantidadeDeOperacaoPorConta('R', id);
+		Integer quantidadeDespesa = contaService.buscarQuantidadeDeOperacaoPorConta('D', id);
 		quantidadeOperacoes.add(quantidadeReceita);
 		quantidadeOperacoes.add(quantidadeDespesa);
 		

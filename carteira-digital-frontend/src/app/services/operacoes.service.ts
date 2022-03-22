@@ -1,3 +1,4 @@
+import { TransferenciaDTO } from './../model/TransferenciaDTO';
 import { IPage } from './../model/IPage';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -58,5 +59,8 @@ export class OperacoesService {
 
   buscarQntOperacoes(id:any){
     return this.http.get(`${this.api}/${this.endpoint}qnt-operacoes/${id}`);
+  }
+  transferenciaEntreContas(transferencia:TransferenciaDTO){
+    return this.http.post(`${this.api}/${this.endpoint}transferencia`, transferencia);
   }
 }

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.danilo.carteira.domain.Conta;
 import com.danilo.carteira.dto.ContaDTO;
+import com.danilo.carteira.dto.ContaEdicaoDTO;
 import com.danilo.carteira.dto.ContaValoresDTO;
 import com.danilo.carteira.dto.OperacaoContaDTO;
 import com.danilo.carteira.service.ContaService;
@@ -65,6 +66,12 @@ public class ContaRest {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(conta.getId()).toUri();
 				return ResponseEntity.created(uri).build();
+	}	
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<String> alterarConta(@Valid @RequestBody ContaEdicaoDTO conta, @Valid @PathVariable Long id){
+		service.alterarConta(conta, id);
+		return new ResponseEntity<>("Conta editada com sucesso", HttpStatus.OK);
 	}	
 	
 	@RequestMapping(value = "/atualizarValores-data", method=RequestMethod.GET)

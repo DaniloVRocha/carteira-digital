@@ -37,6 +37,8 @@ public class Conta implements Serializable {
 	private double despesas;
 
 	private double receitas;
+	
+	private boolean mostrarTelaInicial;
 
 	@ManyToOne
 	@JoinColumn(name = "fk_cliente_id")
@@ -56,6 +58,7 @@ public class Conta implements Serializable {
 		this.instituicao = instituicao;
 		this.saldo = saldo;
 		this.cliente = cliente;
+		this.mostrarTelaInicial = true;
 	}
 
 	public Long getId() {
@@ -80,6 +83,14 @@ public class Conta implements Serializable {
 
 	public void setSaldo(double saldo) {
 		this.saldo = saldo;
+	}
+
+	public boolean getMostrarTelaInicial() {
+		return mostrarTelaInicial;
+	}
+
+	public void setMostrarTelaInicial(boolean mostrarTelaInicial) {
+		this.mostrarTelaInicial = mostrarTelaInicial;
 	}
 
 	public double getDespesas() {

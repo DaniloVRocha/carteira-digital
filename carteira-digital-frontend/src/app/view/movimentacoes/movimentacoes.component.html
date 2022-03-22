@@ -102,7 +102,7 @@
           <th class="text-center">Estado de Pagamento</th>
           <th class="text-center">Instituição</th>
           <th class="text-center">Tipo</th>
-          <th class="text-center">Ações</th>
+          <th class="text-center">Valor</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-operacao let-columns="columns">
@@ -114,11 +114,11 @@
           <td class="text-center"><span class="p-column-title">Instituição</span>{{operacao.conta.instituicao}}</td>
           <td class="text-center"><span class="p-column-title">Tipo de Operação</span>
             <h5 class="text-success" *ngIf="operacao.tpOperacao == 'R' "><i class="pi pi-arrow-up"></i>
-              <b>Receita</b></h5>
-            <h5 class="text-danger" *ngIf="operacao.tpOperacao == 'D' "><i class="pi pi-arrow-down"></i>
-              Despesa</h5>
-          </td>
+              <b>Receita de {{operacao.valor | currency:'BRL'}}</b></h5>
 
+            <h5 class="text-danger" *ngIf="operacao.tpOperacao == 'D' "><i class="pi pi-arrow-down"></i>
+              Despesa de {{operacao.valor | currency:'BRL'}}</h5>
+          </td>
           <td class="text-center"><span class="p-column-title">Ações</span>
             <div class="grid">
               <div class="col">

@@ -40,8 +40,8 @@
                         Despesa</h5>
                       </td>
                     <td style="width:150px"><span class="p-column-title">Ação</span>
-                        <button pButton pRipple type="button" icon="pi pi-check" *ngIf="operacao.tpOperacao == 'R' " label="Receber" (click) = "pagarContaVencida(operacao.id, operacao.tpOperacao)" class="p-button-rounded p-button-success"></button>
-                        <button pButton pRipple type="button" icon="pi pi-times" *ngIf="operacao.tpOperacao == 'D' " label="Pagar  " (click) = "pagarContaVencida(operacao.id, operacao.tpOperacao)" class="p-button-rounded p-button-danger"></button>
+                        <button pButton pRipple type="button" icon="pi pi-check" *ngIf="operacao.tpOperacao == 'R' " label="Receber" (click) = "pagarContaVencida(operacao.id, operacao.tpOperacao)" class="p-button-success"></button>
+                        <button pButton pRipple type="button" icon="pi pi-times" *ngIf="operacao.tpOperacao == 'D' " label="Pagar" (click) = "pagarContaVencida(operacao.id, operacao.tpOperacao)" class="p-button-danger text-center"></button>
                     </td>
                 </tr>
             </ng-template>

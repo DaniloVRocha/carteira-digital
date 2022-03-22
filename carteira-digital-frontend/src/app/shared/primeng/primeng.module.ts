@@ -23,6 +23,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
 import { CarouselModule } from 'primeng/carousel';
+import {KeyFilterModule} from 'primeng/keyfilter';
 
 
 
@@ -52,7 +53,8 @@ import { CarouselModule } from 'primeng/carousel';
     ConfirmDialogModule,
     MessagesModule,
     ToastModule,
-    CarouselModule
+    CarouselModule,
+    KeyFilterModule
   ]
 })
 export class PrimengModule { }
