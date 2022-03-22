@@ -1,3 +1,4 @@
+import { ContaEdicaoDTO } from './../model/ContaEdicaoDTO';
 import { IConta } from './../model/IConta';
 import { IDataHora } from './../model/IDataHora';
 import { HttpClient } from '@angular/common/http';
@@ -33,5 +34,9 @@ export class ContaService {
 
   preencherContasCliente(){
     return this.http.get<IConta[]>(`${this.api}/${this.endpoint}`);
+  }
+
+  editarConta(conta: ContaEdicaoDTO, id:number){
+    return this.http.put(`${this.api}/${this.endpoint}${id}`, conta);
   }
 }
