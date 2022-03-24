@@ -42,6 +42,7 @@ public class Conta implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "fk_cliente_id")
+	@JsonIgnore
 	private Cliente cliente;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

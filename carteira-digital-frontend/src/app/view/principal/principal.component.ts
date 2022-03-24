@@ -19,10 +19,16 @@ export class PrincipalComponent implements OnInit {
   dataHora:Date = new Date(2022, 2, 1);
   data: any;
   options: any;
+
   dashboardView: IContaViewDTO = {
     saldo: 0.0,
     despesas: 0.0,
     receitas: 0.0
+  }
+  labelDashboard:any = {
+    labelSaldo:"Saldo Total",
+    labelDespesas:"Total de Despesas",
+    labelReceitas:"Total de Receitas"
   }
 
   constructor(private contaService: ContaService,

@@ -24,6 +24,7 @@ import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
 import { CarouselModule } from 'primeng/carousel';
 import {KeyFilterModule} from 'primeng/keyfilter';
+import {MessageModule} from 'primeng/message';
 
 
 
@@ -54,7 +55,8 @@ import {KeyFilterModule} from 'primeng/keyfilter';
     MessagesModule,
     ToastModule,
     CarouselModule,
-    KeyFilterModule
+    KeyFilterModule,
+    MessageModule
   ]
 })
 export class PrimengModule { }

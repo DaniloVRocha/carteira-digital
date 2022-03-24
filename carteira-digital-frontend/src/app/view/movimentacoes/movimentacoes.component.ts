@@ -25,6 +25,12 @@ export class MovimentacoesComponent implements OnInit {
     receitas: 0.0
   }
 
+  labelDashboard:any = {
+    labelSaldo:"Saldo Previsto Mês",
+    labelDespesas:"Despesas Previstas Mês",
+    labelReceitas:"Receitas Previstas Mês"
+  }
+
   date:Date = new Date(2022, 2, 1);
 
   formValueOperacao: FormGroup = new FormGroup({
@@ -143,7 +149,7 @@ export class MovimentacoesComponent implements OnInit {
   }
 
   atualizarSaldoPorData() {
-    this.contaService.preencherSaldoPorMes(this.dataHora).subscribe(res => {this.dashboardView = res;})
+    this.contaService.preencherSaldoPorMesAno(this.date.getMonth()+1, this.date.getFullYear()).subscribe(res => {this.dashboardView = res;})
   }
 
   pagarContaVencida(id:number){
@@ -225,6 +231,7 @@ export class MovimentacoesComponent implements OnInit {
   mudouDate(event:any){
     this.date = event.novaData;
     this.operacoesPaginadasPorMesAno();
+    this.atualizarSaldoPorData();
   }
 
   formatarDataBackend(data: Date) {

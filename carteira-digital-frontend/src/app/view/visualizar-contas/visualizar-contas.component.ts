@@ -21,6 +21,7 @@ export class VisualizarContasComponent implements OnInit {
   display:boolean = false;
   displayInformacao:boolean = false;
   displayTransferencia:boolean = false;
+  displayIncluir:boolean = false;
   saldo:any = 0;
   disabled: boolean = true;
   contaOrigemSelecionada:any = 1;
@@ -34,6 +35,11 @@ export class VisualizarContasComponent implements OnInit {
   formValueConta: FormGroup = new FormGroup({
     instituicao: new FormControl(''),
     mostrarTelaInicial: new FormControl('')
+  });
+  
+  formIncluir: FormGroup = new FormGroup({
+    instituicao: new FormControl('', Validators.required),
+    saldo: new FormControl('', Validators.required)
   });
 
   formTransferencia: FormGroup = new FormGroup({
@@ -121,29 +127,34 @@ export class VisualizarContasComponent implements OnInit {
     })
   }
   transferenciaEntreContas(){
-    debugger;
     this.transferencia = {
       valor: this.formTransferencia.value.valor,
       idOrigem: this.contaOrigemSelecionada,
       idDestino: this.contaDestinoSelecionada
     }
-    this.confirmationService.confirm({
-      message: 'Deseja transferir saldo entre as contas ?',
-      header: 'Transferencia entre contas',
-      icon: 'pi pi-exclamation-triangle',
-      rejectLabel:'Cancelar',
-      acceptLabel:'Transferir',
-      accept: () => {
-        this.operacoesService.transferenciaEntreContas(this.transferencia).subscribe(res=>{
-
-        });
-        this.messageService.add({severity:'success', summary:'Feito', detail:'Transferencia realizada com sucesso.'});
-        this.displayTransferencia = false;
-      },
-      reject: () => {
-        this.messageService.add({severity:'error', summary:'Cancelado', detail:'A Transferencia não foi feita, tente novamente'});
-      }
-  });
+    if(this.contaOrigemSelecionada === this.contaDestinoSelecionada){
+      this.messageService.add({severity:'error', summary:'Erro', detail:'A Conta Origem não pode ser igual a Conta Destino.'});
+    }else if(this.formTransferencia.value.valor <= 0){
+      this.messageService.add({severity:'error', summary:'Erro', detail:'O Valor da Transferencia não pode ser 0.'});
+    }else{
+      this.confirmationService.confirm({
+        message: 'Deseja transferir saldo entre as contas ?',
+        header: 'Transferencia entre contas',
+        icon: 'pi pi-exclamation-triangle',
+        rejectLabel:'Cancelar',
+        acceptLabel:'Transferir',
+        accept: () => {
+          this.operacoesService.transferenciaEntreContas(this.transferencia).subscribe(res=>{
+  
+          });
+          this.messageService.add({severity:'success', summary:'Feito', detail:'Transferencia realizada com sucesso.'});
+          this.displayTransferencia = false;
+        },
+        reject: () => {
+          this.messageService.add({severity:'error', summary:'Cancelado', detail:'A Transferencia não foi feita, tente novamente'});
+        }
+      });
+    }
   }
 
   editarConta(id:any){
@@ -152,5 +163,13 @@ export class VisualizarContasComponent implements OnInit {
     })
     this.messageService.add({severity:'success', summary:'Feito', detail:'Conta Editada com sucesso'});
     this.display = false;
+  }
+
+  incluirConta(){
+    const conta:IConta = this.formIncluir.value;
+    this.contaService.incluirConta(conta).subscribe(res=>{
+    })
+    this.messageService.add({severity:'success', summary:'Feito', detail:'Conta Criada com sucesso'});
+    this.displayIncluir = false;
   }
 }

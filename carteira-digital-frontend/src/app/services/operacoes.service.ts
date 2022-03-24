@@ -16,6 +16,18 @@ export class OperacoesService {
 
   constructor(private http:HttpClient) { }
 
+  novaOperacao(operacao:IOperacao){
+    return this.http.post(`${this.api}/${this.endpoint}`,operacao)
+  }
+
+  excluirOperacao(id:number){
+    return this.http.delete(`${this.api}/${this.endpoint}${id}`)
+  }
+
+  editarOperacao(operacao:IOperacao){
+    return this.http.put(`${this.api}/${this.endpoint}${operacao.id}`,operacao)
+  }
+
   buscarPorId(id:number){
     return this.http.get<IOperacao>(`${this.api}/${this.endpoint}${id}`)
   }
@@ -36,23 +48,14 @@ export class OperacoesService {
     return this.http.get(`${this.api}/${this.endpoint}consultar-categorias-data/${numeroMes}/${numeroAno}`)
   }
 
-  excluirOperacao(id:number){
-    return this.http.delete(`${this.api}/${this.endpoint}${id}`)
-  }
-
-  editarOperacao(operacao:IOperacao){
-    return this.http.put(`${this.api}/${this.endpoint}${operacao.id}`,operacao)
-  }
-  novaOperacao(operacao:IOperacao){
-    return this.http.post(`${this.api}/${this.endpoint}`,operacao)
-  }
-
+  //Buscar Operações no formato LocalDateTime
   operacoesPaginadasPorData(data:IDataHora, page:number, qntLinhas:number, orderBy:string, direction:string){
     let dataInicial = encodeURIComponent( JSON.stringify(data.dataInicial));
     let dataFinal = encodeURIComponent( JSON.stringify(data.dataFinal));
     return this.http.get<IPage>(`${this.api}/${this.endpoint}page-date?page=${page}&linesPerPage=${qntLinhas}&orderBy=${orderBy}&direction=${direction}&dataInicial=${dataInicial}&dataFinal=${dataFinal}`);
   }
 
+  //Buscar Operações no formato Número de mês e ano.
   operacoesPaginadasPorMesAno(numeroMes:number, numeroAno:number){
     return this.http.get<IOperacao[]>(`${this.api}/${this.endpoint}consultar-operacao-data/${numeroMes}/${numeroAno}`)
   }
@@ -60,6 +63,7 @@ export class OperacoesService {
   buscarQntOperacoes(id:any){
     return this.http.get(`${this.api}/${this.endpoint}qnt-operacoes/${id}`);
   }
+  
   transferenciaEntreContas(transferencia:TransferenciaDTO){
     return this.http.post(`${this.api}/${this.endpoint}transferencia`, transferencia);
   }

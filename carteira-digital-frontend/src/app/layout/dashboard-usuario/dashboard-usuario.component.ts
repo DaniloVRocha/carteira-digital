@@ -16,6 +16,13 @@ export class DashboardUsuarioComponent implements OnInit {
     receitas: 0.0
   }
 
+  @Input()
+  labelDashboard:any = {
+    labelSaldo:"",
+    labelDespesas:"",
+    labelReceitas:""
+  }
+
   constructor() { }
 
   ngOnInit(): void {
