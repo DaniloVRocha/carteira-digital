@@ -65,8 +65,7 @@ public class OperacaoContaService {
 	}
 	
 	public List<Integer> buscaQuantidadeDeOperacoesPorConta(Long id){
-		UserSS user = UserService.authenticated();
-		Conta con = contaService.buscarId(user.getId());
+		//TODO IMPLEMENTAR VERIFICAÇÃO DE SEGURANÇA
 		List<Integer> quantidadeOperacoes = new ArrayList<Integer>();
 		Integer quantidadeReceita = contaService.buscarQuantidadeDeOperacaoPorConta('R', id);
 		Integer quantidadeDespesa = contaService.buscarQuantidadeDeOperacaoPorConta('D', id);
@@ -170,6 +169,7 @@ public class OperacaoContaService {
 		inserirOperacao(op2);
 	}
 	public List<OperacaoContaDTO> consultarOperacoesPorData(String dataInicio, String dataFinal) throws Exception {
+		//TODO MÉTODO DUPLICADO consultarOperacoesPorMesAno()
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		LocalDateTime dataInicioBusca = LocalDateTime.parse(dataInicio, format);
 		LocalDateTime dataFimBusca = LocalDateTime.parse(dataFinal, format);

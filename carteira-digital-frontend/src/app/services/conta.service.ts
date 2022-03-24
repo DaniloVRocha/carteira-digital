@@ -18,10 +18,17 @@ export class ContaService {
   preencherSaldo() {
     return this.http.get<IContaViewDTO>(`${this.api}/${this.endpoint}atualizarValores`)
   }
+
+  //Buscar Saldo no Formato LocalDateTime.
   preencherSaldoPorMes(data:IDataHora) {
     let dataInicial = encodeURIComponent( JSON.stringify(data.dataInicial));
     let dataFinal = encodeURIComponent( JSON.stringify(data.dataFinal));
     return this.http.get<IContaViewDTO>(`${this.api}/${this.endpoint}atualizarValores-data?dataInicial=${dataInicial}&dataFinal=${dataFinal}`);
+  }
+
+  //Buscar Saldo no Formato Mês e Ano.
+  preencherSaldoPorMesAno(numeroMes:number, numeroAno:number){
+    return this.http.get<IContaViewDTO>(`${this.api}/${this.endpoint}consultar-valores-data/${numeroMes}/${numeroAno}`)
   }
 
   buscarContaPorId(id:number) {
@@ -39,4 +46,9 @@ export class ContaService {
   editarConta(conta: ContaEdicaoDTO, id:number){
     return this.http.put(`${this.api}/${this.endpoint}${id}`, conta);
   }
+  
+  incluirConta(conta: IConta){
+    return this.http.post(`${this.api}/${this.endpoint}`, conta);
+  }
+
 }

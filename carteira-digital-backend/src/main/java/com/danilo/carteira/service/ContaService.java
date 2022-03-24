@@ -121,6 +121,10 @@ public class ContaService {
 	}
 
 	public Conta inserirConta(Conta conta) {
+		UserSS user = UserService.authenticated();
+		Cliente cliente =  clienteService.buscarId(user.getId());
+		conta.setCliente(cliente);
+		conta.setMostrarTelaInicial(true);
 		return repository.save(conta);
 	}
 

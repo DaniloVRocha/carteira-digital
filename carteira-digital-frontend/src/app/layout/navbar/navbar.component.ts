@@ -32,7 +32,7 @@ export class NavbarComponent implements OnInit {
             icon: 'pi pi-fw pi-wallet',
             items: [
                 {
-                    label: 'Visualizar Contas',
+                    label: 'Visualizar / Incluir Contas',
                     icon: 'pi pi-pi pi-credit-card',
                     routerLink:'/visualizar-contas'
                 }

@@ -9,8 +9,10 @@
       <div class="col"></div>
       <div class="col"><h2 class="text-center mt-4">Gestão de Contas</h2></div>
       <div class="col">
+        <button style="float: right;" pButton pRipple (click)="displayIncluir = true" type="button" icon="pi pi-plus" label="Nova Conta"
+          class="p-button-raised p-button-success mt-4"></button>
         <button style="float: right;" pButton pRipple *ngIf="contas.length>1" (click)="showDialogTransferencia()" type="button" icon="pi pi-arrows-h" label="Transferencia"
-        class="p-button-raised p-button-help mt-4"></button>
+        class="p-button-raised p-button-primary mt-4"></button>
       </div>
     </div>
     <hr>
@@ -129,6 +131,48 @@
     <button pButton pRipple type="button" icon="pi pi-times" (click)="displayTransferencia=false" label="Cancelar"
       class="p-button-raised p-button-danger"></button>
     <button pButton pRipple type="button" icon="pi pi-check" (click)="transferenciaEntreContas()" label="Transferir"
+      class="p-button-raised p-button-success"></button>
+  </ng-template>
+</p-dialog>
+
+<!-- dialog incluir nova conta -->
+<p-dialog [(visible)]="displayIncluir">
+  <ng-template pTemplate="header">
+    <h1>Incluir nova conta</h1>
+  </ng-template>
+  <form [formGroup]="formIncluir" [style]="{'width':'80vw', 'heigth':'80vw'}">
+    <div class="grid p-fluid">
+
+      <div class="col-12 md:col-12">
+        <h5>Nome Conta / Instituição</h5>
+        <div class="form-group p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-wallet"></i></span>
+          <input type="text" class="form-control" formControlName="instituicao" pInputText>
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <h5>Saldo Inicial</h5>
+        <div class="form-group p-inputgroup">
+          <span class="p-inputgroup-addon">$</span>
+          <p-inputNumber class="form-control" formControlName="saldo" mode="currency" currency="BRL" locale="pt-BR">
+          </p-inputNumber>
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <br>
+        <div class="form-group p-inputgroup">
+          <p-message severity="info" text="Por Padrão o saldo inicial da conta será mostrado na tela inicial, para ocultar desmarque a opção 'Mostrar na tela inicial' presente em editar conta." styleClass="p-mr-2"></p-message>
+        </div>
+      </div>
+
+    </div>
+  </form>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple type="button" icon="pi pi-times" (click)="displayIncluir=false" label="Cancelar"
+      class="p-button-raised p-button-danger"></button>
+    <button pButton pRipple type="button" icon="pi pi-check" (click)="incluirConta()" label="Cadastrar Conta"
       class="p-button-raised p-button-success"></button>
   </ng-template>
 </p-dialog>
