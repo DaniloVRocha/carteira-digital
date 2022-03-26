@@ -8,6 +8,7 @@ import { AuthenticationComponent } from './layout/authentication/authentication.
 import { HomeComponent } from './layout/home/home.component';
 import { MovimentacoesComponent } from './view/movimentacoes/movimentacoes.component';
 import { PrincipalComponent } from './view/principal/principal.component';
+import { RelatoriosPorDataComponent } from './view/relatorios/relatorios-por-data/relatorios-por-data.component';
 
 const routes: Routes = [
   {
@@ -15,7 +16,8 @@ const routes: Routes = [
     children:[
       {path:'', component: PrincipalComponent},
       {path:'movimentacoes', component: MovimentacoesComponent},
-      {path:'visualizar-contas', component: VisualizarContasComponent}
+      {path:'visualizar-contas', component: VisualizarContasComponent},
+      {path:'relatorio-data', component: RelatoriosPorDataComponent}
     ],
     canActivate:[AuthGuard]
   },

@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.hibernate.ObjectNotFoundException;
@@ -198,6 +199,37 @@ public class OperacaoContaService {
 		}
 		return auxDTO;
 	}
+	
+	public List<Map<String,Double>> consultarOperacoesPorAno() throws Exception {
+		LocalDateTime dataAtual = LocalDateTime.now();
+		List<Conta> contas = contaService.buscarContasCliente();
+		List<Map<String,Double>> retorno = new ArrayList<Map<String,Double>>();
+		HashMap<String, Double> receitaMês = new HashMap<String, Double>();
+		HashMap<String, Double> despesaMês = new HashMap<String, Double>();
+		
+		for(Conta conta: contas) {
+			for(int i=0;i<12;i++){
+				Double somaReceitasMêsAno = repository.findValoresOperacoesMes(conta.getId(),(i+1),dataAtual.getYear(),'R');
+				Double somaDespesasMêsAno = repository.findValoresOperacoesMes(conta.getId(),(i+1),dataAtual.getYear(),'D');
+				
+				if(null != somaReceitasMêsAno) {
+					receitaMês.put(selecionaMes(i+1), somaReceitasMêsAno);
+				}else {
+					receitaMês.put(selecionaMes(i+1), 0.00);
+				}
+				if(null != somaDespesasMêsAno) {
+					despesaMês.put(selecionaMes(i+1), somaDespesasMêsAno);
+				}else {
+					despesaMês.put(selecionaMes(i+1), 0.00);
+				}
+				
+			}
+		
+			retorno.add(receitaMês);
+			retorno.add(despesaMês);
+		}
+		return retorno;
+	}	
 
 	
 	public List<OperacaoContaDTO> consultarOperacoesVencidas() throws Exception {
@@ -266,6 +298,49 @@ public class OperacaoContaService {
 		LocalDateTime dataFimBusca = LocalDateTime.parse(dataFinal, format);
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repository.pageByCliente(user.getId(),dataInicioBusca,dataFimBusca,pageRequest);
+	}
+	
+	public String selecionaMes(Integer numeroMes) {
+		String nomeMês = null;
+		switch (numeroMes){
+        case 1:
+        	nomeMês = "Janeiro";
+            break;
+        case 2:
+        	nomeMês = "Fevereiro";
+            break;
+        case 3:
+        	nomeMês = "Março";
+            break;
+        case 4:
+        	nomeMês = "Abril";
+            break;
+        case 5:
+        	nomeMês = "Maio";
+            break;
+        case 6:
+        	nomeMês = "Junho";
+            break;
+        case 7:
+        	nomeMês = "Julho";
+            break;
+        case 8:
+        	nomeMês = "Agosto";
+            break;
+        case 9:
+        	nomeMês = "Setembro";
+            break;
+        case 10:
+        	nomeMês = "Outubro";
+            break;
+        case 11:
+        	nomeMês = "Novembro";
+            break;
+        case 12:
+        	nomeMês = "Dezembro";
+            break;
+    }
+		return nomeMês;		
 	}
 
 }

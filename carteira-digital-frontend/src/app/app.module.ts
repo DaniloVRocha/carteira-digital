@@ -18,6 +18,7 @@ import { DashboardUsuarioComponent } from './layout/dashboard-usuario/dashboard-
 import { DatepickerComponent } from './layout/datepicker/datepicker.component';
 import { PaginatorComponent } from './layout/paginator/paginator.component';
 import { VisualizarContasComponent } from './view/visualizar-contas/visualizar-contas.component';
+import { RelatoriosPorDataComponent } from './view/relatorios/relatorios-por-data/relatorios-por-data.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { VisualizarContasComponent } from './view/visualizar-contas/visualizar-c
     DashboardUsuarioComponent,
     DatepickerComponent,
     PaginatorComponent,
-    VisualizarContasComponent
+    VisualizarContasComponent,
+    RelatoriosPorDataComponent
   ],
   imports: [
     AppRoutingModule,
