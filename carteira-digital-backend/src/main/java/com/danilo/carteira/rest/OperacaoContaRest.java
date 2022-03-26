@@ -3,6 +3,7 @@ package com.danilo.carteira.rest;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -107,6 +108,13 @@ public class OperacaoContaRest {
 		
 		HashMap<String, Integer> categorias = service.buscarTodosPorIdCliente(numeroMes, numeroAno);
 		return new ResponseEntity<>(categorias, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/consultar-valores-ano", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<List<Map<String, Double>>> preencherGraficoReceitas() throws Exception {
+		
+		List<Map<String, Double>> valores = service.consultarOperacoesPorAno();
+		return new ResponseEntity<>(valores, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

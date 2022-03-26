@@ -40,7 +40,6 @@ public class Cliente implements Serializable {
 	private String nome;
 
 	@NotEmpty(message = "O Campo CPF é Obrigatório")
-	@CPF
 	@Column(name = "cpf", length = 11, unique=true)
 	private String cpf;
 

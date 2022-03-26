@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { PrimeNGConfig, MenuItem } from 'primeng/api';
 
 @Component({
@@ -44,7 +45,8 @@ export class NavbarComponent implements OnInit {
             items: [
                 {
                     label: 'Relatórios por Data',
-                    icon: 'pi pi-pi pi-calendar'
+                    icon: 'pi pi-pi pi-calendar',
+                    routerLink:'/relatorio-data'
                 },
                 {
                     label: 'Relatórios por Categoria',

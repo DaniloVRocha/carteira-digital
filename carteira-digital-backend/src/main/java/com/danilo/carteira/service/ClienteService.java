@@ -25,8 +25,8 @@ public class ClienteService {
 	@Autowired
 	private BCryptPasswordEncoder pe;
 	
-	@Autowired
-	private EmailService emailService;
+//	@Autowired
+//	private EmailService emailService;
 
 	public Cliente buscarId(Long id) {
 
@@ -34,7 +34,6 @@ public class ClienteService {
 
 		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
 			throw new AuthorizationException("Acesso Negado");
-
 		}
 
 		Optional<Cliente> cli = repository.findById(id);
@@ -45,7 +44,7 @@ public class ClienteService {
 	public Cliente inserirCliente(Cliente cli) {
 		cli.setId(null);
 		cli.setSenha(pe.encode(cli.getSenha()));
-		emailService.sendNewClientConfirmationHtmlEmail(cli);
+//		emailService.sendNewClientConfirmationHtmlEmail(cli);
 		return repository.save(cli);
 	}
 

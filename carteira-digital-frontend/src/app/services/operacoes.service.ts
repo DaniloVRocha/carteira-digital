@@ -67,4 +67,10 @@ export class OperacoesService {
   transferenciaEntreContas(transferencia:TransferenciaDTO){
     return this.http.post(`${this.api}/${this.endpoint}transferencia`, transferencia);
   }
+
+  //Preencher Graficos
+
+  consultarValoresAno(){
+    return this.http.get<[]>(`${this.api}/${this.endpoint}consultar-valores-ano`)
+  }
 }
