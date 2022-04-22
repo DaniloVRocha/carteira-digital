@@ -1,6 +1,5 @@
-<img src="https://img.shields.io/static/v1?label=Blog&message=Carteira-Digital&color=7159c1&style=for-the-badge&logo=ghost"/>
-
 <h1 align="center">💰 Carteira Digital 💰</h1>
+
 <p align="center">Carteira digital para controle de gastos mensais e controle de investimentos, você cria uma conta e informa gastos, receitas, contas fixas e investimentos e o sistema te ajuda por meio de estatisticas a entender onde estão a maior parte dos seus gastos, para que você possa ter uma vida financeira mais organizada.</p>
 
 <h4 align="center"> 
@@ -58,7 +57,7 @@ $ ng s ou npm start
 # O servidor inciará na porta:4200 - acesse <http://localhost:4200>
 ```
 
-### 🎲 Telas e Funcionalidades Disponíveis
+### 💻 Telas e Funcionalidades Disponíveis
 <div align="center">
       <h1 align="center">Cadastro</h1>
       <p align="center">Cadastre um novo usuario se atentando as regras do formulário</p>
