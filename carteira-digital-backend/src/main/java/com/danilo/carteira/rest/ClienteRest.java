@@ -30,8 +30,7 @@ public class ClienteRest {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<ClienteResponse> buscarId(@Valid @PathVariable Long id){
 		Cliente cli = service.buscarId(id);
-		ClienteResponse cliDTO = new ClienteResponse(cli);
-		return ResponseEntity.ok().body(cliDTO);
+		return ResponseEntity.ok().body(mapper.toModel(cli));
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
@@ -49,8 +48,9 @@ public class ClienteRest {
 	}
 	
 	@RequestMapping(value = "/alterar", method = RequestMethod.PUT)
-	public Cliente updateCliente(@RequestBody @Valid Cliente cliente){
-		return service.alterarCliente(cliente);
+	public ClienteResponse updateCliente(@RequestBody @Valid CadastroClienteRequest clienteRequest){
+		Cliente cliente = mapper.toEntity(clienteRequest);
+		return mapper.toModel(service.alterarCliente(cliente));
 	}
 	
 }

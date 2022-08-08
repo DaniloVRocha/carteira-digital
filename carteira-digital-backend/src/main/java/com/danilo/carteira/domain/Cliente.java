@@ -15,10 +15,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-
-import org.hibernate.validator.constraints.Length;
 
 import com.danilo.carteira.domain.enums.Perfil;
 import com.danilo.carteira.domain.enums.TipoCliente;
@@ -27,28 +23,21 @@ import com.danilo.carteira.domain.enums.TipoCliente;
 @Table(name = "clientes")
 public class Cliente implements Serializable {
 
-	private static final long serialVersionUID = 1L; 
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotEmpty(message = "O Campo Nome é Obrigatório")
-	@Length(min = 5, max = 80, message = "O tamanho do nome deve ser entre 5 e 80 caracteres")
 	@Column(length = 50)
 	private String nome;
 
-	@NotEmpty(message = "O Campo CPF é Obrigatório")
-	@Column(name = "cpf", length = 11, unique=true)
+	@Column(name = "cpf", length = 11, unique = true)
 	private String cpf;
 
-	@NotEmpty(message = "O Campo Email é Obrigatório")
-	@Column(nullable = false, unique=true)
-	@Email(message="O campo email deve ser preenchido com um email válido")
+	@Column(nullable = false, unique = true)
 	private String email;
 
-	@NotEmpty(message = "O Campo Senha é Obrigatório")
-	@Length(min = 5, max = 80, message = "O tamanho da senha deve ser entre 5 e 80 caracteres")
 	@Column(nullable = false)
 	private String senha;
 
@@ -76,8 +65,7 @@ public class Cliente implements Serializable {
 		this.ativo = true;
 		addPerfil(Perfil.CLIENTE);
 	}
-	
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -169,7 +157,7 @@ public class Cliente implements Serializable {
 
 	@Override
 	public String toString() {
-	
+
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("Olá " + nome);
