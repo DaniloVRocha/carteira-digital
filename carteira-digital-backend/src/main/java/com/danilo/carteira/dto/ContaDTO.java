@@ -3,6 +3,7 @@ package com.danilo.carteira.dto;
 import java.io.Serializable;
 
 import com.danilo.carteira.domain.Conta;
+import com.danilo.carteira.dto.response.ClienteResponse;
 
 public class ContaDTO implements Serializable{
 
@@ -20,7 +21,7 @@ public class ContaDTO implements Serializable{
 	
 	private boolean mostrarTelaInicial;
 	
-	private ClienteDTO cliente; 
+	private ClienteResponse cliente; 
 	
 	public ContaDTO(Conta conta) {
 		super();
@@ -29,7 +30,7 @@ public class ContaDTO implements Serializable{
 		this.saldo = conta.getSaldo();
 		this.despesas = conta.getDespesas();
 		this.receitas = conta.getReceitas();
-		this.cliente = new ClienteDTO(conta.getCliente());
+		this.cliente = new ClienteResponse(conta.getCliente());
 		this.mostrarTelaInicial = conta.getMostrarTelaInicial();
 	}
 
@@ -73,11 +74,11 @@ public class ContaDTO implements Serializable{
 		this.receitas = receitas;
 	}
 
-	public ClienteDTO getCliente() {
+	public ClienteResponse getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(ClienteDTO cliente) {
+	public void setCliente(ClienteResponse cliente) {
 		this.cliente = cliente;
 	}
 

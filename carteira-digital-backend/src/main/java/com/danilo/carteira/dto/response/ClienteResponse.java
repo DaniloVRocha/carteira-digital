@@ -1,4 +1,4 @@
-package com.danilo.carteira.dto;
+package com.danilo.carteira.dto.response;
 
 import java.io.Serializable;
 
@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import com.danilo.carteira.domain.Cliente;
 
-public class ClienteDTO implements Serializable {
+public class ClienteResponse implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,16 +35,18 @@ public class ClienteDTO implements Serializable {
 	
 	private Boolean ativo;
 	
-	private String observacoes;
 	
-	public ClienteDTO(Cliente cli) {
+	public ClienteResponse() {
+		super();
+	}
+
+	public ClienteResponse(Cliente cli) {
 		super();
 		this.id = cli.getId();
 		this.nome = cli.getNome();
 		this.cpf = cli.getCpf();
 		this.email = cli.getEmail();
 		this.ativo = cli.getAtivo();
-		this.observacoes = cli.getObservacoes();
 	}
 
 	public Long getId() {
@@ -86,13 +88,4 @@ public class ClienteDTO implements Serializable {
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
-
-	public String getObservacoes() {
-		return observacoes;
-	}
-
-	public void setObservacoes(String observacoes) {
-		this.observacoes = observacoes;
-	}
-
 }

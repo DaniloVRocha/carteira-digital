@@ -19,7 +19,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.br.CPF;
 
 import com.danilo.carteira.domain.enums.Perfil;
 import com.danilo.carteira.domain.enums.TipoCliente;
@@ -74,6 +73,7 @@ public class Cliente implements Serializable {
 		this.cpf = cpf;
 		this.email = email;
 		this.senha = senha;
+		this.ativo = true;
 		addPerfil(Perfil.CLIENTE);
 	}
 	

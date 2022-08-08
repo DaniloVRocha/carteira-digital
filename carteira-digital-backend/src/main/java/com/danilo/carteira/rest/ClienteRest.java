@@ -1,7 +1,5 @@
 package com.danilo.carteira.rest;
 
-import java.net.URI;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.danilo.carteira.api.mapper.ClienteMapper;
 import com.danilo.carteira.domain.Cliente;
-import com.danilo.carteira.dto.ClienteDTO;
+import com.danilo.carteira.dto.request.CadastroClienteRequest;
+import com.danilo.carteira.dto.response.ClienteResponse;
 import com.danilo.carteira.service.ClienteService;
 
 @RestController
@@ -24,20 +23,22 @@ public class ClienteRest {
 	
 	@Autowired
 	private ClienteService service;
+	
+	@Autowired
+	private ClienteMapper mapper;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<ClienteDTO> buscarId(@Valid @PathVariable Long id){
+	public ResponseEntity<ClienteResponse> buscarId(@Valid @PathVariable Long id){
 		Cliente cli = service.buscarId(id);
-		ClienteDTO cliDTO = new ClienteDTO(cli);
+		ClienteResponse cliDTO = new ClienteResponse(cli);
 		return ResponseEntity.ok().body(cliDTO);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> inserirCliente(@Valid @RequestBody Cliente cli){
-		service.inserirCliente(cli);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id}").buildAndExpand(cli.getId()).toUri();
-				return ResponseEntity.created(uri).build();
+	public ClienteResponse inserirCliente(@Valid @RequestBody CadastroClienteRequest clienteRequest){
+		Cliente cliente = mapper.toEntity(clienteRequest);
+		Cliente clienteSalvo = service.inserirCliente(cliente);
+		return mapper.toModel(clienteSalvo);
 	}	
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")

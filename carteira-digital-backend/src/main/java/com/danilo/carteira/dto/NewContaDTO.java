@@ -3,19 +3,20 @@ package com.danilo.carteira.dto;
 import javax.validation.constraints.NotEmpty;
 
 import com.danilo.carteira.domain.Conta;
+import com.danilo.carteira.dto.response.ClienteResponse;
 
 public class NewContaDTO {
 	private Long id;
 	@NotEmpty(message = "O Campo Instituição é Obrigatório.")
 	private String instituicao;
 	@NotEmpty(message = "O Campo de Cliente deve ser preenchido")
-	private ClienteDTO cliente;
+	private ClienteResponse cliente;
 
 	public NewContaDTO(Conta conta) {
 		super();
 		this.id = conta.getId();
 		this.instituicao = conta.getInstituicao();
-		this.cliente = new ClienteDTO(conta.getCliente());
+		this.cliente = new ClienteResponse(conta.getCliente());
 	}
 
 	public Long getId() {
@@ -34,11 +35,11 @@ public class NewContaDTO {
 		this.instituicao = instituicao;
 	}
 
-	public ClienteDTO getCliente() {
+	public ClienteResponse getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(ClienteDTO cliente) {
+	public void setCliente(ClienteResponse cliente) {
 		this.cliente = cliente;
 	}
 
