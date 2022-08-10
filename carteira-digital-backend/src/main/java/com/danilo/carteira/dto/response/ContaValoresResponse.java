@@ -1,6 +1,6 @@
-package com.danilo.carteira.dto;
+package com.danilo.carteira.dto.response;
 
-public class ContaValoresDTO {
+public class ContaValoresResponse {
 
 	private double saldo;
 
@@ -8,7 +8,7 @@ public class ContaValoresDTO {
 
 	private double receitas;
 
-	public ContaValoresDTO(double saldo, double despesas, double receitas) {
+	public ContaValoresResponse(double saldo, double despesas, double receitas) {
 		super();
 		this.saldo = saldo;
 		this.despesas = despesas;

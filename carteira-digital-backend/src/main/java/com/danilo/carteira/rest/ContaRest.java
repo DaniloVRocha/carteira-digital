@@ -7,7 +7,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,11 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.danilo.carteira.api.mapper.ContaMapper;
 import com.danilo.carteira.domain.Conta;
-import com.danilo.carteira.dto.ContaDTO;
-import com.danilo.carteira.dto.ContaEdicaoDTO;
-import com.danilo.carteira.dto.ContaValoresDTO;
 import com.danilo.carteira.dto.OperacaoContaDTO;
+import com.danilo.carteira.dto.request.ContaEdicaoRequest;
+import com.danilo.carteira.dto.response.ContaResponse;
+import com.danilo.carteira.dto.response.ContaValoresResponse;
 import com.danilo.carteira.service.ContaService;
 import com.danilo.carteira.service.OperacaoContaService;
 
@@ -32,30 +32,29 @@ public class ContaRest {
 	
 	@Autowired
 	private ContaService service;
+	
 	@Autowired
 	private OperacaoContaService operacaoService;
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<ContaDTO> buscarId(@Valid @PathVariable Long id){
-		Conta conta = service.buscarId(id);
-		ContaDTO contaDTO = new ContaDTO(conta);
-		return ResponseEntity.ok().body(contaDTO);
-	}
+	@Autowired
+	private ContaMapper mapper;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<Conta>> buscarPorIdCliente(){
+	public ResponseEntity<List<ContaResponse>> listarContasCliente(){
 		List<Conta> contas = service.buscarPorIdCliente();
-		return ResponseEntity.ok().body(contas);
+		List<ContaResponse> response = mapper.toCollectionModel(contas);
+		return ResponseEntity.ok().body(response);
 	}
 	
-	@RequestMapping(value = "/atualizarValores", method = RequestMethod.GET)
-	public ResponseEntity<ContaValoresDTO> atualizarPreencherSaldo(){
-		ContaValoresDTO conta = service.atualizarPreencherSaldo();
-		return ResponseEntity.ok().body(conta);
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<ContaResponse> listarPorId(@PathVariable Long id){
+		Conta conta = service.buscarId(id);
+		ContaResponse response = mapper.toModel(conta);
+		return ResponseEntity.ok().body(response);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> deletar(@Valid @PathVariable Long id){
+	public ResponseEntity<String> deletar(@PathVariable Long id){
 		service.deletarConta(id);
 		return ResponseEntity.ok().body("Conta ID: " + id + " Deletado com sucesso");
 	}
@@ -68,24 +67,31 @@ public class ContaRest {
 				return ResponseEntity.created(uri).build();
 	}	
 	
+	@RequestMapping(value = "/valores-contas", method = RequestMethod.GET)
+	public ResponseEntity<ContaValoresResponse> atualizarPreencherSaldo(){
+		ContaValoresResponse conta = service.atualizarPreencherSaldo();
+		return ResponseEntity.ok().body(conta);
+	}
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<String> alterarConta(@Valid @RequestBody ContaEdicaoDTO conta, @Valid @PathVariable Long id){
-		service.alterarConta(conta, id);
-		return new ResponseEntity<>("Conta editada com sucesso", HttpStatus.OK);
+	public ResponseEntity<ContaResponse> alterarConta(@Valid @RequestBody ContaEdicaoRequest conta, @PathVariable Long id){
+		Conta contaEditada = service.alterarConta(conta, id);
+		ContaResponse response = mapper.toModel(contaEditada);
+		return ResponseEntity.ok().body(response);
 	}	
 	
-	@RequestMapping(value = "/atualizarValores-data", method=RequestMethod.GET)
-	public @ResponseBody ResponseEntity<ContaValoresDTO> atualizarPreencherSaldoPorMes(@RequestParam("dataInicial") String dataInicial, @RequestParam("dataFinal") String dataFinal) throws Exception {
+	@RequestMapping(value = "/consultar-valores-data", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ContaValoresResponse> atualizarPreencherSaldoPorMes(@RequestParam("dataInicial") String dataInicial, @RequestParam("dataFinal") String dataFinal) throws Exception {
 		List<OperacaoContaDTO> operacoesMes = operacaoService.consultarOperacoesPorData(dataInicial.replace("\"", ""),dataFinal.replace("\"", ""));
-		ContaValoresDTO valoresMes = service.calcularTotalOperacoesMes(operacoesMes);
-		return new ResponseEntity<>(valoresMes, HttpStatus.OK);
+		ContaValoresResponse valoresMes = service.calcularTotalOperacoesMes(operacoesMes);
+		return ResponseEntity.ok().body(valoresMes);
 	}
 	
-	@RequestMapping(value = "/consultar-valores-data/{numeroMes}/{numeroAno}", method=RequestMethod.GET)
-	public @ResponseBody ResponseEntity<ContaValoresDTO> consultarValoresData(@Valid @PathVariable Integer numeroMes, @Valid @PathVariable Integer numeroAno) throws Exception {
+	@RequestMapping(value = "/consultar-valores-mes-ano/{numeroMes}/{numeroAno}", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ContaValoresResponse> consultarValoresData(@PathVariable Integer numeroMes, @PathVariable Integer numeroAno) throws Exception {
 		List<OperacaoContaDTO> operacoesMes = operacaoService.consultarOperacoesPorMesAno(numeroMes, numeroAno);
-		ContaValoresDTO valoresMes = service.calcularTotalOperacoesMes(operacoesMes);
-		return new ResponseEntity<>(valoresMes, HttpStatus.OK);
+		ContaValoresResponse valoresMes = service.calcularTotalOperacoesMes(operacoesMes);
+		return ResponseEntity.ok().body(valoresMes);
 	}
 	
 	@RequestMapping(value = "/page", method = RequestMethod.GET)

@@ -9,15 +9,12 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Conta implements Serializable {
@@ -42,11 +39,9 @@ public class Conta implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "fk_cliente_id")
-	@JsonIgnore
 	private Cliente cliente;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "conta")
 	private List<OperacaoConta> operacao;
 
 	public Conta() {

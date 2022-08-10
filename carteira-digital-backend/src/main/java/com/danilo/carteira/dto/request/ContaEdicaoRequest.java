@@ -1,12 +1,19 @@
-package com.danilo.carteira.dto;
+package com.danilo.carteira.dto.request;
 
-public class ContaEdicaoDTO {
+import javax.validation.constraints.NotBlank;
 
+import com.sun.istack.NotNull;
+
+public class ContaEdicaoRequest {
+	
+	@NotBlank
+	@NotNull
 	private String instituicao;
-
+	
+	@NotBlank
 	private boolean mostrarTelaInicial;
 
-	public ContaEdicaoDTO(String instituicao, boolean mostrarTelaInicial) {
+	public ContaEdicaoRequest(String instituicao, boolean mostrarTelaInicial) {
 		super();
 		this.instituicao = instituicao;
 		this.mostrarTelaInicial = mostrarTelaInicial;

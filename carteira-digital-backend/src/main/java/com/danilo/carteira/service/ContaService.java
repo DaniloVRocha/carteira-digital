@@ -14,9 +14,9 @@ import com.danilo.carteira.config.security.UserSS;
 import com.danilo.carteira.domain.Cliente;
 import com.danilo.carteira.domain.Conta;
 import com.danilo.carteira.domain.OperacaoConta;
-import com.danilo.carteira.dto.ContaEdicaoDTO;
-import com.danilo.carteira.dto.ContaValoresDTO;
 import com.danilo.carteira.dto.OperacaoContaDTO;
+import com.danilo.carteira.dto.request.ContaEdicaoRequest;
+import com.danilo.carteira.dto.response.ContaValoresResponse;
 import com.danilo.carteira.repository.ContaRepository;
 import com.danilo.carteira.service.exceptions.AuthorizationException;
 
@@ -29,10 +29,10 @@ public class ContaService {
 	private ClienteService clienteService;
 
 	public Conta buscarId(Long id) {
-//		UserSS user = UserService.authenticated();
-//		if (id != user.getId()) {
-//			throw new AuthorizationException("Acesso Negado");
-//		}
+		UserSS user = UserService.authenticated();
+		if (id != user.getId()) {
+			throw new AuthorizationException("Acesso Negado");
+		}
 		Optional<Conta> conta = repository.findById(id);
 		return conta.orElseThrow(() -> new ObjectNotFoundException(
 				"A busca da Conta Id: " + id + " não retornou resultados, Tipo : " + OperacaoConta.class.getName(),
@@ -50,7 +50,7 @@ public class ContaService {
 		return quantidadeOperacoes;
 	}
 
-	public ContaValoresDTO atualizarPreencherSaldo() {
+	public ContaValoresResponse atualizarPreencherSaldo() {
 		UserSS user = UserService.authenticated();
 		Double saldoTotal = 0.0;
 		Double despesaTotal = 0.0;
@@ -66,11 +66,11 @@ public class ContaService {
 
 		}
 
-		ContaValoresDTO conta = new ContaValoresDTO(saldoTotal, despesaTotal, receitaTotal);
+		ContaValoresResponse conta = new ContaValoresResponse(saldoTotal, despesaTotal, receitaTotal);
 		return conta;
 	}
 	
-	public ContaValoresDTO calcularTotalOperacoesMes(List<OperacaoContaDTO> operacoesMes) {
+	public ContaValoresResponse calcularTotalOperacoesMes(List<OperacaoContaDTO> operacoesMes) {
 		Double saldoTotal = 0.0;
 		Double despesaTotal = 0.0;
 		Double receitaTotal = 0.0;
@@ -85,7 +85,7 @@ public class ContaService {
 			}			
 		}
 
-		ContaValoresDTO conta = new ContaValoresDTO(saldoTotal, despesaTotal, receitaTotal);
+		ContaValoresResponse conta = new ContaValoresResponse(saldoTotal, despesaTotal, receitaTotal);
 		return conta;
 	}
 	
@@ -97,7 +97,7 @@ public class ContaService {
 		return contas;
 	}
 
-	public Conta alterarConta(ContaEdicaoDTO obj, Long id) {
+	public Conta alterarConta(ContaEdicaoRequest obj, Long id) {
 		List<Conta> contas = buscarPorIdCliente();
 		
 		for(Conta conta: contas) {

@@ -47,10 +47,11 @@ public class ClienteRest {
 		return ResponseEntity.ok().body("Cliente Id: " + id + " Deletado com sucesso." );
 	}
 	
-	@RequestMapping(value = "/alterar", method = RequestMethod.PUT)
-	public ClienteResponse updateCliente(@RequestBody @Valid CadastroClienteRequest clienteRequest){
+	@RequestMapping(value = "/{id}",method = RequestMethod.PUT)
+	public ClienteResponse updateCliente(
+			@RequestBody @Valid CadastroClienteRequest clienteRequest, @PathVariable Long id){
 		Cliente cliente = mapper.toEntity(clienteRequest);
-		return mapper.toModel(service.alterarCliente(cliente));
+		return mapper.toModel(service.alterarCliente(cliente, id));
 	}
 	
 }

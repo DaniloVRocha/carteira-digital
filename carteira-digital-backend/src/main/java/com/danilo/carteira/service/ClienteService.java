@@ -48,9 +48,9 @@ public class ClienteService {
 		return repository.save(cli);
 	}
 
-	public Cliente alterarCliente(Cliente obj) {
+	public Cliente alterarCliente(Cliente obj, Long id) {
 		UserSS user = UserService.authenticated();
-		if (obj.getId() != user.getId()) {
+		if (id != user.getId()) {
 			throw new AuthorizationException("Acesso Negado");
 		}
 		Cliente newObj = buscarId(user.getId());
