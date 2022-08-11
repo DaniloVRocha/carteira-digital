@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.danilo.carteira.domain.Conta;
+import com.danilo.carteira.dto.request.ContaRequest;
 import com.danilo.carteira.dto.response.ContaResponse;
 
 @Component
@@ -24,7 +25,7 @@ public class ContaMapper {
 		return contas.stream().map(this::toModel).collect(Collectors.toList());
 	}
 	
-//	public Cliente toEntity(CadastroClienteRequest clienteRequest) {
-//		return modelMapper.map(clienteRequest, Cliente.class);
-//	}
+	public Conta toEntity(ContaRequest contaRequest) {
+		return modelMapper.map(contaRequest, Conta.class);
+	}
 }

@@ -20,7 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.danilo.carteira.api.mapper.ContaMapper;
 import com.danilo.carteira.domain.Conta;
 import com.danilo.carteira.dto.OperacaoContaDTO;
-import com.danilo.carteira.dto.request.ContaEdicaoRequest;
+import com.danilo.carteira.dto.request.ContaRequest;
 import com.danilo.carteira.dto.response.ContaResponse;
 import com.danilo.carteira.dto.response.ContaValoresResponse;
 import com.danilo.carteira.service.ContaService;
@@ -60,21 +60,22 @@ public class ContaRest {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> inserirConta(@Valid @RequestBody Conta conta){
+	public ResponseEntity<Void> inserirConta(@Valid @RequestBody ContaRequest contaRequest){
+		Conta conta = mapper.toEntity(contaRequest);
 		service.inserirConta(conta);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(conta.getId()).toUri();
 				return ResponseEntity.created(uri).build();
 	}	
 	
-	@RequestMapping(value = "/valores-contas", method = RequestMethod.GET)
+	@RequestMapping(value = "/consultar-valores", method = RequestMethod.GET)
 	public ResponseEntity<ContaValoresResponse> atualizarPreencherSaldo(){
 		ContaValoresResponse conta = service.atualizarPreencherSaldo();
 		return ResponseEntity.ok().body(conta);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<ContaResponse> alterarConta(@Valid @RequestBody ContaEdicaoRequest conta, @PathVariable Long id){
+	public ResponseEntity<ContaResponse> alterarConta(@Valid @RequestBody ContaRequest conta, @PathVariable Long id){
 		Conta contaEditada = service.alterarConta(conta, id);
 		ContaResponse response = mapper.toModel(contaEditada);
 		return ResponseEntity.ok().body(response);
@@ -87,7 +88,7 @@ public class ContaRest {
 		return ResponseEntity.ok().body(valoresMes);
 	}
 	
-	@RequestMapping(value = "/consultar-valores-mes-ano/{numeroMes}/{numeroAno}", method=RequestMethod.GET)
+	@RequestMapping(value = "/consultar-valores-data/{numeroMes}/{numeroAno}", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ContaValoresResponse> consultarValoresData(@PathVariable Integer numeroMes, @PathVariable Integer numeroAno) throws Exception {
 		List<OperacaoContaDTO> operacoesMes = operacaoService.consultarOperacoesPorMesAno(numeroMes, numeroAno);
 		ContaValoresResponse valoresMes = service.calcularTotalOperacoesMes(operacoesMes);

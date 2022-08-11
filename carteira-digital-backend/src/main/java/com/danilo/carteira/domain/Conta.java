@@ -16,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Conta implements Serializable {
 
@@ -39,9 +41,11 @@ public class Conta implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "fk_cliente_id")
+	@JsonIgnore
 	private Cliente cliente;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "conta")
+	@JsonIgnore
 	private List<OperacaoConta> operacao;
 
 	public Conta() {

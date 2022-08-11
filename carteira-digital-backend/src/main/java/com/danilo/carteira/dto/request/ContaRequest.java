@@ -4,16 +4,16 @@ import javax.validation.constraints.NotBlank;
 
 import com.sun.istack.NotNull;
 
-public class ContaEdicaoRequest {
+public class ContaRequest {
 	
 	@NotBlank
 	@NotNull
 	private String instituicao;
 	
-	@NotBlank
+	@NotNull
 	private boolean mostrarTelaInicial;
 
-	public ContaEdicaoRequest(String instituicao, boolean mostrarTelaInicial) {
+	public ContaRequest(String instituicao, boolean mostrarTelaInicial) {
 		super();
 		this.instituicao = instituicao;
 		this.mostrarTelaInicial = mostrarTelaInicial;

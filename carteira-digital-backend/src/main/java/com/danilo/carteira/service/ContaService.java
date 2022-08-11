@@ -15,7 +15,7 @@ import com.danilo.carteira.domain.Cliente;
 import com.danilo.carteira.domain.Conta;
 import com.danilo.carteira.domain.OperacaoConta;
 import com.danilo.carteira.dto.OperacaoContaDTO;
-import com.danilo.carteira.dto.request.ContaEdicaoRequest;
+import com.danilo.carteira.dto.request.ContaRequest;
 import com.danilo.carteira.dto.response.ContaValoresResponse;
 import com.danilo.carteira.repository.ContaRepository;
 import com.danilo.carteira.service.exceptions.AuthorizationException;
@@ -30,13 +30,24 @@ public class ContaService {
 
 	public Conta buscarId(Long id) {
 		UserSS user = UserService.authenticated();
-		if (id != user.getId()) {
+		if (!verificarIdConta(id, user.getId())) {
 			throw new AuthorizationException("Acesso Negado");
 		}
 		Optional<Conta> conta = repository.findById(id);
 		return conta.orElseThrow(() -> new ObjectNotFoundException(
 				"A busca da Conta Id: " + id + " não retornou resultados, Tipo : " + OperacaoConta.class.getName(),
 				null));
+	}
+	
+	public boolean verificarIdConta(Long idConta, Long idUsuario) {
+		List<Conta> contasCliente = repository.findContasByIdCliente(idUsuario);
+	
+		for(Conta conta : contasCliente) {
+			if(conta.getId().equals(idConta)) {
+				return true;
+			};
+		}
+		return false;
 	}
 	
 	public List<Conta> buscarPorIdCliente() {
@@ -97,7 +108,7 @@ public class ContaService {
 		return contas;
 	}
 
-	public Conta alterarConta(ContaEdicaoRequest obj, Long id) {
+	public Conta alterarConta(ContaRequest obj, Long id) {
 		List<Conta> contas = buscarPorIdCliente();
 		
 		for(Conta conta: contas) {
@@ -145,15 +156,6 @@ public class ContaService {
 					conta.setDespesas(despesa);
 				}
 			} 
-//			else if (op.getEstadoPagamento().getDescricao().equals("Pendente")) {
-//				if (Character.toLowerCase(op.getTpOperacao()) == 'r') {
-//					receita += op.getValor();
-//					conta.setReceitas(receita);
-//				} else if (Character.toLowerCase(op.getTpOperacao()) == 'd') {
-//					despesa -= op.getValor();
-//					conta.setDespesas(despesa);
-//				}
-//			}
 			conta.setSaldo(saldo);
 		}
 	}
@@ -174,15 +176,6 @@ public class ContaService {
 					saldo += op.getValor();
 					conta.setDespesas(despesa);
 				}
-//			} else if (op.getEstadoPagamento().getDescricao().equals("Pendente")) {
-//				if (Character.toLowerCase(op.getTpOperacao()) == 'r') {
-//					receita -= op.getValor();
-//					conta.setReceitas(receita);
-//				} else if (Character.toLowerCase(op.getTpOperacao()) == 'd') {
-//					despesa += op.getValor();
-//					conta.setDespesas(despesa);
-//				}
-//			}
 				conta.setSaldo(saldo);
 			}
 		}
