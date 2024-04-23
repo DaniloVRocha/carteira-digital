@@ -29,11 +29,9 @@ public class DevConfig {
 		if (!"create".equals(strategy)) {
 			return false;
 		}
-			
-		dbService.instantiateTestDatabase();
 		return true;
 	}
-	
+
 	@Bean
 	public EmailService emailService() {
 		return new SmtpEmailService();

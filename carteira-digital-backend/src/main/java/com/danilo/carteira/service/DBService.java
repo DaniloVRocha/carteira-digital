@@ -44,7 +44,7 @@ public class DBService {
 		
 		
 		//Inclusão de Operações Teste
-		
+/*
 		OperacaoConta op1 = new OperacaoConta(null, "Futebol", LocalDateTime.of(2022, 1, 28, 14, 33, 48, 000000) , LocalDateTime.of(2022, 1, 28, 14, 33, 48, 000000), 'R', 20.00,
 				EstadoPagamento.PENDENTE, con1, Categoria.LAZER);
 
@@ -135,11 +135,11 @@ public class DBService {
 //				EstadoPagamento.PENDENTE, con2, Categoria.ALIMENTACAO);
 //
 //		OperacaoConta op6 = new OperacaoConta(null, "pix estacionamento",LocalDateTime.now(), LocalDateTime.now(), 'D', 40.00,
-//				EstadoPagamento.PENDENTE, con2, Categoria.GERAL);
+//				EstadoPagamento.PENDENTE, con2, Categoria.GERAL);*/
 
 		clienteRepository.saveAll(Arrays.asList(cli1, cli2, cli3));
 		contaRepository.saveAll(Arrays.asList(con1, con2, con3, con4));
-		operacaoContaRepository.saveAll(Arrays.asList(op1, op2, op3, op4, op5, op6, op7, op8, op9,op10,op11,op12,op13,op14,op15,op16,op17,op18,op19,op20,op21,op22,op23,op24));
+		//operacaoContaRepository.saveAll(Arrays.asList(op1, op2, op3, op4, op5, op6, op7, op8, op9,op10,op11,op12,op13,op14,op15,op16,op17,op18,op19,op20,op21,op22,op23,op24));
 
 	}
 }

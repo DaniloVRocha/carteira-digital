@@ -167,7 +167,15 @@ export class VisualizarContasComponent implements OnInit {
 
   incluirConta(){
     const conta:IConta = this.formIncluir.value;
-    this.contaService.incluirConta(conta).subscribe(res=>{
+
+    const contaFormatada : any = {
+        "instituicao": this.formIncluir.value.instituicao,
+        "saldo": this.formIncluir.value.saldo,
+        "mostrarTelaInicial": true
+    }
+    console.log(conta);
+    console.log(contaFormatada);
+    this.contaService.incluirConta(contaFormatada).subscribe(res=>{
     })
     this.messageService.add({severity:'success', summary:'Feito', detail:'Conta Criada com sucesso'});
     this.displayIncluir = false;

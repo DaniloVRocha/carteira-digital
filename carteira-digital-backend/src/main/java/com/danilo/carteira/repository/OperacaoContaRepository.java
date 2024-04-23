@@ -27,10 +27,10 @@ public interface OperacaoContaRepository extends JpaRepository<OperacaoConta, Lo
 	@Query("SELECT op FROM OperacaoConta op WHERE fk_conta_id = ?1 AND data_hora BETWEEN ?2 AND ?3")
 	List<OperacaoConta> findOperacaoByDate(Long id, LocalDateTime dataInicio, LocalDateTime dataFim);
 	
-	@Query(value = "SELECT * FROM operacoes WHERE fk_conta_id = ?1 AND MONTH(vencimento) = ?2 AND YEAR(VENCIMENTO) = ?3", nativeQuery=true)
+	@Query(value = "SELECT * FROM operacoes WHERE fk_conta_id = ?1 AND EXTRACT(MONTH FROM vencimento) = ?2 AND EXTRACT(YEAR FROM vencimento) = ?3", nativeQuery=true)
 	List<OperacaoConta> findOperacaoByMesAno(Long id, Integer numeroMes, Integer numeroAno);
 	
-	@Query(value = "SELECT sum(valor) FROM operacoes WHERE fk_conta_id = ?1 AND MONTH(vencimento) = ?2 AND YEAR(VENCIMENTO) = ?3  AND TP_OPERACAO  = ?4", nativeQuery=true)
+	@Query(value = "SELECT SUM(valor) FROM operacoes WHERE fk_conta_id = ?1 AND EXTRACT(MONTH FROM vencimento) = ?2 AND EXTRACT(YEAR FROM vencimento) = ?3 AND TP_OPERACAO = ?4", nativeQuery=true)
 	Double findValoresOperacoesMes(Long id, Integer numeroMes, Integer numeroAno, char tpOperacao);
 	
 	@Query("SELECT op FROM OperacaoConta op WHERE fk_conta_id = ?1 AND vencimento < ?2 AND estado_pagamento = 0")
@@ -49,7 +49,7 @@ public interface OperacaoContaRepository extends JpaRepository<OperacaoConta, Lo
 	@Query("SELECT op FROM OperacaoConta op INNER JOIN Conta con ON con.id = op.conta.id AND con.cliente.id = ?1 WHERE MONTH(vencimento) = ?2 AND YEAR(VENCIMENTO) = ?3")
 	List<OperacaoConta> buscarOperacoesPorId(Long id, Integer numeroMes, Integer numeroAno);
 	
-	@Query(value = "SELECT count(op.categoria) FROM operacoes op INNER JOIN conta con ON con.id = op.fk_conta_id AND con.fk_cliente_id = ?1 WHERE MONTH(vencimento) = ?2 AND YEAR(VENCIMENTO) = ?3 AND op.categoria=?4", nativeQuery = true)
+	@Query(value = "SELECT count(op.categoria) FROM operacoes op INNER JOIN conta con ON con.id = op.fk_conta_id WHERE con.fk_cliente_id = ?1 AND EXTRACT(MONTH FROM op.vencimento) = ?2 AND EXTRACT(YEAR FROM op.vencimento) = ?3 AND op.categoria = ?4", nativeQuery = true)
 	public Integer numeroOperacoesPorCategoria(Long id, Integer numeroMes, Integer numeroAno, int categoria);
 	
 }

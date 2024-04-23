@@ -3,7 +3,7 @@ import { ContaService } from './../../services/conta.service';
 import { Categoria } from './../../model/Categoria';
 import { OperacoesService } from 'src/app/services/operacoes.service';
 import { IOperacao } from 'src/app/model/IOperacao';
-import { Component, EventEmitter, OnInit} from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { IDataHora } from 'src/app/model/IDataHora';
 import { IPage } from 'src/app/model/IPage';
 import { IContaViewDTO } from 'src/app/model/IContaViewDTO';
@@ -14,7 +14,7 @@ import { ConfirmationService, Message, MessageService, PrimeNGConfig } from 'pri
   selector: 'app-movimentacoes',
   templateUrl: './movimentacoes.component.html',
   styleUrls: ['./movimentacoes.component.css'],
-  providers:[ConfirmationService, MessageService]
+  providers: [ConfirmationService, MessageService]
 })
 
 export class MovimentacoesComponent implements OnInit {
@@ -25,13 +25,13 @@ export class MovimentacoesComponent implements OnInit {
     receitas: 0.0
   }
 
-  labelDashboard:any = {
-    labelSaldo:"Saldo Previsto Mês",
-    labelDespesas:"Despesas Previstas Mês",
-    labelReceitas:"Receitas Previstas Mês"
+  labelDashboard: any = {
+    labelSaldo: "Saldo Previsto Mês",
+    labelDespesas: "Despesas Previstas Mês",
+    labelReceitas: "Receitas Previstas Mês"
   }
 
-  date:Date = new Date(2022, 2, 1);
+  date: Date = new Date(2022, 2, 1);
 
   formValueOperacao: FormGroup = new FormGroup({
     id: new FormControl(''),
@@ -41,30 +41,30 @@ export class MovimentacoesComponent implements OnInit {
     tpOperacao: new FormControl(""),
     estadoPagamento: new FormControl(true)
   });
-  operacoes:IOperacao[] = [];
+  operacoes: IOperacao[] = [];
 
   categorias: Categoria[] = [
-    {nome: 'Geral', id: 0},
-    {nome: 'Alimentacao', id: 1},
-    {nome: 'Saude', id: 2},
-    {nome: 'Lazer', id: 3},
-    {nome: 'Fixo', id: 4},
-    {nome: 'Educacao', id: 5},
-    {nome: 'Investimento', id: 6},
-    {nome: 'Pagamento', id: 7},
-    {nome: 'Internet', id: 8},
-    {nome: 'Ajuste', id: 9}
+    { nome: 'Geral', id: 0 },
+    { nome: 'Alimentacao', id: 1 },
+    { nome: 'Saude', id: 2 },
+    { nome: 'Lazer', id: 3 },
+    { nome: 'Fixo', id: 4 },
+    { nome: 'Educacao', id: 5 },
+    { nome: 'Investimento', id: 6 },
+    { nome: 'Pagamento', id: 7 },
+    { nome: 'Internet', id: 8 },
+    { nome: 'Ajuste', id: 9 }
   ];
 
-  contas:IConta[] = [];
+  contas: IConta[] = [];
 
   tpOperacoes = [
-    {operador:"D", label:"Despesa"},
-    {operador:"R", label:"Receita"}
+    { operador: "D", label: "Despesa" },
+    { operador: "R", label: "Receita" }
   ]
 
-  operacaoSelecionada = {operador:"", label:"Selecione um Tipo de Operação"}
-  contaSelecionada:any = 0;
+  operacaoSelecionada = { operador: "", label: "Selecione um Tipo de Operação" }
+  contaSelecionada: any = 0;
   categoriaSelecionada: number = -1;
 
   msgs: Message[] = [];
@@ -72,15 +72,15 @@ export class MovimentacoesComponent implements OnInit {
   displayIncluir: boolean = false;
   displayEditar: boolean = false;
   first = 0;
-  page?:IPage;
+  page?: IPage;
   rows = 13;
   direction = "ASC"
-  dataHora:IDataHora = {dataInicial:"2022-03-01 00:00:00", dataFinal:"2022-03-31 23:59:00"};
+  dataHora: IDataHora = { dataInicial: "2022-03-01 00:00:00", dataFinal: "2022-03-31 23:59:00" };
 
   constructor(private contaService: ContaService,
     private operacoesService: OperacoesService,
     private confirmationService: ConfirmationService,
-    private messageService:MessageService) {
+    private messageService: MessageService) {
   }
 
   ngOnInit() {
@@ -89,7 +89,7 @@ export class MovimentacoesComponent implements OnInit {
     this.preencherContasCliente();
   }
 
-  showDialogIncluir(){
+  showDialogIncluir() {
     this.displayIncluir = true;
     this.formValueOperacao = new FormGroup({
       nome: new FormControl(''),
@@ -101,18 +101,18 @@ export class MovimentacoesComponent implements OnInit {
     });
     this.categoriaSelecionada = 0;
   }
-  showDialogEditar(id:number){
+  showDialogEditar(id: number) {
     this.buscarPorId(id);
     this.displayEditar = true;
   }
 
-  preencherForm(operacao:IOperacao) {
+  preencherForm(operacao: IOperacao) {
     debugger;
     let estadoPagamentovar;
-    if(operacao.estadoPagamento === "QUITADO"? estadoPagamentovar = true : estadoPagamentovar = false)
-    var i = 0;
-    for(i = 0; i < this.categorias.length;i++){
-      if(this.categorias[i].nome.toLocaleUpperCase() === operacao.categoria.toString()){
+    if (operacao.estadoPagamento === "QUITADO" ? estadoPagamentovar = true : estadoPagamentovar = false)
+      var i = 0;
+    for (i = 0; i < this.categorias.length; i++) {
+      if (this.categorias[i].nome.toLocaleUpperCase() === operacao.categoria.toString()) {
         this.categoriaSelecionada = this.categorias[i].id;
         break;
       }
@@ -126,17 +126,17 @@ export class MovimentacoesComponent implements OnInit {
       vencimento: new FormControl(operacao.vencimento),
       tpOperacao: new FormControl(operacao.tpOperacao),
       estadoPagamento: new FormControl(estadoPagamentovar),
-      categoria : new FormControl(this.categoriaSelecionada)
+      categoria: new FormControl(this.categoriaSelecionada)
     });
   }
 
-  buscarPorId(id:number){
+  buscarPorId(id: number) {
     this.operacoesService.buscarPorId(id).subscribe(res => {
       this.preencherForm(res);
     })
   }
 
-  operacoesPaginadasPorData(){
+  operacoesPaginadasPorData() {
     debugger;
     this.operacoesService.operacoesPaginadasPorData(this.dataHora, 0, this.rows, "vencimento", this.direction).subscribe(res => {
       this.page = res;
@@ -144,80 +144,91 @@ export class MovimentacoesComponent implements OnInit {
     })
   }
 
-  preencherContasCliente(){
-    this.contaService.preencherContasCliente().subscribe(res => {this.contas = res;})
+  preencherContasCliente() {
+    this.contaService.preencherContasCliente().subscribe(res => { this.contas = res; })
   }
 
   atualizarSaldoPorData() {
-    this.contaService.preencherSaldoPorMesAno(this.date.getMonth()+1, this.date.getFullYear()).subscribe(res => {this.dashboardView = res;})
+    debugger;
+    this.contaService.preencherSaldoPorMesAno(this.date.getMonth() + 1, this.date.getFullYear()).subscribe(res => { this.dashboardView = res; })
   }
 
-  pagarContaVencida(id:number){
+  pagarContaVencida(id: number) {
     this.confirmationService.confirm({
       message: 'Deseja informar pagamento?',
       header: 'Informar Pagamento',
       icon: 'pi pi-exclamation-triangle',
-      rejectLabel:'Cancelar',
-      acceptLabel:'Pagar',
+      rejectLabel: 'Cancelar',
+      acceptLabel: 'Pagar',
       accept: () => {
-          this.operacoesService.pagarOperacaoVencida(id, 1).subscribe(res =>{
-          })
-          this.messageService.add({severity:'success', summary:'Feito', detail:'Estado de Pagamento Alterado para QUITADO'});
+        this.operacoesService.pagarOperacaoVencida(id, 1).subscribe(res => {
+        })
+        this.messageService.add({ severity: 'success', summary: 'Feito', detail: 'Estado de Pagamento Alterado para QUITADO' });
 
       },
       reject: () => {
-        this.messageService.add({severity:'error', summary:'Cancelado', detail:'Cancelado pelo usuário'});
+        this.messageService.add({ severity: 'error', summary: 'Cancelado', detail: 'Cancelado pelo usuário' });
       }
-  });
+    });
   }
 
-  excluirOperacao(id:number){
+  excluirOperacao(id: number) {
     this.confirmationService.confirm({
       message: 'Deseja excluir operação? a ação não pode ser desfeita.',
       header: 'Excluir Operação',
       icon: 'pi pi-exclamation-triangle',
-      rejectLabel:'Cancelar',
-      acceptLabel:'Excluir',
+      rejectLabel: 'Cancelar',
+      acceptLabel: 'Excluir',
       accept: () => {
-          this.operacoesService.excluirOperacao(id).subscribe(res =>{
-          })
-          this.messageService.add({severity:'success', summary:'Feito', detail:'Operação Excluida com sucesso.'});
+        this.operacoesService.excluirOperacao(id).subscribe(res => {
+        })
+        this.messageService.add({ severity: 'success', summary: 'Feito', detail: 'Operação Excluida com sucesso.' });
       },
       reject: () => {
-        this.messageService.add({severity:'error', summary:'Cancelado', detail:'A Operação não foi excluida'});
+        this.messageService.add({ severity: 'error', summary: 'Cancelado', detail: 'A Operação não foi excluida' });
       }
-  });
+    });
   }
 
-  editarOperacao(){
+  editarOperacao() {
     debugger;
+    let data;
+    if (typeof this.formValueOperacao.value.vencimento === 'string') {
+      const partes = this.formValueOperacao.value.vencimento.split('/');
+      const dataFormatada = `${partes[2]}-${partes[1]}-${partes[0]}`;
+      data = new Date(dataFormatada);
+    } else if (this.formValueOperacao.value.vencimento instanceof Date) {
+      data = this.formValueOperacao.value.vencimento
+    }
+
+
     const operacao: IOperacao = this.formValueOperacao.value;
     let codCategoria = this.formValueOperacao.value.estadoPagamento;
-    operacao.vencimento = this.formatarDataBackend(this.formValueOperacao.value.vencimento);
+    operacao.vencimento = this.formatarDataBackend(data);
     console.log(operacao.vencimento);
-    operacao.conta = {id:this.contaSelecionada};
+    operacao.conta = { id: this.contaSelecionada };
     operacao.categoria = this.categoriaSelecionada;
-    if(codCategoria == false ? operacao.estadoPagamento = "0" : operacao.estadoPagamento = "1")
+    if (codCategoria == false ? operacao.estadoPagamento = "0" : operacao.estadoPagamento = "1")
 
-    this.operacoesService.editarOperacao(operacao).subscribe(result => {
-      this.messageService.add({ severity: 'success', summary: 'Editado', detail: 'A Operação foi editada.' });
-      this.displayEditar = false;
-    }, error => {
-      this.messageService.add({ severity: 'error', summary: `Cancelado`, detail: `${error}` });
-      this.displayEditar = false;
-    })
+      this.operacoesService.editarOperacao(operacao).subscribe(result => {
+        this.messageService.add({ severity: 'success', summary: 'Editado', detail: 'A Operação foi editada.' });
+        this.displayEditar = false;
+      }, error => {
+        this.messageService.add({ severity: 'error', summary: `Cancelado`, detail: `${error}` });
+        this.displayEditar = false;
+      })
 
   }
 
-  incluirOperacao(){
+  incluirOperacao() {
     debugger;
     const operacao: IOperacao = this.formValueOperacao.value;
     let codCategoria = this.formValueOperacao.value.estadoPagamento;
     operacao.vencimento = this.formatarDataBackend(this.formValueOperacao.value.vencimento);
-    operacao.conta = {id:this.contaSelecionada};
+    operacao.conta = { id: this.contaSelecionada };
     operacao.categoria = this.categoriaSelecionada;
-    if(codCategoria == false ? operacao.estadoPagamento = "0" : operacao.estadoPagamento = "1")
-    operacao.dataHora = this.formatarDataBackend(new Date());
+    if (codCategoria == false ? operacao.estadoPagamento = "0" : operacao.estadoPagamento = "1")
+      operacao.dataHora = this.formatarDataBackend(new Date());
     this.operacoesService.novaOperacao(operacao).subscribe(result => {
       this.messageService.add({ severity: 'success', summary: 'Editado', detail: 'A Operação foi salva.' });
       this.displayIncluir = false;
@@ -228,7 +239,7 @@ export class MovimentacoesComponent implements OnInit {
 
   }
 
-  mudouDate(event:any){
+  mudouDate(event: any) {
     this.date = event.novaData;
     this.operacoesPaginadasPorMesAno();
     this.atualizarSaldoPorData();
@@ -244,19 +255,19 @@ export class MovimentacoesComponent implements OnInit {
     var minuto = data.getMinutes();
     var segundo = data.getSeconds();
     //verifica se é necessario incluir 0 para datas de apenas 1 dígito
-    var dataForm = "" + ((dia < 10) ? `0${dia}`: dia);
+    var dataForm = "" + ((dia < 10) ? `0${dia}` : dia);
     dataForm += ((mes < 10) ? "-0" : "-") + mes;
     dataForm += `-${ano}`;
     //verifica se é necessario incluir 0 para horas com apenas 1 digito
-    var horaForm = "" + ((hora < 10) ? `0${hora}` : hora) ;
+    var horaForm = "" + ((hora < 10) ? `0${hora}` : hora);
     horaForm += ((minuto < 10) ? ":0" : ":") + minuto;
     horaForm += ((segundo < 10) ? ":0" : ":") + segundo;
 
     return `${dataForm} ${horaForm}`
   }
 
-  operacoesPaginadasPorMesAno(){
-    this.operacoesService.operacoesPaginadasPorMesAno(this.date.getMonth()+1, this.date.getFullYear()).subscribe(res=>{
+  operacoesPaginadasPorMesAno() {
+    this.operacoesService.operacoesPaginadasPorMesAno(this.date.getMonth() + 1, this.date.getFullYear()).subscribe(res => {
       this.operacoes = res;
     })
   }
@@ -269,25 +280,25 @@ export class MovimentacoesComponent implements OnInit {
   }
 
   next() {
-      this.first = this.first + this.rows;
-      this.operacoesPaginadasPorData();
+    this.first = this.first + this.rows;
+    this.operacoesPaginadasPorData();
   }
 
   prev() {
-      this.first = this.first - this.rows;
-      this.operacoesPaginadasPorData();
+    this.first = this.first - this.rows;
+    this.operacoesPaginadasPorData();
   }
 
   reset() {
-      this.first = 0;
-      this.operacoesPaginadasPorData();
+    this.first = 0;
+    this.operacoesPaginadasPorData();
   }
 
   isLastPage(): boolean {
-      return this.operacoes ? this.first === (this.operacoes.length - this.rows): true;
+    return this.operacoes ? this.first === (this.operacoes.length - this.rows) : true;
   }
 
   isFirstPage(): boolean {
-      return this.operacoes ? this.first === 0 : true;
+    return this.operacoes ? this.first === 0 : true;
   }
 }

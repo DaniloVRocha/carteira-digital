@@ -60,8 +60,7 @@ public class ContaRest {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> inserirConta(@Valid @RequestBody ContaRequest contaRequest){
-		Conta conta = mapper.toEntity(contaRequest);
+	public ResponseEntity<Void> inserirConta( @RequestBody Conta conta){
 		service.inserirConta(conta);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(conta.getId()).toUri();
