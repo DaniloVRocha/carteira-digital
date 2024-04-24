@@ -20,7 +20,6 @@ export class ContaService {
   }
 
   preencherSaldoPorMes(data:IDataHora) {
-    debugger;
     let dataInicial = encodeURIComponent( JSON.stringify(data.dataInicial));
     let dataFinal = encodeURIComponent( JSON.stringify(data.dataFinal));
     return this.http.get<IContaViewDTO>(`${this.api}/${this.endpoint}consultarValoresData?dataInicial=${dataInicial}&dataFinal=${dataFinal}`);

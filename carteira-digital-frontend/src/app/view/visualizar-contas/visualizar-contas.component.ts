@@ -81,7 +81,6 @@ export class VisualizarContasComponent implements OnInit {
   }
 
   preencherDataContas(){
-      debugger;
       this.contaService.buscarContasCliente().subscribe(contas => this.contas = contas)
   }
 
@@ -101,7 +100,6 @@ export class VisualizarContasComponent implements OnInit {
   }
 
   preencherForm(conta:IConta){
-    debugger;
     this.saldo = conta.saldo;
     this.formValueConta = new FormGroup({
       instituicao: new FormControl(conta.instituicao),
@@ -110,7 +108,6 @@ export class VisualizarContasComponent implements OnInit {
   }
 
   preencherFormPorIdConta(id:number){
-    debugger;
     this.contaService.buscarContaPorId(id).subscribe(conta=>{
       this.preencherForm(conta);
       this.conta = conta;
@@ -173,8 +170,6 @@ export class VisualizarContasComponent implements OnInit {
         "saldo": this.formIncluir.value.saldo,
         "mostrarTelaInicial": true
     }
-    console.log(conta);
-    console.log(contaFormatada);
     this.contaService.incluirConta(contaFormatada).subscribe(res=>{
     })
     this.messageService.add({severity:'success', summary:'Feito', detail:'Conta Criada com sucesso'});

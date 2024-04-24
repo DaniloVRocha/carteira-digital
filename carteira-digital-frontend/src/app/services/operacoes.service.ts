@@ -57,7 +57,7 @@ export class OperacoesService {
 
   //Buscar Operações no formato Número de mês e ano.
   operacoesPaginadasPorMesAno(numeroMes:number, numeroAno:number){
-    return this.http.get<IOperacao[]>(`${this.api}/${this.endpoint}consultarOperacaoData/${numeroMes}/${numeroAno}`)
+    return this.http.get<IOperacao[]>(`${this.api}/${this.endpoint}consultarOperacaoMesAno/${numeroMes}/${numeroAno}`)
   }
 
   buscarQntOperacoes(id:any){

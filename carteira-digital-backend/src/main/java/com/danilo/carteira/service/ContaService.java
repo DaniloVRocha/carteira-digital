@@ -1,5 +1,6 @@
 package com.danilo.carteira.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,17 +64,17 @@ public class ContaService {
 
 	public ContaValoresResponse atualizarPreencherSaldo() {
 		UserSS user = UserService.authenticated();
-		Double saldoTotal = 0.0;
-		Double despesaTotal = 0.0;
-		Double receitaTotal = 0.0;
+		BigDecimal saldoTotal = BigDecimal.ZERO;
+		BigDecimal despesaTotal = BigDecimal.ZERO;
+		BigDecimal receitaTotal = BigDecimal.ZERO;
 
 		List<Conta> contas = repository.findContasByIdCliente(user.getId());
 
 		for (Conta conta : contas) {
 
-			saldoTotal += conta.getSaldo();
-			despesaTotal += conta.getDespesas();
-			receitaTotal += conta.getReceitas();
+			saldoTotal = saldoTotal.add(conta.getSaldo());
+			despesaTotal = despesaTotal.add(conta.getDespesas());
+			receitaTotal = receitaTotal.add(conta.getReceitas());
 
 		}
 
@@ -82,17 +83,17 @@ public class ContaService {
 	}
 	
 	public ContaValoresResponse calcularTotalOperacoesMes(List<OperacaoContaDTO> operacoesMes) {
-		Double saldoTotal = 0.0;
-		Double despesaTotal = 0.0;
-		Double receitaTotal = 0.0;
+		BigDecimal saldoTotal = BigDecimal.ZERO;
+		BigDecimal despesaTotal = BigDecimal.ZERO;
+		BigDecimal receitaTotal = BigDecimal.ZERO;
 
 		for (OperacaoContaDTO operacao : operacoesMes) {
 			if (Character.toLowerCase(operacao.getTpOperacao()) == 'r') {
-				receitaTotal += operacao.getValor();
-				saldoTotal += operacao.getValor();
+				receitaTotal = receitaTotal.add(operacao.getValor());
+				saldoTotal = saldoTotal.add(operacao.getValor());
 			} else if (Character.toLowerCase(operacao.getTpOperacao()) == 'd') {
-				despesaTotal += operacao.getValor();
-				saldoTotal -= operacao.getValor();
+				despesaTotal = despesaTotal.subtract(operacao.getValor());
+				saldoTotal = saldoTotal.subtract(operacao.getValor());
 			}			
 		}
 
@@ -141,42 +142,44 @@ public class ContaService {
 
 	public void updateValorInsert(Long id, OperacaoConta op) {
 		Conta conta = buscarId(id);
-		Double saldo = conta.getSaldo();
-		Double despesa = conta.getDespesas();
-		Double receita = conta.getReceitas();
+		BigDecimal saldo = conta.getSaldo();
+		BigDecimal despesa = conta.getDespesas();
+		BigDecimal receita = conta.getReceitas();
 		if (op != null) {
 			if (op.getEstadoPagamento().getDescricao().equals("Quitado")) {
 				if (Character.toLowerCase(op.getTpOperacao()) == 'r') {
-					receita += op.getValor();
-					saldo += op.getValor();
+					receita = receita.add(op.getValor());
+					saldo = saldo.add(op.getValor());
 					conta.setReceitas(receita);
 				} else if (Character.toLowerCase(op.getTpOperacao()) == 'd') {
-					despesa -= op.getValor();
-					saldo -= op.getValor();
+					despesa = despesa.subtract(op.getValor());
+					saldo = saldo.subtract(op.getValor());
 					conta.setDespesas(despesa);
 				}
 			} 
 			conta.setSaldo(saldo);
+            repository.save(conta);
 		}
 	}
 
-	public void updateValorDelete(Long id, OperacaoConta op) {
+	public void updateValorDelete(Long id, OperacaoConta op, String tipoUpdate) {
 		Conta conta = buscarId(id);
-		Double saldo = conta.getSaldo();
-		Double despesa = conta.getDespesas();
-		Double receita = conta.getReceitas();
+		BigDecimal saldo = conta.getSaldo();
+		BigDecimal despesa = conta.getDespesas();
+		BigDecimal receita = conta.getReceitas();
 		if (op != null) {
-			if (op.getEstadoPagamento().getDescricao().equals("Pendente")) {
+			if (op.getEstadoPagamento().getDescricao().equals("Pendente") || tipoUpdate.equals("deletar")) {
 				if (Character.toLowerCase(op.getTpOperacao()) == 'r') {
-					receita -= op.getValor();
-					saldo -= op.getValor();
+					receita = receita.subtract(op.getValor());
+					saldo = saldo.subtract(op.getValor());
 					conta.setReceitas(receita);
 				} else if (Character.toLowerCase(op.getTpOperacao()) == 'd') {
-					despesa += op.getValor();
-					saldo += op.getValor();
+					despesa = despesa.add(op.getValor());
+					saldo = saldo.add(op.getValor());
 					conta.setDespesas(despesa);
 				}
 				conta.setSaldo(saldo);
+                repository.save(conta);
 			}
 		}
 	}

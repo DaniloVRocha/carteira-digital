@@ -13,7 +13,6 @@ export class AuthInterceptor implements HttpInterceptor {
   ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    debugger;
 
     const token = this.storageService.getAuthorizationToken();
     let request: HttpRequest<any> = req;

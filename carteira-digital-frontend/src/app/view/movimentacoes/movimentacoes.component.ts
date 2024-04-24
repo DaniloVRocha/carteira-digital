@@ -32,6 +32,7 @@ export class MovimentacoesComponent implements OnInit {
   }
 
   date: Date = new Date(2022, 2, 1);
+  dataAtual = new Date();
 
   formValueOperacao: FormGroup = new FormGroup({
     id: new FormControl(''),
@@ -75,7 +76,7 @@ export class MovimentacoesComponent implements OnInit {
   page?: IPage;
   rows = 13;
   direction = "ASC"
-  dataHora: IDataHora = { dataInicial: "2022-03-01 00:00:00", dataFinal: "2022-03-31 23:59:00" };
+  dataHora: IDataHora = { dataInicial: "2024-04-01", dataFinal: "2024-04-31" };
 
   constructor(private contaService: ContaService,
     private operacoesService: OperacoesService,
@@ -107,7 +108,6 @@ export class MovimentacoesComponent implements OnInit {
   }
 
   preencherForm(operacao: IOperacao) {
-    debugger;
     let estadoPagamentovar;
     if (operacao.estadoPagamento === "QUITADO" ? estadoPagamentovar = true : estadoPagamentovar = false)
       var i = 0;
@@ -117,7 +117,6 @@ export class MovimentacoesComponent implements OnInit {
         break;
       }
     }
-    console.log(operacao.vencimento)
     this.contaSelecionada = operacao.conta.id
     this.formValueOperacao = new FormGroup({
       id: new FormControl(operacao.id),
@@ -137,7 +136,6 @@ export class MovimentacoesComponent implements OnInit {
   }
 
   operacoesPaginadasPorData() {
-    debugger;
     this.operacoesService.operacoesPaginadasPorData(this.dataHora, 0, this.rows, "vencimento", this.direction).subscribe(res => {
       this.page = res;
       this.operacoes = res.content;
@@ -149,8 +147,9 @@ export class MovimentacoesComponent implements OnInit {
   }
 
   atualizarSaldoPorData() {
-    debugger;
-    this.contaService.preencherSaldoPorMesAno(this.date.getMonth() + 1, this.date.getFullYear()).subscribe(res => { this.dashboardView = res; })
+    let mesAtual = this.dataAtual.getMonth() + 1;
+    let anoAtual = this.dataAtual.getFullYear();
+    this.contaService.preencherSaldoPorMesAno(mesAtual, anoAtual).subscribe(res => { this.dashboardView = res; })
   }
 
   pagarContaVencida(id: number) {
@@ -162,6 +161,8 @@ export class MovimentacoesComponent implements OnInit {
       acceptLabel: 'Pagar',
       accept: () => {
         this.operacoesService.pagarOperacaoVencida(id).subscribe(res => {
+          this.operacoesPaginadasPorMesAno();
+          this.atualizarSaldoPorData();
         })
         this.messageService.add({ severity: 'success', summary: 'Feito', detail: 'Estado de Pagamento Alterado para QUITADO' });
       },
@@ -180,6 +181,8 @@ export class MovimentacoesComponent implements OnInit {
       acceptLabel: 'Excluir',
       accept: () => {
         this.operacoesService.excluirOperacao(id).subscribe(res => {
+          this.operacoesPaginadasPorMesAno();
+          this.atualizarSaldoPorData();
         })
         this.messageService.add({ severity: 'success', summary: 'Feito', detail: 'Operação Excluida com sucesso.' });
       },
@@ -190,7 +193,6 @@ export class MovimentacoesComponent implements OnInit {
   }
 
   editarOperacao() {
-    debugger;
     let data;
     if (typeof this.formValueOperacao.value.vencimento === 'string') {
       const partes = this.formValueOperacao.value.vencimento.split('/');
@@ -204,13 +206,14 @@ export class MovimentacoesComponent implements OnInit {
     const operacao: IOperacao = this.formValueOperacao.value;
     let codCategoria = this.formValueOperacao.value.estadoPagamento;
     operacao.vencimento = this.formatarDataBackend(data);
-    console.log(operacao.vencimento);
     operacao.conta = { id: this.contaSelecionada };
     operacao.categoria = this.categoriaSelecionada;
     if (codCategoria == false ? operacao.estadoPagamento = "0" : operacao.estadoPagamento = "1")
 
       this.operacoesService.editarOperacao(operacao).subscribe(result => {
         this.messageService.add({ severity: 'success', summary: 'Editado', detail: 'A Operação foi editada.' });
+        this.operacoesPaginadasPorMesAno();
+        this.atualizarSaldoPorData();
         this.displayEditar = false;
       }, error => {
         this.messageService.add({ severity: 'error', summary: `Cancelado`, detail: `${error}` });
@@ -220,7 +223,6 @@ export class MovimentacoesComponent implements OnInit {
   }
 
   incluirOperacao() {
-    debugger;
     const operacao: IOperacao = this.formValueOperacao.value;
     let codCategoria = this.formValueOperacao.value.estadoPagamento;
     operacao.vencimento = this.formatarDataBackend(this.formValueOperacao.value.vencimento);
@@ -230,6 +232,8 @@ export class MovimentacoesComponent implements OnInit {
       operacao.dataHora = this.formatarDataBackend(new Date());
     this.operacoesService.novaOperacao(operacao).subscribe(result => {
       this.messageService.add({ severity: 'success', summary: 'Editado', detail: 'A Operação foi salva.' });
+      this.operacoesPaginadasPorMesAno();
+      this.atualizarSaldoPorData();
       this.displayIncluir = false;
     }, error => {
       this.messageService.add({ severity: 'error', summary: `A operação não foi salva`, detail: `${error}` });
@@ -239,13 +243,15 @@ export class MovimentacoesComponent implements OnInit {
   }
 
   mudouDate(event: any) {
-    this.date = event.novaData;
+    this.dataAtual = event.novaData;
     this.operacoesPaginadasPorMesAno();
     this.atualizarSaldoPorData();
   }
 
+  async recarregaConteudo(event: any){
+  }
+
   formatarDataBackend(data: Date) {
-    debugger;
     //captura de dia, mes, ano.
     let dia = data.getDate();
     let mes = data.getMonth() + 1;
@@ -266,7 +272,9 @@ export class MovimentacoesComponent implements OnInit {
   }
 
   operacoesPaginadasPorMesAno() {
-    this.operacoesService.operacoesPaginadasPorMesAno(this.date.getMonth() + 1, this.date.getFullYear()).subscribe(res => {
+    let mesAtual = this.dataAtual.getMonth() + 1;
+    let anoAtual = this.dataAtual.getFullYear();
+    this.operacoesService.operacoesPaginadasPorMesAno(mesAtual, anoAtual).subscribe(res => {
       this.operacoes = res;
     })
   }

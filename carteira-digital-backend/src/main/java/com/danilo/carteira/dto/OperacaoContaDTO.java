@@ -1,5 +1,6 @@
 package com.danilo.carteira.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import javax.persistence.GeneratedValue;
@@ -27,7 +28,7 @@ public class OperacaoContaDTO {
 
 	private char tpOperacao;
 
-	private double valor;
+	private BigDecimal valor;
 
 	private EstadoPagamento estadoPagamento;
 
@@ -76,11 +77,11 @@ public class OperacaoContaDTO {
 		this.tpOperacao = tpOperacao;
 	}
 
-	public double getValor() {
+	public BigDecimal getValor() {
 		return valor;
 	}
 
-	public void setValor(double valor) {
+	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
 

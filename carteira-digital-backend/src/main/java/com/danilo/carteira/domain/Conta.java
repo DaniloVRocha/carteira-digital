@@ -1,6 +1,7 @@
 package com.danilo.carteira.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
@@ -31,11 +32,11 @@ public class Conta implements Serializable {
 	private String instituicao;
 
 	@Column(nullable = false)
-	private double saldo;
+	private BigDecimal saldo;
 
-	private double despesas;
+	private BigDecimal despesas;
 
-	private double receitas;
+	private BigDecimal receitas;
 	
 	private boolean mostrarTelaInicial;
 
@@ -52,7 +53,7 @@ public class Conta implements Serializable {
 		super();
 	}
 
-	public Conta(Long id, String instituicao, double saldo, Cliente cliente) {
+	public Conta(Long id, String instituicao, BigDecimal saldo, Cliente cliente) {
 		super();
 		this.id = id;
 		this.instituicao = instituicao;
@@ -77,11 +78,11 @@ public class Conta implements Serializable {
 		this.instituicao = instituicao;
 	}
 
-	public double getSaldo() {
+	public BigDecimal getSaldo() {
 		return saldo;
 	}
 
-	public void setSaldo(double saldo) {
+	public void setSaldo(BigDecimal saldo) {
 		this.saldo = saldo;
 	}
 
@@ -93,19 +94,19 @@ public class Conta implements Serializable {
 		this.mostrarTelaInicial = mostrarTelaInicial;
 	}
 
-	public double getDespesas() {
+	public BigDecimal getDespesas() {
 		return despesas;
 	}
 
-	public void setDespesas(double despesas) {
+	public void setDespesas(BigDecimal despesas) {
 		this.despesas = despesas;
 	}
 
-	public double getReceitas() {
+	public BigDecimal getReceitas() {
 		return receitas;
 	}
 
-	public void setReceitas(double receitas) {
+	public void setReceitas(BigDecimal receitas) {
 		this.receitas = receitas;
 	}
 
@@ -141,26 +142,4 @@ public class Conta implements Serializable {
 		Conta other = (Conta) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	@Override
-	public String toString() {
-		
-		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-		StringBuilder builder = new StringBuilder();
-		
-		builder.append("Informações Da Conta: ");
-		builder.append("\n");
-		builder.append("Nome da Conta: " + instituicao );
-		builder.append("\n");
-		builder.append("Saldo Atual: " + nf.format(saldo));
-		builder.append("\n");
-		builder.append("Despesas: " + nf.format(despesas));
-		builder.append("\n");
-		builder.append("Receitas: " + nf.format(receitas));
-		builder.append("\n");
-		
-		return builder.toString();
-	
-	}
-	
 }

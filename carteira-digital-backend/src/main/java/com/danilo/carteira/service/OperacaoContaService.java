@@ -1,5 +1,6 @@
 package com.danilo.carteira.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -83,8 +84,12 @@ public class OperacaoContaService {
 		if (oc.getConta().getCliente().getId() != user.getId()) {
 			throw new AuthorizationException("Acesso Negado");
 		}
-		contaService.updateValorDelete(oc.getConta().getId(), oc);
-		repository.deleteById(id);
+		try{
+			repository.deleteById(id);
+			contaService.updateValorDelete(oc.getConta().getId(), oc, "deletar");
+		}catch (RuntimeException e ){
+			System.out.println("Erro ao deletar conta");
+		}
 	}
 
 	@Transactional
@@ -96,40 +101,39 @@ public class OperacaoContaService {
 		}
 		contaService.updateValorInsert(oc.getConta().getId(), oc);
 		repository.save(oc);
-		System.out.println(oc);
 		return oc;
 	}
 
-	public void ajustarSaldo(Double novoSaldo, Long id) {
+	public void ajustarSaldo(BigDecimal novoSaldo, Long id) {
 		UserSS user = UserService.authenticated();
 		Conta con = contaService.buscarId(id);
 		if (con.getCliente().getId() != user.getId()) {
 			throw new AuthorizationException("Acesso Negado");
 		}
 
-		double diferenca = con.getSaldo() - novoSaldo;
+		BigDecimal diferenca = con.getSaldo().subtract(novoSaldo);
 		OperacaoConta oc1 = new OperacaoConta(null, "Ajuste de Saldo", LocalDateTime.now(), LocalDateTime.now(), 'R', diferenca,
 				EstadoPagamento.QUITADO, con, Categoria.AJUSTE);
-		if (diferenca > 0) {
+		if (diferenca.compareTo(BigDecimal.ZERO) > 0) {
 			oc1.setTpOperacao('D');
 		}
 		inserirOperacao(oc1);
 	}
 	
-	public List<Double> gastoPorMes(String dataInicio, String dataFinal) throws Exception {
+	public List<BigDecimal> gastoPorMes(String dataInicio, String dataFinal) throws Exception {
 		List<OperacaoContaDTO> operacoes = consultarOperacoesPorData(dataInicio, dataFinal);
-		double gastoMes = 0.0;
-		double receitaMes = 0.0;
+		BigDecimal gastoMes = BigDecimal.ZERO;
+		BigDecimal receitaMes = BigDecimal.ZERO;
 		
 		for(OperacaoContaDTO operacao: operacoes) {
 			if(operacao.getEstadoPagamento().equals(EstadoPagamento.QUITADO) && operacao.getTpOperacao() == 'D') {
-				gastoMes+= operacao.getValor();
+				gastoMes = gastoMes.add(operacao.getValor());
 			}else if(operacao.getEstadoPagamento().equals(EstadoPagamento.QUITADO) && operacao.getTpOperacao() == 'R') {
-				receitaMes+= operacao.getValor();
+				receitaMes = receitaMes.add(operacao.getValor());
 			}
 		}
 		
-		List<Double> resultado = new ArrayList<Double>();
+		List<BigDecimal> resultado = new ArrayList<BigDecimal>();
 		resultado.add(gastoMes);
 		resultado.add(receitaMes);
 		
@@ -258,7 +262,7 @@ public class OperacaoContaService {
 			throw new AuthorizationException("Acesso Negado");
 		}
 		obj.setId(id);
-		contaService.updateValorDelete(oc.getConta().getId(), oc);
+		contaService.updateValorDelete(oc.getConta().getId(), oc, "alterar");
 		obj.setDataHora(LocalDateTime.now());
 		oc = repository.save(obj);
 		contaService.updateValorInsert(obj.getConta().getId(), obj);
@@ -279,7 +283,7 @@ public class OperacaoContaService {
 		}else {
 			repository.informarPagamento(idOperacao, EstadoPagamento.PENDENTE);
 			oc.setEstadoPagamento(EstadoPagamento.PENDENTE);
-			contaService.updateValorDelete(oc.getConta().getId(), oc);
+			contaService.updateValorDelete(oc.getConta().getId(), oc, "alterar");
 		}
 	}
 

@@ -25,7 +25,6 @@ export class RelatoriosPorDataComponent implements OnInit {
     this.operacoesService.consultarValoresAno().subscribe(res=>{
       this.dataReceitas = Object.values(res)[0];
       this.dataDespesas = Object.values(res)[1];
-      console.log(Object.values(res)[1])
 
       this.basicData = {
         labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],

@@ -90,7 +90,6 @@ export class PrincipalComponent implements OnInit {
   }
 
   gastoPorCategoria(){
-    debugger;
       this.operacaoService.gastoPorCategoria(this.dataHora.getMonth()+1, this.dataHora.getFullYear()).subscribe(res=>{
         if(Object.keys(res).length !== 0){
           this.preencherGrafico(res);

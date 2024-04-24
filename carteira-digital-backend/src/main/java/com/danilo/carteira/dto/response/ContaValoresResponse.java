@@ -1,41 +1,43 @@
 package com.danilo.carteira.dto.response;
 
+import java.math.BigDecimal;
+
 public class ContaValoresResponse {
 
-	private double saldo;
+	private BigDecimal saldo;
 
-	private double despesas;
+	private BigDecimal despesas;
 
-	private double receitas;
+	private BigDecimal receitas;
 
-	public ContaValoresResponse(double saldo, double despesas, double receitas) {
+	public ContaValoresResponse(BigDecimal saldo, BigDecimal despesas, BigDecimal receitas) {
 		super();
 		this.saldo = saldo;
 		this.despesas = despesas;
 		this.receitas = receitas;
 	}
 
-	public double getSaldo() {
+	public BigDecimal getSaldo() {
 		return saldo;
 	}
 
-	public void setSaldo(double saldo) {
+	public void setSaldo(BigDecimal saldo) {
 		this.saldo = saldo;
 	}
 
-	public double getDespesas() {
+	public BigDecimal getDespesas() {
 		return despesas;
 	}
 
-	public void setDespesas(double despesas) {
+	public void setDespesas(BigDecimal despesas) {
 		this.despesas = despesas;
 	}
 
-	public double getReceitas() {
+	public BigDecimal getReceitas() {
 		return receitas;
 	}
 
-	public void setReceitas(double receitas) {
+	public void setReceitas(BigDecimal receitas) {
 		this.receitas = receitas;
 	}
 

@@ -1,6 +1,7 @@
 package com.danilo.carteira.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class ContaTransferenciaDTO implements Serializable {
 
@@ -10,13 +11,13 @@ public class ContaTransferenciaDTO implements Serializable {
 
 	private Long idDestino;
 
-	private double valor;
+	private BigDecimal valor;
 
 	public ContaTransferenciaDTO() {
 		super();
 	}
 
-	public ContaTransferenciaDTO(Long idOrigem, Long idDestino, double valor) {
+	public ContaTransferenciaDTO(Long idOrigem, Long idDestino, BigDecimal valor) {
 		super();
 		this.idOrigem = idOrigem;
 		this.idDestino = idDestino;
@@ -39,11 +40,11 @@ public class ContaTransferenciaDTO implements Serializable {
 		this.idDestino = idDestino;
 	}
 
-	public double getValor() {
+	public BigDecimal getValor() {
 		return valor;
 	}
 
-	public void setValor(double valor) {
+	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
 

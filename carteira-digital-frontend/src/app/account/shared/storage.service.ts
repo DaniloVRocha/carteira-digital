@@ -17,7 +17,6 @@ export class StorageService {
   }
 
   setAuthorizationToken(obj:any){
-    debugger;
     if(obj == null){
       console.log("ERRO JWT")
     }else{

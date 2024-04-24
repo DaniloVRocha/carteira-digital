@@ -1,6 +1,7 @@
 package com.danilo.carteira.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import com.danilo.carteira.domain.Conta;
 import com.danilo.carteira.dto.response.ClienteResponse;
@@ -13,11 +14,11 @@ public class ContaDTO implements Serializable{
 
 	private String instituicao;
 	
-	private double saldo;
+	private BigDecimal saldo;
 
-	private double despesas;
+	private BigDecimal despesas;
 
-	private double receitas;
+	private BigDecimal receitas;
 	
 	private boolean mostrarTelaInicial;
 	
@@ -50,27 +51,27 @@ public class ContaDTO implements Serializable{
 		this.instituicao = instituicao;
 	}
 
-	public double getSaldo() {
+	public BigDecimal getSaldo() {
 		return saldo;
 	}
 
-	public void setSaldo(double saldo) {
+	public void setSaldo(BigDecimal saldo) {
 		this.saldo = saldo;
 	}
 
-	public double getDespesas() {
+	public BigDecimal getDespesas() {
 		return despesas;
 	}
 
-	public void setDespesas(double despesas) {
+	public void setDespesas(BigDecimal despesas) {
 		this.despesas = despesas;
 	}
 
-	public double getReceitas() {
+	public BigDecimal getReceitas() {
 		return receitas;
 	}
 
-	public void setReceitas(double receitas) {
+	public void setReceitas(BigDecimal receitas) {
 		this.receitas = receitas;
 	}
 

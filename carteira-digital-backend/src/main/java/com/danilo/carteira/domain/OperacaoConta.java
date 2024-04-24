@@ -1,6 +1,7 @@
 package com.danilo.carteira.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -46,7 +47,7 @@ public class OperacaoConta implements Serializable {
 	private char tpOperacao;
 
 	@Column(nullable = false)
-	private double valor;
+	private BigDecimal valor;
 
 	@Column(nullable = false)
 	private EstadoPagamento estadoPagamento;
@@ -59,7 +60,7 @@ public class OperacaoConta implements Serializable {
 		super();
 	}
 
-	public OperacaoConta(Long id, String nome, LocalDateTime dataHora, LocalDateTime vencimento, char tpOperacao, double valor,
+	public OperacaoConta(Long id, String nome, LocalDateTime dataHora, LocalDateTime vencimento, char tpOperacao, BigDecimal valor,
 			EstadoPagamento estadoPagamento, Conta conta, Categoria categoria) {
 		super();
 		this.id = id;
@@ -120,11 +121,11 @@ public class OperacaoConta implements Serializable {
 		this.tpOperacao = tpOperacao;
 	}
 
-	public double getValor() {
+	public BigDecimal getValor() {
 		return valor;
 	}
 
-	public void setValor(double valor) {
+	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
 

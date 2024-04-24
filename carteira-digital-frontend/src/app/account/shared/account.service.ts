@@ -24,7 +24,6 @@ export class AccountService {
   }
   
   successLogin(token: any) {
-    debugger;
     let tokenPronto = token.substring(7);
     this.storage.setAuthorizationToken(tokenPronto);
   }

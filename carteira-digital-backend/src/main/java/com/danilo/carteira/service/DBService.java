@@ -1,5 +1,6 @@
 package com.danilo.carteira.service;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -37,10 +38,10 @@ public class DBService {
 
 		Cliente cli3 = new Cliente(null, "Ana Costa", "26658128006", "ana@gmail.com", pe.encode("ana123"));
 
-		Conta con1 = new Conta(null, "Itau", 0.00, cli1);
-		Conta con4 = new Conta(null, "NuBank", 0.00, cli2);
-		Conta con2 = new Conta(null, "Bradesco", 0.00, cli2);
-		Conta con3 = new Conta(null, "Itau", 0.00, cli3);
+		Conta con1 = new Conta(null, "Itau", BigDecimal.ZERO, cli1);
+		Conta con4 = new Conta(null, "NuBank", BigDecimal.ZERO, cli2);
+		Conta con2 = new Conta(null, "Bradesco", BigDecimal.ZERO, cli2);
+		Conta con3 = new Conta(null, "Itau", BigDecimal.ZERO, cli3);
 		
 		
 		//Inclusão de Operações Teste

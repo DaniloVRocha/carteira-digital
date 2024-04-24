@@ -1,5 +1,6 @@
 package com.danilo.carteira.rest;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
@@ -69,8 +70,9 @@ public class OperacaoContaRest {
 	}
 	
 	@RequestMapping(value = "/{id}/{novoSaldo}", method=RequestMethod.POST)
-	public ResponseEntity<String> ajustarSaldo(@Valid @PathVariable Long id,  @PathVariable Double novoSaldo ){
-		service.ajustarSaldo(novoSaldo, id);
+	public ResponseEntity<String> ajustarSaldo(@Valid @PathVariable Long id,  @PathVariable String novoSaldo ){
+		BigDecimal novoSaldoBig = new BigDecimal(novoSaldo);
+		service.ajustarSaldo(novoSaldoBig, id);
 		return ResponseEntity.ok().body("Saldo da conta ID: "+ id + " Alterado para: R$"
 		+ novoSaldo);
 	}
@@ -98,7 +100,7 @@ public class OperacaoContaRest {
 	}
 	
 	@RequestMapping(value="/transferencia" ,method=RequestMethod.POST)
-	public ResponseEntity<String> Transferencia(@Valid @RequestBody ContaTransferenciaDTO conta){
+	public ResponseEntity<String> transferencia(@Valid @RequestBody ContaTransferenciaDTO conta){
 		service.transferenciaEntreContas(conta);
 		return ResponseEntity.ok().body(conta.getValor() + "Transferido");
 	}
