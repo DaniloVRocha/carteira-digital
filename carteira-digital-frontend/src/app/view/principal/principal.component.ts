@@ -54,7 +54,7 @@ export class PrincipalComponent implements OnInit {
     })
   }
 
-  pagarContaVencida(id:number, tpOperacao:string){
+  pagarContaVencida(id:number){
     Swal.fire({
       title: 'Deseja Mudar o Estado de Pagamento para quitado?',
       text: "O valor será descontado de seu saldo.",
@@ -66,7 +66,7 @@ export class PrincipalComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-          this.operacaoService.pagarOperacaoVencida(id, 1).subscribe(res =>{
+          this.operacaoService.pagarOperacaoVencida(id).subscribe(res =>{
             Swal.fire(
               'Feito',
               'O valor da receita foi adicionado ao seu saldo.',

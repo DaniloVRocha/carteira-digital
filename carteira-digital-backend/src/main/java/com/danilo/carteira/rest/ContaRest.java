@@ -67,7 +67,7 @@ public class ContaRest {
 				return ResponseEntity.created(uri).build();
 	}	
 	
-	@RequestMapping(value = "/consultar-valores", method = RequestMethod.GET)
+	@RequestMapping(value = "/consultarSaldoConta", method = RequestMethod.GET)
 	public ResponseEntity<ContaValoresResponse> atualizarPreencherSaldo(){
 		ContaValoresResponse conta = service.atualizarPreencherSaldo();
 		return ResponseEntity.ok().body(conta);
@@ -80,14 +80,14 @@ public class ContaRest {
 		return ResponseEntity.ok().body(response);
 	}	
 	
-	@RequestMapping(value = "/consultar-valores-data", method=RequestMethod.GET)
+	@RequestMapping(value = "/consultarValoresData", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ContaValoresResponse> atualizarPreencherSaldoPorMes(@RequestParam("dataInicial") String dataInicial, @RequestParam("dataFinal") String dataFinal) throws Exception {
 		List<OperacaoContaDTO> operacoesMes = operacaoService.consultarOperacoesPorData(dataInicial.replace("\"", ""),dataFinal.replace("\"", ""));
 		ContaValoresResponse valoresMes = service.calcularTotalOperacoesMes(operacoesMes);
 		return ResponseEntity.ok().body(valoresMes);
 	}
 	
-	@RequestMapping(value = "/consultar-valores-data/{numeroMes}/{numeroAno}", method=RequestMethod.GET)
+	@RequestMapping(value = "/consultarValoresMesAno/{numeroMes}/{numeroAno}", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ContaValoresResponse> consultarValoresData(@PathVariable Integer numeroMes, @PathVariable Integer numeroAno) throws Exception {
 		List<OperacaoContaDTO> operacoesMes = operacaoService.consultarOperacoesPorMesAno(numeroMes, numeroAno);
 		ContaValoresResponse valoresMes = service.calcularTotalOperacoesMes(operacoesMes);

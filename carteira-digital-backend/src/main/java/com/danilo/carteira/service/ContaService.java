@@ -166,7 +166,7 @@ public class ContaService {
 		Double despesa = conta.getDespesas();
 		Double receita = conta.getReceitas();
 		if (op != null) {
-			if (op.getEstadoPagamento().getDescricao().equals("Quitado")) {
+			if (op.getEstadoPagamento().getDescricao().equals("Pendente")) {
 				if (Character.toLowerCase(op.getTpOperacao()) == 'r') {
 					receita -= op.getValor();
 					saldo -= op.getValor();

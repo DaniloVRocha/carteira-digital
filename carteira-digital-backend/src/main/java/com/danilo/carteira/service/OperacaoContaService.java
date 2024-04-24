@@ -1,5 +1,6 @@
 package com.danilo.carteira.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class OperacaoContaService {
 		
 		HashMap<String, Integer> listaExistentes = new HashMap<String, Integer>();
 		
-		List<OperacaoConta> operacoes = repository.buscarOperacoesPorId(user.getId(), numeroMes, numeroAno);
+		List<OperacaoConta> operacoes = repository.buscarOperacoesPorIdCliente(user.getId(), numeroMes, numeroAno);
 
 		for(OperacaoConta op : operacoes) {
 			Integer quantidade = repository.numeroOperacoesPorCategoria(user.getId(), numeroMes, numeroAno, op.getCategoria().getCod());
@@ -170,10 +171,13 @@ public class OperacaoContaService {
 		inserirOperacao(op2);
 	}
 	public List<OperacaoContaDTO> consultarOperacoesPorData(String dataInicio, String dataFinal) throws Exception {
-		//TODO MÉTODO DUPLICADO consultarOperacoesPorMesAno()
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		LocalDateTime dataInicioBusca = LocalDateTime.parse(dataInicio, format);
-		LocalDateTime dataFimBusca = LocalDateTime.parse(dataFinal, format);
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate dataInicioConvertida = LocalDate.parse(dataInicio);
+		LocalDate dataFimConvertida = LocalDate.parse(dataFinal);
+
+		LocalDateTime dataInicioBusca = dataInicioConvertida.atStartOfDay();
+		LocalDateTime dataFimBusca = dataFimConvertida.atStartOfDay();
+
 		List<OperacaoContaDTO> auxDTO = new ArrayList<>();
 		
 		List<Conta> contas = contaService.buscarContasCliente();
@@ -262,18 +266,18 @@ public class OperacaoContaService {
 	}
 	
 	@Transactional
-	public void alterarEstadoPagamento(Long id, Long codEstado) {
+	public void alterarEstadoPagamento(Long idOperacao) {
 		UserSS user = UserService.authenticated();
-		OperacaoConta oc = verificarExistencia(id);
+		OperacaoConta oc = verificarExistencia(idOperacao);
 		if (oc.getConta().getCliente().getId() != user.getId()) {
 			throw new AuthorizationException("Acesso Negado");
 		}
-		if(codEstado == 1) {
-			repository.informarPagamento(id, 1L);
+		if(oc.getEstadoPagamento().equals(EstadoPagamento.PENDENTE)) {
+			repository.informarPagamento(idOperacao, EstadoPagamento.QUITADO);
 			oc.setEstadoPagamento(EstadoPagamento.QUITADO);
 			contaService.updateValorInsert(oc.getConta().getId(), oc);
 		}else {
-			repository.informarPagamento(id, 0L);
+			repository.informarPagamento(idOperacao, EstadoPagamento.PENDENTE);
 			oc.setEstadoPagamento(EstadoPagamento.PENDENTE);
 			contaService.updateValorDelete(oc.getConta().getId(), oc);
 		}

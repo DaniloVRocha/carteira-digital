@@ -56,15 +56,15 @@ public class OperacaoContaRest {
 				return ResponseEntity.created(uri).build();
 	}
 	
-	@RequestMapping(value="/{id}/{codOp}", method = RequestMethod.PUT)
-	public ResponseEntity<String> alterarEstadoPagamento(@Valid @PathVariable Long id, @PathVariable Long codOp) throws OperacaoNaoEncontradaException{
-		service.alterarEstadoPagamento(id, codOp);
+	@RequestMapping(value="alterarEstadoPagamento/{idOperacao}", method = RequestMethod.PUT)
+	public ResponseEntity<String> alterarEstadoPagamento(@Valid @PathVariable Long idOperacao) throws OperacaoNaoEncontradaException{
+		service.alterarEstadoPagamento(idOperacao);
 				return ResponseEntity.ok().body("Estado de Pagamento Alterado");
 	}
 	
-	@RequestMapping(value = "/qnt-operacoes/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<Integer>> buscaQuantidadeDeOperacoesPorConta(@Valid @PathVariable Long id){
-		List<Integer> quantidadeDeOperacoes = service.buscaQuantidadeDeOperacoesPorConta(id);
+	@RequestMapping(value = "/qntOperacoes/{idConta}", method = RequestMethod.GET)
+	public ResponseEntity<List<Integer>> buscaQuantidadeDeOperacoesPorConta(@Valid @PathVariable Long idConta){
+		List<Integer> quantidadeDeOperacoes = service.buscaQuantidadeDeOperacoesPorConta(idConta);
 		return ResponseEntity.ok().body(quantidadeDeOperacoes);
 	}
 	
@@ -75,21 +75,21 @@ public class OperacaoContaRest {
 		+ novoSaldo);
 	}
 	
-	@RequestMapping(value = "/consultar-operacao-data", method=RequestMethod.GET)
+	@RequestMapping(value = "/consultarOperacaoData", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<OperacaoContaDTO>> consultarOperacaoPorData(@RequestBody OperacaoPorDataDTO op) throws Exception {
 		
 		List<OperacaoContaDTO> operacoes = service.consultarOperacoesPorData(op.getDataInicial(), op.getDataFinal());
 		return new ResponseEntity<>(operacoes, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/consultar-operacao-data/{numeroMes}/{numeroAno}", method=RequestMethod.GET)
+	@RequestMapping(value = "/consultarOperacaoMesAno/{numeroMes}/{numeroAno}", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<OperacaoContaDTO>> consultarOperacoesPorMes(@PathVariable Integer numeroMes, @PathVariable Integer numeroAno) throws Exception {
 		
 		List<OperacaoContaDTO> operacoes = service.consultarOperacoesPorMesAno(numeroMes, numeroAno);
 		return new ResponseEntity<>(operacoes, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/consultar-operacao-vencimento", method=RequestMethod.GET)
+	@RequestMapping(value = "/consultarOperacaoVencimento", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<OperacaoContaDTO>> consultarOperacaoVencimento() throws Exception {
 		
 		List<OperacaoContaDTO> operacoes = service.consultarOperacoesVencidas();
@@ -103,14 +103,14 @@ public class OperacaoContaRest {
 		return ResponseEntity.ok().body(conta.getValor() + "Transferido");
 	}
 	
-	@RequestMapping(value = "/consultar-categorias-data/{numeroMes}/{numeroAno}", method=RequestMethod.GET)
-	public @ResponseBody ResponseEntity<HashMap<String, Integer>> buscarTodosPorIdCliente(@PathVariable Integer numeroMes, @PathVariable Integer numeroAno) throws Exception {
+	@RequestMapping(value = "/consultarQuantidadeCategoriasPorMesAno/{numeroMes}/{numeroAno}", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<HashMap<String, Integer>> consultarQuantidadeCategoriasPorMesAno(@PathVariable Integer numeroMes, @PathVariable Integer numeroAno) throws Exception {
 		
 		HashMap<String, Integer> categorias = service.buscarTodosPorIdCliente(numeroMes, numeroAno);
 		return new ResponseEntity<>(categorias, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/consultar-valores-ano", method=RequestMethod.GET)
+	@RequestMapping(value = "/consultarValoresAno", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<Map<String, Double>>> preencherGraficoReceitas() throws Exception {
 		
 		List<Map<String, Double>> valores = service.consultarOperacoesPorAno();

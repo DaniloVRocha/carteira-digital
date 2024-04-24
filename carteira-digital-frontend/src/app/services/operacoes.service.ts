@@ -33,11 +33,11 @@ export class OperacoesService {
   }
 
   preencherTabelaVencidos(){
-    return this.http.get<IOperacao[]>(`${this.api}/${this.endpoint}consultar-operacao-vencimento`)
+    return this.http.get<IOperacao[]>(`${this.api}/${this.endpoint}consultarOperacaoVencimento`)
   }
 
-  pagarOperacaoVencida(id:number, codOperacao:number){
-    return this.http.put(`${this.api}/${this.endpoint}${id}/${codOperacao}`,id)
+  pagarOperacaoVencida(id:number){
+    return this.http.put(`${this.api}/${this.endpoint}alterarEstadoPagamento/${id}`, id)
   }
 
   gastoPorMes(data:IDataHora){
@@ -45,7 +45,7 @@ export class OperacoesService {
   }
 
   gastoPorCategoria(numeroMes:number, numeroAno:number){
-    return this.http.get(`${this.api}/${this.endpoint}consultar-categorias-data/${numeroMes}/${numeroAno}`)
+    return this.http.get(`${this.api}/${this.endpoint}consultarQuantidadeCategoriasPorMesAno/${numeroMes}/${numeroAno}`)
   }
 
   //Buscar Operações no formato LocalDateTime
@@ -57,20 +57,18 @@ export class OperacoesService {
 
   //Buscar Operações no formato Número de mês e ano.
   operacoesPaginadasPorMesAno(numeroMes:number, numeroAno:number){
-    return this.http.get<IOperacao[]>(`${this.api}/${this.endpoint}consultar-operacao-data/${numeroMes}/${numeroAno}`)
+    return this.http.get<IOperacao[]>(`${this.api}/${this.endpoint}consultarOperacaoData/${numeroMes}/${numeroAno}`)
   }
 
   buscarQntOperacoes(id:any){
-    return this.http.get(`${this.api}/${this.endpoint}qnt-operacoes/${id}`);
+    return this.http.get(`${this.api}/${this.endpoint}qntOperacoes/${id}`);
   }
   
   transferenciaEntreContas(transferencia:TransferenciaDTO){
     return this.http.post(`${this.api}/${this.endpoint}transferencia`, transferencia);
   }
 
-  //Preencher Graficos
-
   consultarValoresAno(){
-    return this.http.get<[]>(`${this.api}/${this.endpoint}consultar-valores-ano`)
+    return this.http.get<[]>(`${this.api}/${this.endpoint}consultarValoresAno`)
   }
 }

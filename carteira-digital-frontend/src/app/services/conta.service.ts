@@ -16,20 +16,18 @@ export class ContaService {
   constructor(private http: HttpClient) { }
 
   preencherSaldo() {
-    return this.http.get<IContaViewDTO>(`${this.api}/${this.endpoint}consultar-valores`)
+    return this.http.get<IContaViewDTO>(`${this.api}/${this.endpoint}consultarSaldoConta`)
   }
 
-  //Buscar Saldo no Formato LocalDateTime.
   preencherSaldoPorMes(data:IDataHora) {
     debugger;
     let dataInicial = encodeURIComponent( JSON.stringify(data.dataInicial));
     let dataFinal = encodeURIComponent( JSON.stringify(data.dataFinal));
-    return this.http.get<IContaViewDTO>(`${this.api}/${this.endpoint}consultar-valores-data?dataInicial=${dataInicial}&dataFinal=${dataFinal}`);
+    return this.http.get<IContaViewDTO>(`${this.api}/${this.endpoint}consultarValoresData?dataInicial=${dataInicial}&dataFinal=${dataFinal}`);
   }
 
-  //Buscar Saldo no Formato Mês e Ano.
   preencherSaldoPorMesAno(numeroMes:number, numeroAno:number){
-    return this.http.get<IContaViewDTO>(`${this.api}/${this.endpoint}consultar-valores-data/${numeroMes}/${numeroAno}`)
+    return this.http.get<IContaViewDTO>(`${this.api}/${this.endpoint}consultarValoresMesAno/${numeroMes}/${numeroAno}`)
   }
 
   buscarContaPorId(id:number) {

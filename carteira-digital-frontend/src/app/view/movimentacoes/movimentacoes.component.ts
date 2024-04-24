@@ -161,10 +161,9 @@ export class MovimentacoesComponent implements OnInit {
       rejectLabel: 'Cancelar',
       acceptLabel: 'Pagar',
       accept: () => {
-        this.operacoesService.pagarOperacaoVencida(id, 1).subscribe(res => {
+        this.operacoesService.pagarOperacaoVencida(id).subscribe(res => {
         })
         this.messageService.add({ severity: 'success', summary: 'Feito', detail: 'Estado de Pagamento Alterado para QUITADO' });
-
       },
       reject: () => {
         this.messageService.add({ severity: 'error', summary: 'Cancelado', detail: 'Cancelado pelo usuário' });
