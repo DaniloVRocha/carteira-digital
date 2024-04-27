@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import com.danilo.carteira.domain.enums.EstadoPagamento;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -135,6 +136,9 @@ public class ContaService {
 	public Conta inserirConta(Conta conta) {
 		UserSS user = UserService.authenticated();
 		Cliente cliente =  clienteService.buscarId(user.getId());
+		conta.setDespesas(BigDecimal.ZERO);
+		conta.setSaldo(BigDecimal.ZERO);
+		conta.setReceitas(BigDecimal.ZERO);
 		conta.setCliente(cliente);
 		conta.setMostrarTelaInicial(true);
 		return repository.save(conta);
@@ -156,9 +160,9 @@ public class ContaService {
 					saldo = saldo.subtract(op.getValor());
 					conta.setDespesas(despesa);
 				}
-			} 
+			}
 			conta.setSaldo(saldo);
-            repository.save(conta);
+			repository.save(conta);
 		}
 	}
 
@@ -179,10 +183,11 @@ public class ContaService {
 					conta.setDespesas(despesa);
 				}
 				conta.setSaldo(saldo);
-                repository.save(conta);
+				repository.save(conta);
 			}
 		}
 	}
+
 
 	public Page<Conta> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		UserSS user = UserService.authenticated();

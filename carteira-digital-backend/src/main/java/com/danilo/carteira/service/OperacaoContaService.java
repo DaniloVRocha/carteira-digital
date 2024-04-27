@@ -262,6 +262,8 @@ public class OperacaoContaService {
 			throw new AuthorizationException("Acesso Negado");
 		}
 		obj.setId(id);
+		oc.setEstadoPagamento(obj.getEstadoPagamento());
+		oc.setTpOperacao(obj.getTpOperacao());
 		contaService.updateValorDelete(oc.getConta().getId(), oc, "alterar");
 		obj.setDataHora(LocalDateTime.now());
 		oc = repository.save(obj);

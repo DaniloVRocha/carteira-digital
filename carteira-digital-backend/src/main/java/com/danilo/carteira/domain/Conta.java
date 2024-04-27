@@ -33,9 +33,7 @@ public class Conta implements Serializable {
 
 	@Column(nullable = false)
 	private BigDecimal saldo;
-
 	private BigDecimal despesas;
-
 	private BigDecimal receitas;
 	
 	private boolean mostrarTelaInicial;

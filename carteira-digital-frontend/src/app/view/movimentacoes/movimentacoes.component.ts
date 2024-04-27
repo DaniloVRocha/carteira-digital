@@ -223,6 +223,7 @@ export class MovimentacoesComponent implements OnInit {
   }
 
   incluirOperacao() {
+    debugger;
     const operacao: IOperacao = this.formValueOperacao.value;
     let codCategoria = this.formValueOperacao.value.estadoPagamento;
     operacao.vencimento = this.formatarDataBackend(this.formValueOperacao.value.vencimento);
